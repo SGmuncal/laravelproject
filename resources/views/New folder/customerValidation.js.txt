@@ -1,0 +1,66 @@
+$(document).ready(function(){
+
+  
+
+  $(".drag-wrapper").draggable({
+    appendTo: "body",
+    cursor: "move",
+    helper: 'clone'
+  });
+
+  $("#launchPad").droppable({
+    tolerance: "intersect",
+    accept: ".drag-wrapper",
+    activeClass: "ui-state-default",
+    hoverClass: "ui-state-hover",
+    drop: function(event, ui) {
+      // $("#launchPad").append($(ui.draggable));
+    }
+  });
+
+  $(".stackDrop1").droppable({
+    tolerance: "intersect",
+    accept: ".from-launch",
+    revert: 'invalid',
+    activeClass: "ui-state-default",
+    hoverClass: "ui-state-hover",
+      drop: function(event, ui) {
+        ui.draggable.removeClass("from-launch").addClass("from-kitchen");
+        $(this).append($(ui.draggable));
+        console.log('In the kitchen');
+        alert($(this).find('.or_number').val());
+        $(this).removeClass( "or_number" );
+      }
+  });
+
+
+  $(".stackDrop2").droppable({
+    tolerance: "intersect",
+    accept: ".from-kitchen",
+    activeClass: "ui-state-default",
+    hoverClass: "ui-state-hover",
+    drop: function(event, ui) {
+     
+      $(this).append($(ui.draggable));
+      alert($(this).find('.or_number').val());
+      
+    }
+  });
+
+    $(".stackDrop3").droppable({
+    tolerance: "intersect",
+    accept: ".from-kitchen",
+    activeClass: "ui-state-default",
+    hoverClass: "ui-state-hover",
+    drop: function(event, ui) {
+      ui.draggable.removeClass("from-kitchen").addClass("from-kitchen2");
+      $(this).append($(ui.draggable));
+      console.log('Completed');
+      alert($(this).find('.or_number').val());
+        ui.draggable.removeClass('or_number');
+    }
+  });
+
+
+
+});

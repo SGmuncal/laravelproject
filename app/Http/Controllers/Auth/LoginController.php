@@ -1,0 +1,66 @@
+<?php
+
+namespace App\Http\Controllers\Auth;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Auth;
+
+class LoginController extends Controller
+{
+    /*
+    |--------------------------------------------------------------------------
+    | Login Controller
+    |--------------------------------------------------------------------------
+    |
+    | This controller handles authenticating users for the application and
+    | redirecting them to your home screen. The controller uses a trait
+    | to conveniently provide its functionality to your applications.
+    |
+    */
+
+    use AuthenticatesUsers;
+
+    /**
+     * Where to redirect users after login.
+     *
+     * @var string
+     */
+    // protected $redirectTo = '/index';
+
+    public function redirectTo(){
+        
+    // User role
+    $role = Auth::user()->role; 
+    
+    // Check user role
+        switch ($role) {
+            case '1':
+                    return '/hiflyerdashboard';
+                break;
+            case '2':
+                    return '/hiflyerdashboard';
+                break; 
+            case '3':
+                    return '/customer_data';
+                break; 
+        }
+    }
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+
+    protected function credentials(\Illuminate\Http\Request $request)
+    {
+        //return $request->only($this->username(), 'password');
+        return ['email' => $request->{$this->username()}, 'password' => $request->password, 'status' => 'Active'];
+    }
+
+    public function __construct()
+    {
+        $this->middleware('guest')->except('logout');
+    }
+}
