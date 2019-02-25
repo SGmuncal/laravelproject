@@ -989,7 +989,7 @@ $(document).ready(function(){
       .then((willInsert) => {
           if (willInsert) {
 
-             $('table#chainingBuild').append('<tr><td>'+input+'</td><td>'+condiments_name+'</td><td>'+condimentsScreenPriced+'</td><td class="get_section_condiment_id_table_data" style="display:none;">'+condiments_section_id+'</td><td>'+del_button+'</td></tr>');
+             $('table#chainingBuild').append('<tr><td>'+input+'</td><td>'+condiments_name+'</td><td>'+condimentsScreenPriced+'</td><td><select class="form-control allow_to_open_condiments"><option value="No">No</option><option value="Yes">Yes</option></select></td><td class="get_section_condiment_id_table_data" style="display:none;">'+condiments_section_id+'</td><td>'+del_button+'</td></tr>');
               
               $("button.removeCondimentsButton").click(function () {
                  if ($('table#chainingBuild tr').length > 0) {
@@ -1129,12 +1129,14 @@ $('button#build_success_insert').click(function(){
                     Qty = $(this).closest('tr').find('td').eq(0).find('#qty').val()
                     Item = $tds.eq(1).text(),
                     price = $tds.eq(2).text(),
-                    condiment_sec_id = $tds.eq(3).text();
+                    allow_to_open_condiments = $(this).closest('tr').find('td').eq(3).find('.allow_to_open_condiments').val(),
+                    condiment_sec_id = $tds.eq(4).text();
 
                     var formData_details = new FormData();
                     formData_details.append('Qty',Qty);
                     formData_details.append('Item',Item);
                     formData_details.append('price',price);
+                    formData_details.append('allow_to_open_condiments',allow_to_open_condiments);
                     formData_details.append('condiment_sec_id',condiment_sec_id);
 
 
@@ -1231,24 +1233,8 @@ $(document).ready(function(){
 })
 
 
-
-
-
-$('#edit_chainingBuild').on('change','.changeQuantity',function(e){
-
-      
-      $('#EditcondimentsBuilderModal').modal('hide');
-      alert($(this).val());
-
-      
-});
-
-
-
-
-
 $('#edit_chainingBuild').on('click','tr.clickable-row',function(e){
-
+     
       $('table#edit_chainingBuild tr').removeClass('selected');
       $(this).addClass('selected');
 
@@ -1256,6 +1242,9 @@ $('#edit_chainingBuild').on('click','tr.clickable-row',function(e){
       $('.id_to_update_chain').val(find_each_id_will_update);
 
       var find_each_id_condiments = $(this).find('.data-attribute-chain-id').attr('data-attribute-condiments-section-id');
+      $('table#edit_table_chaining_condiments').find('tbody').empty();
+
+      $('#EditcondimentsBuilderModal').modal('show'); 
 
       $.ajax({
         url:'/get_each_id_section_condiments',
@@ -1273,75 +1262,34 @@ $('#edit_chainingBuild').on('click','tr.clickable-row',function(e){
             var cat_condi_screen_name = stringify['cat_condi_screen_name'];
             var cat_condi_price = stringify['cat_condi_price'];
             var cat_condi_image = stringify['cat_condi_image'];
+            var condiment_section_name = stringify['condiment_section_name'];
             var image = '<img src=/storage/' + cat_condi_image + ' class="responsive-img" style="width:100px;">';
+            var condiments_section_id = stringify['condiments_section_id'];
+
             
-            // $('#edit_chainingBuild').append("<tr class='clickable-row'><td>" + Qty + "</td><td class='clickable-row-condiments'>" + Condiments + "</td><td>" + Price + "</td><td style='display:none;' data-attribute-chain-id="+menu_builder_details_id +" class='data-attribute-chain-id'>"+menu_builder_details_id+"</td></tr>");
-            
-            $('table#edit_table_chaining_condiments').append("<tr class='edit_condimentsClicked' style='font-size:14px; border:none;'><td class='edit_condimentsScreenNameClicked'>" + cat_condi_screen_name + "</td><td class='edit_condimentsScreenPriced'>" + cat_condi_price + "</td><td>"+image+"</td></tr>");
-          
-          });
 
-          $("#edit_table_chaining_condiments td").click(
-            function(e){
-
-
-               var tableBhtml =  $(this).closest('tr').html();
-
-                var condiments_name = $(this).closest("tr").find(".edit_condimentsScreenNameClicked").text();
-                var condimentsScreenPriced = $(this).closest("tr").find(".edit_condimentsScreenPriced").text();
-                var input = '<input type="number"  id="qty" name="qty" class="form-control changeQuantity" value="1" min="1">';
-
-                var id_to_edit_build = $('.id_to_update_chain').val();
-
-                var formData_edit_condiments = new FormData();
-                formData_edit_condiments.append('condiments_name',condiments_name);
-                formData_edit_condiments.append('condimentsScreenPriced',condimentsScreenPriced);
-                formData_edit_condiments.append('id_to_edit_build',id_to_edit_build);
-
-                swal({
-                  title: "Are you sure to add this condiments "+condiments_name+" to the button?",
-                  icon: "warning",
-                  buttons: true,
-                  dangerMode: true,
-                })
-                .then((willInsert) => {
-                    if (willInsert) {
-
-                       $.ajax({
-                          url:'/insert_update_build_chain',
-                          type:'POST',
-                          data:formData_edit_condiments,
-                          processData: false,
-                          contentType: false,
-                          success:function(response){
-                            console.log(response);
-
-                             
-                             
-                              $("#edit_chainingBuild tr.selected").html('');
-                              var id_to_edit_builders = $('.id_to_update_chain').val();
-                              // $("#edit_chainingBuild tr.selected").replaceWith("<tr data-attribute-chain-id=" + id_to_edit_build + " class='clickable-row'><td>"+input+"</td><td>"+condiments_name+"</td><td>"+condimentsScreenPriced+"</td><td style='display:none;' data-attribute-chain-id="+id_to_edit_builders +" class='data-attribute-chain-id'>"+id_to_edit_builders+"</td></tr>");
-                              $("#edit_chainingBuild tr.selected").replaceWith("<tr data-attribute-chain-id=" + id_to_edit_build + " class='clickable-row'><td>"+condiments_name+"</td><td>"+condimentsScreenPriced+"</td><td style='display:none;' data-attribute-chain-id="+id_to_edit_builders +" class='data-attribute-chain-id'>"+id_to_edit_builders+"</td></tr>");
-
-                              $('#EditcondimentsBuilderModal').modal('hide');
-
-
-                          },
-                          error:function(response){
-                            console.log(response);
-                          }
-                      });
-                     
-                    } else {
-                      swal("Cancelled");
-                    }
-                });
+            $('table#edit_table_chaining_condiments').append("<tr class='edit_condimentsClicked' style='font-size:14px; border:none;'><td>"+condiment_section_name  +"</td><td class='edit_condimentsScreenNameClicked'>" + cat_condi_screen_name + "</td><td class='edit_condimentsScreenPriced'>" + cat_condi_price + "</td><td>"+image+"</td><td class='edit_condimentsID' style='display:none;'>"+condiments_section_id+"</td></tr>");
+                
+              $("table#edit_table_chaining_condiments tr").click(function(e){
 
                 
+
+                var tableBhtml =  $(this).closest('tr').html();
+                var condiments_name = $(this).closest("tr").find(".edit_condimentsScreenNameClicked").text();
+                var condimentsScreenPriced = $(this).closest("tr").find(".edit_condimentsScreenPriced").text();
+                var edit_condimentsID = $(this).closest("tr").find(".edit_condimentsID").text();
+                var id_to_edit_build = $('.id_to_update_chain').val();
+                var id_to_edit_builders = $('.id_to_update_chain').val();
+                
+                
+                $("#edit_chainingBuild tr.selected").replaceWith("<tr data-attribute-chain-id=" + id_to_edit_build + " class='clickable-row'><td class='new_condiments_name'>"+condiments_name+"</td><td>"+condimentsScreenPriced+"</td><td style='display:none;' data-attribute-condiments-section-id="+edit_condimentsID+" data-attribute-chain-id="+id_to_edit_builders +" class='data-attribute-chain-id'>"+id_to_edit_builders+"</td></tr>");
+                $('#EditcondimentsBuilderModal').modal('hide');
 
             });
 
 
+
+          });
 
         },
         error:function(response){
@@ -1349,18 +1297,81 @@ $('#edit_chainingBuild').on('click','tr.clickable-row',function(e){
         }
       });
 
-      $('#EditcondimentsBuilderModal').modal('show');
+
+
+      
+
+
+});
+
+
+
+$('.edit_build_success_insert').click(function(){
+
+  swal({
+        title: "Are you sure to update this button?",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+      .then((willInsert) => {
+          if (willInsert) {
+
+              $('table#edit_chainingBuild').find('.clickable-row').each(function (i) {
+
+                    var $tds = $(this).find('td'),
+                    condiments_name = $tds.eq(0).text(),
+                    condimentsScreenPriced = $tds.eq(1).text(),
+                    id_to_edit_build = $tds.eq(2).text()
+
+
+                    var formData_edit_condiments = new FormData();
+                    formData_edit_condiments.append('condiments_name',condiments_name);
+                    formData_edit_condiments.append('condimentsScreenPriced',condimentsScreenPriced);
+                    formData_edit_condiments.append('id_to_edit_build',id_to_edit_build);
+
+                    $.ajax({
+                      url:'/insert_update_build_chain',
+                      type:'POST',
+                      data:formData_edit_condiments,
+                      processData: false,
+                      contentType: false,
+                      success:function(response){
+                        console.log(response);
+                        swal("Successfully Update");
+                        location.reload();
+                      },
+                      error:function(response){
+                        console.log(response);
+                      }
+                  });
+ 
+              });
+                     
+          } else {
+            swal("Cancelled");
+          }
+    });
+
+
+});
+
+
+
+
+$('#edit_chainingBuild').on('change','.changeQuantity',function(e){
+
+      
+      $('#EditcondimentsBuilderModal').modal('hide');
+      alert($(this).val());
 
       
 });
 
-$('#closeeditCondiModal').click(function(){
-      $("table#edit_table_chaining_condiments tr").html('');
+$('button#closeeditCondiModal').click(function(){
+  // $("table#edit_table_chaining_condiments td").html('');
+  // $('table#edit_table_chaining_condiments tbody').empty();
 })
-
-
-
-
 
 
 $('#closeBuildChainUpdate').click(function(){

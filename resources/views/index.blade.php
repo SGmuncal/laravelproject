@@ -100,7 +100,7 @@
     <div class="text-center">
             <h2 style="font-size:45px; color:white;" id="career_header"></h2>
              <h4 style="font-size:35px; font-weight: 300; color:white;" id="career_content"></h4>
-             <a class="btn btn-outline-primary btn-lg" id="btn_position_here" style="color:white;" href="" role="button">See positions here</a>
+             <a class="btn btn-primary btn-lg" id="btn_position_here" style="color:white;" href="" role="button">See positions here</a>
     </div>
 </div>
 

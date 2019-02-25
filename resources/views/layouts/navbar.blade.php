@@ -30,7 +30,7 @@
 
                   
                     @if(Request::path() == 'index' || Request::path() == '/')
-                       <li class="nav-item {{ Request::path() == 'index' ? 'active' : '' }}"><a href="/index" class="nav-link" style="color:#306FFE !important;">Home</a></li>
+                       <li class="nav-item {{ Request::path() == 'index' ? 'active' : '' }}"><a href="/index" class="nav-link" style="color:#143DF6 !important; font-weight: bold;">Home</a></li>
                      @else
                         <li class="nav-item {{ Request::path() == 'index' ? 'active' : '' }}"><a href="/index" class="nav-link">Home</a></li>
                      @endif
@@ -59,7 +59,7 @@
                     </li>
 
                      @if(Request::path() == 'news_event')
-                       <li class="nav-item"><a href="{{ url('news_event') }}" class="nav-link" style="color:#306FFE !important;">News & Events</a></li>
+                       <li class="nav-item"><a href="{{ url('news_event') }}" class="nav-link" style="color:#143DF6 !important; font-weight: bold;">News & Events</a></li>
                      @else
                         <li class="nav-item"><a href="{{ url('news_event') }}" class="nav-link">News & Events</a></li>
                      @endif
@@ -68,7 +68,7 @@
 
                     @if(Request::path() == 'directory')
                         <li class="nav-item">
-                        <a class="nav-link" href="{{ url('directory') }}" style="color:#306FFE !important;">Store Directory</a>
+                        <a class="nav-link" href="{{ url('directory') }}" style="color:#143DF6 !important; font-weight: bold;">Store Directory</a>
                         </li>
                      @else
                         <li class="nav-item">
@@ -78,7 +78,7 @@
 
 {{--                      @if(Request::path() == 'online_delivery')
                         <li class="nav-item">
-                        <a class="nav-link" href="{{ url('online_delivery') }}" style="color:#306FFE !important;">Online Delivery</a>
+                        <a class="nav-link" href="{{ url('online_delivery') }}" style="color:#143DF6 !important; font-weight: bold;">Online Delivery</a>
                         </li>
                      @else
                         <li class="nav-item">
@@ -88,7 +88,7 @@
 
                      @if(Request::path() == 'careers')
                         <li class="nav-item">
-                        <a class="nav-link" href="{{ url('careers') }}" style="color:#306FFE !important;">Careers</a>
+                        <a class="nav-link" href="{{ url('careers') }}" style="color:#143DF6 !important; font-weight: bold;">Careers</a>
                         </li>
                      @else
                         <li class="nav-item">
@@ -98,7 +98,7 @@
 
                      @if(Request::path() == 'contact')
                         <li class="nav-item">
-                        <a class="nav-link" href="{{ url('contact') }}" style="color:#306FFE !important;">Contact Us</a>
+                        <a class="nav-link" href="{{ url('contact') }}" style="color:#143DF6 !important; font-weight: bold;">Contact Us</a>
                         </li>
                      @else
                         <li class="nav-item">

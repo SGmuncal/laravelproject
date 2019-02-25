@@ -14,13 +14,15 @@
 		</div>
 	</div>
 	<br>
-  <div class="row">
+  	<div class="jumbotron">
+  		<div class="row">
     <div class="col-md-12">
       <div class="table-responsive">
         <table class="table" id="tables" style="overflow-x: scroll;">
           <thead>
             <tr>
               <th>Id</th>
+              <th>Condiment Section</th>
               <th>Condiment Name</th>
               <th>Condiment Screen Name</th>
               <th>Condiment Price</th>
@@ -33,6 +35,7 @@
 
 	         		<tr>
 	         			<td>{{$condiments_data->cat_condi_id}}</td>
+	         			<td>{{$condiments_data->condiment_section_name}}</td>
 	         			<td>{{$condiments_data->cat_condi_name}}</td>
 	         			<td>{{$condiments_data->cat_condi_screen_name}}</td>
 	         			<td>{{$condiments_data->cat_condi_price}}</td>
@@ -55,6 +58,7 @@
         </table>
       </div>
     </div>
+  	</div>
   </div>
 </div>
 
@@ -62,7 +66,7 @@
 <div class="modal fade" id="condimentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 	  <div class="modal-dialog modal-lg role="document">
 	    <div class="modal-content">
-	      <div class="modal-header">
+	      <div class="modal-header" style="background: linear-gradient(-30deg, #00e4d0, #5983e8); color:white;">
 	        <h5 class="modal-title" id="exampleModalLongTitle">New Condiment</h5>
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 	          <span aria-hidden="true">&times;</span>

@@ -3046,7 +3046,7 @@ class AdminController extends Controller
 
         $condiment_section_table = DB::select('SELECT condiments_section_id,condiment_section_name FROM menu_section_condiments WHERE condiment_section_status = ? ',['Active']);
 
-        $condiments_table = DB::select('SELECT cat_condi_id,cat_condi_name,cat_condi_price,cat_condi_image,cat_condi_screen_name FROM menu_cat_condiments WHERE cat_condi_status = ? ',[
+        $condiments_table = DB::select('SELECT cat_condi_id,condiment_section_name,cat_condi_name,cat_condi_price,cat_condi_image,cat_condi_screen_name FROM menu_cat_condiments LEFT JOIN (SELECT condiments_section_id,condiment_section_name FROM menu_section_condiments) msc ON menu_cat_condiments.condiments_section_id = msc.condiments_section_id WHERE cat_condi_status = ? ',[
             'Active'
         ]);
 
@@ -3186,7 +3186,7 @@ class AdminController extends Controller
             'Active'
         ]);
 
-        $noun_table = DB::select('SELECT menu_cat_id,menu_name,menu_cat_name,menu_cat_screen_name,menu_cat_desc,menu_cat_price,menu_cat_image FROM menu as m LEFT JOIN (SELECT menu_cat_id,chain_conditional,menu_id,menu_cat_name,menu_cat_screen_name,menu_cat_desc,menu_cat_price,menu_cat_image FROM menu_category WHERE menu_cat_status = ? AND chain_conditional = ?) mc ON m.menu_id = mc.menu_id ',[
+        $noun_table = DB::select('SELECT menu_cat_id,chain_conditional,menu_id,menu_cat_name,menu_cat_screen_name,menu_cat_desc,menu_cat_price,menu_cat_image FROM menu_category WHERE menu_cat_status = ? AND chain_conditional = ? ',[
 
             'Active',
             '0'
@@ -3247,6 +3247,7 @@ class AdminController extends Controller
         $Item = $request->get('Item');
         $price = $request->get('price');
         $condiment_sec_id = $request->get('condiment_sec_id');
+        $allow_to_open_condiments = $request->get('allow_to_open_condiments');
         $now = new DateTime();
 
         $last_id_insert = DB::select('SELECT max(menu_builder_properties_id) as id FROM menu_builder_properties');
@@ -3257,13 +3258,14 @@ class AdminController extends Controller
 
         }
 
-        DB::insert('INSERT INTO menu_builder_details (menu_builder_properties_id,Qty,Condiments,Price,condiments_section_id,build_created) 
-            VALUES(?,?,?,?,?,?) ',[
+        DB::insert('INSERT INTO menu_builder_details (menu_builder_properties_id,Qty,Condiments,Price,allow_to_open_condiments,condiments_section_id,build_created) 
+            VALUES(?,?,?,?,?,?,?) ',[
 
              $id_last_inserted,
              $Qty,
              $Item,
              $price,
+             $allow_to_open_condiments,
              $condiment_sec_id,
              $now
 
@@ -3287,7 +3289,7 @@ class AdminController extends Controller
         ]);
 
 
-        $get_chain_data = DB::select('SELECT mbd.condiments_section_id,mbd.menu_builder_details_id,menu_cat_price,Qty,Price,Condiments FROM menu_category as mc LEFT JOIN (SELECT menu_builder_properties_id,noun_builder_id FROM menu_builder_properties) mbp ON mc.menu_cat_id = mbp.noun_builder_id LEFT JOIN (SELECT menu_builder_properties_id,Qty,Price,Condiments,menu_builder_details_id,condiments_section_id FROM menu_builder_details) mbd ON mbp.menu_builder_properties_id = mbd.menu_builder_properties_id WHERE menu_cat_id = ? ',[
+        $get_chain_data = DB::select('SELECT mbd.condiments_section_id,mbd.menu_builder_details_id,allow_to_open_condiments,menu_cat_price,Qty,Price,Condiments FROM menu_category as mc LEFT JOIN (SELECT menu_builder_properties_id,noun_builder_id FROM menu_builder_properties) mbp ON mc.menu_cat_id = mbp.noun_builder_id LEFT JOIN (SELECT menu_builder_properties_id,Qty,Price,Condiments,menu_builder_details_id,allow_to_open_condiments,condiments_section_id FROM menu_builder_details) mbd ON mbp.menu_builder_properties_id = mbd.menu_builder_properties_id WHERE menu_cat_id = ? ',[
 
             $get_chain_id
 
@@ -3312,14 +3314,39 @@ class AdminController extends Controller
         $condimentsScreenPriced = $request->get('condimentsScreenPriced');
         $id_to_edit_build = $request->get('id_to_edit_build');
 
+        // Check if button name "Submit" is active, do this 
 
-        DB::update('UPDATE menu_builder_details SET Condiments = ?, Price = ? WHERE menu_builder_details_id = ? ',[
+         DB::update('UPDATE menu_builder_details SET Condiments = ?, Price = ? WHERE menu_builder_details_id = ? ',[
 
             $condiments_name,
             $condimentsScreenPriced,
             $id_to_edit_build
 
         ]);
+
+
+        // for($i=0;$i<$count;$i++){
+
+        //     DB::update('UPDATE menu_builder_details SET Condiments = ?, Price = ? WHERE menu_builder_details_id = ? ',[
+
+        //         $condiments_name,
+        //         $condimentsScreenPriced,
+        //         $id_to_edit_build
+
+        //     ]);
+
+        //     $sql1="UPDATE $tbl_name SET name='$name[$i]', lastname='$lastname[$i]', email='$email[$i]' WHERE id='$id[$i]'";
+        //     $result1=mysql_query($sql1);
+        // }
+    
+
+        // DB::update('UPDATE menu_builder_details SET Condiments = ?, Price = ? WHERE menu_builder_details_id = ? ',[
+
+        //     $condiments_name,
+        //     $condimentsScreenPriced,
+        //     $id_to_edit_build
+
+        // ]);
 
         return response()->json('Successfully Update');
 
@@ -3428,10 +3455,11 @@ class AdminController extends Controller
 
         $find_each_id_condiments = $request->get('find_each_id_condiments');
 
-        $condiments_table = DB::select('SELECT cat_condi_id,cat_condi_name,cat_condi_price,cat_condi_image,cat_condi_screen_name FROM menu_cat_condiments WHERE cat_condi_status = ? AND condiments_section_id =? ',[
+        $condiments_table = DB::select('SELECT msc.condiments_section_id,cat_condi_id,condiment_section_name,cat_condi_name,cat_condi_price,cat_condi_image,cat_condi_screen_name FROM menu_cat_condiments LEFT JOIN (SELECT condiments_section_id,condiment_section_name FROM menu_section_condiments) msc ON menu_cat_condiments.condiments_section_id = msc.condiments_section_id WHERE cat_condi_status = ? AND msc.condiments_section_id =? ',[
             'Active',
             $find_each_id_condiments
         ]);
+
 
 
         return response()->json(array(['condiments_table'=>$condiments_table]));
@@ -3444,7 +3472,7 @@ class AdminController extends Controller
 
         $chain_id = $request->get('chain_id');
         
-        $noun_chaining = DB::select('SELECT mbd.condiments_section_id,Qty,Condiments,Price FROM menu_category as mc LEFT JOIN (SELECT condiments_section_id,menu_builder_properties_id,Qty,Condiments,Price FROM menu_builder_details) mbd ON mc.chain_id = mbd.menu_builder_properties_id WHERE mc.chain_id = ? ',[
+        $noun_chaining = DB::select('SELECT mbd.condiments_section_id,Qty,Condiments,Price,allow_to_open_condiments FROM menu_category as mc LEFT JOIN (SELECT condiments_section_id,menu_builder_properties_id,Qty,Condiments,Price,allow_to_open_condiments FROM menu_builder_details) mbd ON mc.chain_id = mbd.menu_builder_properties_id WHERE mc.chain_id = ? ',[
 
             $chain_id
 

@@ -190,7 +190,7 @@ $(document).ready(function(){
            
             var foundation_image_data;
 
-            foundation_image_data = "<li><a href="+foundation_link+" id='target-link' target='someFrame'><img src=/storage/" + foundation_file + " width='120' height='100'  style='cursor:pointer'></a><li>";
+            foundation_image_data = "<li><a href="+foundation_link+" id='target-link' target='someFrame'><img src=/storage/" + foundation_file + " width='160' height='160'  style='cursor:pointer; margin-left:40px;'></a><li>";
 
             $('#foundation_image_list').append(foundation_image_data);
 
@@ -236,7 +236,7 @@ $(document).ready(function(){
 		            		 </h5>\
 		            	</div>\
 		            	<div class="card-footer">\
-		            		<small class="text-muted"><i class="icon ion-md-calendar" style="font-size:15px; color:#800000;"></i><i class="far fa-calendar-check"></i> '+gallery_event_dated+'</small>\
+		            		<small class="text-muted"><i class="icon ion-md-calendar" style="font-size:15px; "></i><i class="far fa-calendar-check" style="color:#143DF6 !important;"></i> '+gallery_event_dated+'</small>\
 		            	</div>\
 		            </div>\
 		            <br><br>\
@@ -424,7 +424,7 @@ $(document).ready(function(){
 					<div class="list-group">\
 					  <a href="/getjobdescription/'+position_id_div+'" data-id='+position_id_div+' class="list-group-item list-group-item-action flex-column align-items-start clicked_position_apply">\
 					    <div class="d-flex w-100 justify-content-between">\
-					      <h5 class="mb-1"><span class="title" style="color:black;"><b>'+position_name_div+'</b></span></h5>\
+					      <h5 class="mb-1"><span class="title" style="color:#143DF6;"><b>'+position_name_div+'</b></span></h5>\
 					      <small>'+position_created_div+'</small>\
 					    </div>\
 					    <p class="mb-1">\

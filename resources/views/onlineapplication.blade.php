@@ -124,7 +124,7 @@
     </div>
 
     <br><br>
-    <button class="btn btn-outline-primary btn-large form-control col-md-5" id="online_application_btn"  type="submit">Send Application</button>
+    <button class="btn btn-primary btn-large form-control col-md-5" id="online_application_btn"  type="submit">Send Application</button>
   </div>
 </form>
 

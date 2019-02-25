@@ -85,7 +85,7 @@
           </div>
 
           <div class="input-field col-md-6">
-            <button class="btn btn-outline-primary form-control" id="submit_contact_form"  type="submit" value="Send" style="position:relative; top:37px;" disabled="">Submit</button>
+            <button class="btn btn-primary form-control" id="submit_contact_form"  type="submit" value="Send" style="position:relative; top:37px;" disabled="">Submit</button>
           </div>
           
         </div>

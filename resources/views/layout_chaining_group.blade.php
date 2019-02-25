@@ -15,7 +15,8 @@
 		</div>
 	</div>
 	<br>
-  <div class="row">
+  	<div class="jumbotron">
+  		<div class="row">
     <div class="col-md-12">
       <div class="table-responsive">
         <table class="table" id="tables" style="overflow-x: scroll;">
@@ -44,6 +45,7 @@
         </table>
       </div>
     </div>
+  	</div>
   </div>
 </div>
 
@@ -51,8 +53,8 @@
 <div class="modal fade" id="chainingBuilderModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-keyboard="false" data-backdrop="static">
 	  <div class="modal-dialog modal-lg role="document" style="float:right; height:700px; width:490px; ">
 	    <div class="modal-content">
-		      <div class="modal-header" style="background: linear-gradient(-25deg, #00e4d0, #5983e8); border-color:transparent;">
-		      	<h5 class="modal-title noun_build_item" id="exampleModalLongTitle" style="color:white;"></h5>
+		      <div class="modal-header" style="background: linear-gradient(-30deg, #00e4d0, #5983e8); color:white;">
+		      	<h5 class="modal-title noun_build_item" id="exampleModalLongTitle"></h5>
 		        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="" id="closeAddingChaining">
 		          <span aria-hidden="true">&times;</span>
 		        </button>
@@ -75,6 +77,7 @@
 					                <th scope="col">Qty</th>
 					                <th scope="col">Condiments</th>
 					                <th scope="col">Price</th>
+					                <th scope="col">Allow to open condiments</th>
 					            </tr>
 					        </thead>
 					        <tbody style="font-size:14px;">	        		
@@ -99,8 +102,8 @@
 <div class="modal fade" id="nounBuilderModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-keyboard="false" data-backdrop="static">
   <div class="modal-dialog modal-lg role="document" style="float:left;  width:800px;">
     <div class="modal-content">
-     	<div class="modal-header" style="background-color:#007BFF; border-color:#007BFF;">
-	        <h5 class="modal-title" id="exampleModalLongTitle" style="color:white; font-weight: bold;">Attach Chain Noun <i class="fas fa-mouse-pointer" style="font-size:15px;"></i></h5>
+     	<div class="modal-header" style="background: linear-gradient(-30deg, #00e4d0, #5983e8); color:white;">
+	        <h5 class="modal-title" id="exampleModalLongTitle">Attach Chain Noun <i class="fas fa-mouse-pointer" style="font-size:15px;"></i></h5>
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeNounModal">
 	          <span aria-hidden="true">&times;</span>
 	        </button>
@@ -126,12 +129,8 @@
 		         		<tr id="nounClicked">
 		         			<td class="nounScreenNameClicked">{{$noun_data->menu_cat_screen_name}}</td>
 		         			<td>{{$noun_data->menu_cat_price}}</td>
-		         			<td class="nounScreenID" style="display:none;">{{$noun_data->menu_cat_id}}</td>
-		         			@if($noun_data->menu_cat_image == '')
-		         				<td></td>
-		         			@else
 		         			<td><img src="{{url('/storage/'.$noun_data->menu_cat_image.'')}}" style="height:110px; width:140px;" class="img-fluid"></td>
-		         			@endif
+		         			<td class="nounScreenID" style="display:none;">{{$noun_data->menu_cat_id}}</td>
 
 		         		</tr>	
 		         	@endforeach
@@ -155,7 +154,7 @@
 <div class="modal fade" id="condimentsBuilderModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-keyboard="false" data-backdrop="static">
   <div class="modal-dialog modal-lg role="document" style="float:left;  width:800px;">
     <div class="modal-content">
-        <div class="modal-header" style="background-color:#007BFF; border-color:#007BFF;">
+        <div class="modal-header"  style="background: linear-gradient(-30deg, #00e4d0, #5983e8); color:white;">
 	        <h5 class="modal-title" id="exampleModalLongTitle" style="color:white; font-weight: bold;">Attach Chain Condiments <i class="fas fa-mouse-pointer" style="font-size:15px;"></i></h5>
 
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeCondiModal" style="">
@@ -179,7 +178,7 @@
 			            </tr>
 		            </thead>
 	            	</div>
-		            <tbody>
+		            <tbody class="remove_after_clicked_condiments">
 			         	@foreach($condiments_table as $condiments_data) 
 			         		<tr class="condimentsClicked">
 			         			<td class="condimentsScreenNameClicked">{{$condiments_data->cat_condi_screen_name}}</td>
@@ -216,7 +215,7 @@
 <div class="modal fade" id="EditchainingBuilderModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-keyboard="false" data-backdrop="static">
 	  <div class="modal-dialog modal-lg role="document" style="float:right; height:700px; width:490px; ">
 	    <div class="modal-content">
-		      <div class="modal-header" style="background: linear-gradient(-25deg, #00e4d0, #5983e8); border-color:transparent;">
+		      <div class="modal-header" style="background: linear-gradient(-30deg, #00e4d0, #5983e8); color:white;">
 		      	<h5 class="modal-title edit_noun_build_item" id="exampleModalLongTitle" style="color:white;"></h5>
 		        <button type="button" class="close" id="closeBuildChainUpdate" data-dismiss="modal" aria-label="Close" style="">
 		          <span aria-hidden="true">&times;</span>
@@ -251,7 +250,7 @@
 		    		
 		      </div>
 		      <div class="modal-footer">
-		       <!--  <button type="button" class="btn btn-primary" id="edit_build_success_insert" disabled="">Build Done</button> -->
+		        <button type="button" class="edit_build_success_insert btn btn-primary">Build Done</button>
 		      </div>
 	    </div>
 	  </div>
@@ -295,6 +294,7 @@
 					<div class="content-noun" style="text-align: center;">
 					<thead>
 			            <tr style="font-size:15px;">
+			            	<th>Condiments Section</th>
 			             	<th>Condiment Screen Name</th>
 				             <th>Condiment Price</th>
 				             <th>Condiment Image</th>

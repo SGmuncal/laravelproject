@@ -216,8 +216,8 @@
 <div class="modal fade" id="add_cart" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-keyboard="false" data-backdrop="static">
   <div class="modal-dialog modal-lg float-left" role="document">
     <div class="modal-content" style="width:1360px;">
-      <div class="modal-header">
-        <h3 class="modal-title" id="exampleModalLongTitle" style="color:#800000;">Shopping Cart <i class="fas fa-cart-arrow-down"></i></h3>
+      <div class="modal-header"  style="background: linear-gradient(-20deg, #00e4d0, #5983e8);">
+        <h4 class="modal-title" id="exampleModalLongTitle" style="color:white;">Shopping Cart <i class="fas fa-cart-arrow-down"></i></h4>	
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="refresh_order">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -233,7 +233,7 @@
 	     		 		<div class="table-responsive conditional_table_hidden_noun">
 						   	 <table id="tables_orders" class="table table-striped table-bordered" style="width:100%">
 						        <thead>
-						            <tr style="font-size:16px; background-color:#800000; border-color: #800000; color:white;" >
+						            <tr style="background-color:#800000; color:white;" >
 						                <th>Menu</th>
 						                <th>Menu Desc</th>
 						                <th>Menu Price</th>

@@ -58,6 +58,8 @@ $(document).ready(function () {
               var Qty = stringify_noun_chaining['Qty'];
               var Condiments = stringify_noun_chaining['Condiments'];
               var Price = stringify_noun_chaining['Price'];
+              var allow_to_open_condiments = stringify_noun_chaining['allow_to_open_condiments'];
+
               var condiments_section_id = stringify_noun_chaining['condiments_section_id'];
               
               if(Qty == null && Condiments === null && Price === null)
@@ -66,7 +68,7 @@ $(document).ready(function () {
               }
               else
               {
-                $("table#noun_chaining_order").append("<tr class='editCondiments'><td>"+Qty+"</td><td>"+Condiments+"</td><td>"+Price+"</td><td class='condi_section_id' style='display:none;'>"+condiments_section_id+"</td></tr>");
+                $("table#noun_chaining_order").append("<tr class='editCondiments'><td>"+Qty+"</td><td>"+Condiments+"</td><td>"+Price+"</td><td class='allow_to_open_condiments_conditional' style='display:none;'>"+allow_to_open_condiments+"</td><td class='condi_section_id' style='display:none;'>"+condiments_section_id+"</td></tr>");
               }
               
 
@@ -90,49 +92,67 @@ $(document).ready(function () {
     $('.conditional_table_hidden_condiments').hide();
 
     $('table#noun_chaining_order').on('click','tr.editCondiments',function(e){
+       
 
-        $('.conditional_table_hidden_noun').hide();
 
-        $('.conditional_table_hidden_condiments').show();
-
-        $('table#noun_chaining_order tr').removeClass('selected');
-        $(this).addClass('selected');
-
+        var allow_to_open_condiments_conditional =  $(this).closest("tr").find(".allow_to_open_condiments_conditional").text();
         
-        var find_each_id_condiments = $(this).find('td.condi_section_id').text();
 
-        $('#customer_modal_update_chain_order').modal('show');
+        if(allow_to_open_condiments_conditional == 'Yes') {
 
-        $.ajax({
-        url:'/get_each_id_section_condiments',
-        type:'get',
-        data:{find_each_id_condiments:find_each_id_condiments},
-        success:function(response){
+            $('.conditional_table_hidden_noun').hide();
+
+            $('.conditional_table_hidden_condiments').show();
+
+            $('table#noun_chaining_order tr').removeClass('selected');
+
+            $(this).addClass('selected');
+
           
-          var get_each_section = response[0].condiments_table;
 
-          
-          $.each(get_each_section, function (index, el) {
+            var find_each_id_condiments = $(this).find('td.condi_section_id').text();
+             $("table#customer_table_update_chain_order tbody").html('');
 
-             var stringify = jQuery.parseJSON(JSON.stringify(el));
+            $('#customer_modal_update_chain_order').modal('show');
 
-            var cat_condi_screen_name = stringify['cat_condi_screen_name'];
-            var cat_condi_price = stringify['cat_condi_price'];
-            var cat_condi_image = stringify['cat_condi_image'];
-            var image = '<img src=/storage/' + cat_condi_image + ' class="responsive-img" style="width:100px;">';
-            
-            // $('#edit_chainingBuild').append("<tr class='clickable-row'><td>" + Qty + "</td><td class='clickable-row-condiments'>" + Condiments + "</td><td>" + Price + "</td><td style='display:none;' data-attribute-chain-id="+menu_builder_details_id +" class='data-attribute-chain-id'>"+menu_builder_details_id+"</td></tr>");
-            
-            $('table#customer_table_update_chain_order').append("<tr class='edit_condimentsClicked' style='font-size:14px; border:none;'><td class='edit_condimentsScreenNameClicked'>" + cat_condi_screen_name + "</td><td class='edit_condimentsScreenPriced'>" + cat_condi_price + "</td><td>"+image+"</td></tr>");
-          
-          });
+             $.ajax({
+              url:'/get_each_id_section_condiments',
+              type:'get',
+              data:{find_each_id_condiments:find_each_id_condiments},
+              success:function(response){
+                
+                var get_each_section = response[0].condiments_table;
 
-        },
-        error:function(response){
-          console.log(response);
+                
+                $.each(get_each_section, function (index, el) {
+
+                   var stringify = jQuery.parseJSON(JSON.stringify(el));
+
+
+                  var cat_condi_screen_name = stringify['cat_condi_screen_name'];
+                  var cat_condi_price = stringify['cat_condi_price'];
+                  var cat_condi_image = stringify['cat_condi_image'];
+                  var image = '<img src=/storage/' + cat_condi_image + ' class="responsive-img" style="width:100px;">';
+                  
+                  // $('#edit_chainingBuild').append("<tr class='clickable-row'><td>" + Qty + "</td><td class='clickable-row-condiments'>" + Condiments + "</td><td>" + Price + "</td><td style='display:none;' data-attribute-chain-id="+menu_builder_details_id +" class='data-attribute-chain-id'>"+menu_builder_details_id+"</td></tr>");
+                  
+                  $('table#customer_table_update_chain_order tbody').append("<tr class='edit_condimentsClicked' style='font-size:14px; border:none;'><td class='edit_condimentsScreenNameClicked'>" + cat_condi_screen_name + "</td><td class='edit_condimentsScreenPriced'>" + cat_condi_price + "</td><td>"+image+"</td></tr>");
+                
+                });
+
+
+
+              },
+              error:function(response){
+                console.log(response);
+              }
+            });
+           
         }
-      });
+        else
+        {
 
+        }
 
     });
 
@@ -142,11 +162,11 @@ $(document).ready(function () {
 
         $('.conditional_table_hidden_condiments').hide();
         $('table#noun_chaining_order tr').removeClass('selected');
-        $("table#customer_table_update_chain_order tr").html('');
+        $("table#customer_table_update_chain_order tbody").html('');
     });
 
     $('button#close_customer_modal_chaining').click(function(){
-          $("table#customer_table_update_chain_order tr").html('');
+          $("table#customer_table_update_chain_order tbody").html('');
     });
 
 

@@ -14,52 +14,54 @@
 		</div>
 	</div>
 	<br>
-  <div class="row">
-    <div class="col-md-12">
-      <div class="table-responsive">
-        <table class="table" id="tables" style="overflow-x: scroll;">
-          <thead>
-            <tr>
-              <th>Id</th>
-              <th>Sub Menu Name</th>
-              <th>Sub Menu Description</th>
-              <th>Sub Menu Images</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          	<tbody>
-	         	@foreach($sub_menu_section as $sub_section_data)
-	         		<tr>
-	         			<td>{{$sub_section_data->menu_id}}</td>
-	         			<td>{{$sub_section_data->menu_name}}</td>
-	         			<td>{{$sub_section_data->menu_desc}}</td>
-	         			
-	         			@if($sub_section_data->menu_main_image == '')
-	         				<td>No Image Uploaded</td>
-	         			@else
-							<td><img src="{{url('/storage/'.$sub_section_data->menu_main_image.'')}}" style="height:130px; width:250px;" class="img-fluid"></td>
-	         			@endif
-	         			<td>
-                           <button class="btn btn-primary" id="sub_menu_group_editBtn" value="{{$sub_section_data->menu_id}}">Edit <i class="far fa-edit"></i></button>
-                            <br>
-                         	<br>
-      
-                            <button  class="btn btn-danger" id="sub_menu_group_deleteBtn" value="{{$sub_section_data->menu_id}}">Delete<i class="far fa-trash-alt"></i></button>
-                        </td>
-	         		</tr>
-	         	@endforeach   
-            </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
+  	<div class="jumbotron">
+  		<div class="row">
+	    <div class="col-md-12">
+	      <div class="table-responsive">
+	        <table class="table" id="tables" style="overflow-x: scroll;">
+	          <thead>
+	            <tr>
+	              <th>Id</th>
+	              <th>Sub Menu Name</th>
+	              <th>Sub Menu Description</th>
+	              <th>Sub Menu Images</th>
+	              <th>Action</th>
+	            </tr>
+	          </thead>
+	          	<tbody>
+		         	@foreach($sub_menu_section as $sub_section_data)
+		         		<tr>
+		         			<td>{{$sub_section_data->menu_id}}</td>
+		         			<td>{{$sub_section_data->menu_name}}</td>
+		         			<td>{{$sub_section_data->menu_desc}}</td>
+		         			
+		         			@if($sub_section_data->menu_main_image == '')
+		         				<td>No Image Uploaded</td>
+		         			@else
+								<td><img src="{{url('/storage/'.$sub_section_data->menu_main_image.'')}}" style="height:130px; width:250px;" class="img-fluid"></td>
+		         			@endif
+		         			<td>
+	                           <button class="btn btn-primary" id="sub_menu_group_editBtn" value="{{$sub_section_data->menu_id}}">Edit <i class="far fa-edit"></i></button>
+	                            <br>
+	                         	<br>
+	      
+	                            <button  class="btn btn-danger" id="sub_menu_group_deleteBtn" value="{{$sub_section_data->menu_id}}">Delete<i class="far fa-trash-alt"></i></button>
+	                        </td>
+		         		</tr>
+		         	@endforeach   
+	            </tbody>
+	        </table>
+	      </div>
+	    </div>
+	  </div>
+  	</div>
 </div>
 
 
 <div class="modal fade" id="createsubmenugroupModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 	  <div class="modal-dialog modal-lg role="document">
 	    <div class="modal-content">
-	      <div class="modal-header">
+	      <div class="modal-header" style="background: linear-gradient(-30deg, #00e4d0, #5983e8); color:white;">
 	        <h5 class="modal-title" id="exampleModalLongTitle">New Sub Menu Section</h5>
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 	          <span aria-hidden="true">&times;</span>

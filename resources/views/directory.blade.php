@@ -6,7 +6,7 @@
         <div class="jumbotron" style="background-color:white;">
             <div class="container">
                 <div class="col-md-4">
-                    <i class="fas fa-map-marker-alt" style="font-size:55px;"></i>
+                    <i class="fas fa-map-marker-alt" style="font-size:55px; color:#143DF6;"></i>
                 </div>
             </div>
             <h1 style="color:black; font-weight: bold;">Find your nearest store.</h1>
@@ -29,7 +29,7 @@
                         {
                             echo '
 
-                                <li class="" ><a href="Winnipeg" class="city" style="font-weight:bold; color:black; border-bottom:1px solid black; text-decoration:none;">WINNIPEG </a></li> -
+                                <li class="" ><a href="Winnipeg" class="city" style="font-weight:bold; font-weight:bold; color:#143DF6; border-bottom:1px solid #143DF6; text-decoration:none;">WINNIPEG </a></li> -
                                 <li class=""><a href="Edmonton" class="city" style="font-weight:bold; color:black; text-decoration:none;">EDMONTON </a></li> -
                                 <li class=""><a href="Calgary" class="city" style="font-weight:bold; color:black; text-decoration:none;">CALGARY</a></li>
 
@@ -40,7 +40,7 @@
                             echo '
 
                                 <li class="" ><a href="Winnipeg" class="city" style="font-weight:bold; color:black; text-decoration:none;">WINNIPEG </a></li> -
-                                <li class=""><a href="Edmonton" class="city" style="font-weight:bold; color:black; text-decoration:none; border-bottom:1px solid black; ">EDMONTON </a></li> -
+                                <li class=""><a href="Edmonton" class="city" style="font-weight:bold; color:#143DF6; border-bottom:1px solid #143DF6; text-decoration:none;">EDMONTON </a></li> -
                                 <li class=""><a href="Calgary" class="city" style="font-weight:bold; color:black; text-decoration:none;">CALGARY</a></li>
 
                             ';
@@ -51,7 +51,7 @@
 
                                 <li class="" ><a href="Winnipeg" class="city" style="font-weight:bold; color:black; text-decoration:none;">WINNIPEG </a></li> -
                                 <li class=""><a href="Edmonton" class="city" style="font-weight:bold; color:black; text-decoration:none;  ">EDMONTON </a></li> -
-                                <li class=""><a href="Calgary" class="city" style="font-weight:bold; color:black; text-decoration:none; border-bottom:1px solid black;">CALGARY</a></li>
+                                <li class=""><a href="Calgary" class="city" style="font-weight:bold; color:#143DF6; border-bottom:1px solid #143DF6; text-decoration:none;">CALGARY</a></li>
 
 
                             ';
@@ -74,7 +74,7 @@
                     {
                         echo '
 
-                                <li class="" ><a href="Winnipeg" class="city" style="font-weight:bold; color:black; border-bottom:1px solid black; text-decoration:none;">WINNIPEG </a></li> -
+                                <li class="" ><a href="Winnipeg" class="city" style="font-weight:bold; color:#143DF6; border-bottom:1px solid #143DF6; text-decoration:none;">WINNIPEG </a></li> -
                                 <li class=""><a href="Edmonton" class="city" style="font-weight:bold; color:black; text-decoration:none;">EDMONTON </a></li> -
                                 <li class=""><a href="Calgary" class="city" style="font-weight:bold; color:black; text-decoration:none;">CALGARY</a></li>
 
@@ -108,7 +108,7 @@
 
                       <input id="city_click" type="text" name="inpaddress" class="form-control" placeholder="Search" aria-label="Recipient's username" aria-describedby="basic-addon2">
                       <div class="input-group-append">
-                        <button id="submit_google" class="btn btn-outline-primary" type="submit" name="action" readonly="">Find Location</button>
+                        <button id="submit_google" class="btn btn-primary" type="submit" name="action" readonly="">Find Location</button>
                       </div>
                     </div>
 
@@ -199,7 +199,7 @@
                                 <button  type="button" name="action" id="addresses" value="'+string_lat+','+string_long+'"><text style="position:relative; right:6px; font-size: 13px;">'+string_address+'</text></button><br>\
                                 <text style="font-size: 13px;">'+string_contactnumber+'</text><br>\
                                 <text style="font-size: 13px;">'+string_businesshour+'</text><br>\
-                                <button style="font-size: 15px;" class="btn btn-outline-danger btn-large" data-toggle="modal" data-target="#myStore'+string_storeID+'">\
+                                <button style="font-size: 15px;" class="btn btn-primary btn-large" data-toggle="modal" data-target="#myStore'+string_storeID+'">\
                                     Direction <i class="icon ion-md-compass" ></i>\
                                 </button>\
                                 <div class="modal fade" id="myStore'+string_storeID+'" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">\

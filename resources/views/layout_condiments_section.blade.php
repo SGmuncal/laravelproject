@@ -14,12 +14,13 @@
 		</div>
 	</div>
 	<br>
-  <div class="row">
+  	<div class="jumbotron">
+  		<div class="row">
     <div class="col-md-12">
       <div class="table-responsive">
         <table class="table" id="tables" style="overflow-x: scroll;">
           <thead>
-            <tr style="font-size:14px;">
+            <tr>
               <th>Id</th>
               <th>Condiments Section Name</th>
               <th>Condiments Section Description</th>
@@ -45,6 +46,7 @@
         </table>
       </div>
     </div>
+  	</div>
   </div>
 </div>
 
@@ -52,7 +54,7 @@
 	<div class="modal fade" id="callCondimentSection" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 	  <div class="modal-dialog modal-dialog-centered" role="document">
 	    <div class="modal-content">
-	      <div class="modal-header">
+	      <div class="modal-header" style="background: linear-gradient(-30deg, #00e4d0, #5983e8); color:white;">
 	        <h5 class="modal-title" id="exampleModalLongTitle">Condiments Section</h5>
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 	          <span aria-hidden="true">&times;</span>

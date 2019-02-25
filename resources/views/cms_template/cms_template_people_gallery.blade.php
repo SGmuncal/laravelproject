@@ -11,12 +11,11 @@
 				<div class="row">
 					<div class="col-md-6">
 						<div class="card">
-						  <div class="card-body" style="background-color:#6D7FCC; border-color:#6D7FCC; color:white;">
-						  	<i class="fab fa-creative-commons-share" style="font-size:60px;"></i>
-						  	<br>
-						    I have new content i want to use.						     
-						    <br><br>
-						    <a href="{{ url('gallery_insert_manager') }}" class="btn btn-outline-primary" style="border-color:white; color:white;">Press to Insert Data</a>
+						  <div class="card-body" style="background: linear-gradient(120deg, #00e4d0, #5983e8);">
+						  	<i class="fab fa-creative-commons-share" style="font-size:60px; color:white;"></i>
+						  	<br><br>
+						    <p style="color:white;">I have new content i want to use.</p>
+						    <a href="{{ url('gallery_insert_manager') }}" class="btn btn-primary" style="border-color:white; color:white;">Press to Insert Data</a>
 						  </div>
 						</div>
 						<br><br>
@@ -26,9 +25,8 @@
 						<div class="card">
 						  <div class="card-body">
 						  	<i class="far fa-edit" style="font-size:60px;"></i>
-						  	<br>
-						    I have new update for the content.
-						    <br><br>
+						  	<br><br>
+						    <p>I have new update for the content.</p>
 						    <a href="{{ url('gallery_update_manager') }}" class="btn btn-primary">Press to Update Data</a>
 						  </div>
 						</div>

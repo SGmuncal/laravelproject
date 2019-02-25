@@ -14,46 +14,48 @@
 		</div>
 	</div>
 	<br>
-  <div class="row">
-    <div class="col-md-12">
-      <div class="table-responsive">
-        <table class="table" id="tables" style="overflow-x: scroll;">
-          <thead>
-            <tr>
-              <th>Id</th>
-              <th>Menu Name</th>
-              <th>Menu Description</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          	<tbody>
-	         	@foreach($menu_section as $section_data)
-	         		<tr>
-	         			<td>{{$section_data->menu_sec_id}}</td>
-	         			<td>{{$section_data->menu_sec_name}}</td>
-	         			<td>{{$section_data->menu_sec_desc}}</td>
-	         			<td>
-                            <button class="btn btn-primary" id="menu_group_editBtn" value="{{$section_data->menu_sec_id}}">Edit <i class="far fa-edit"></i></button>
-                            <br>
-                         	<br>
-      
-                            <button  class="btn btn-danger" id="menu_group_deleteBtn" value="{{$section_data->menu_sec_id}}">Delete<i class="far fa-trash-alt"></i></button>
-                     
-                        </td>
-	         		</tr>
-	         	@endforeach   
-            </tbody>
-        </table>
-      </div>
-    </div>
+  <div class="jumbotron">
+  	<div class="row">
+	    <div class="col-md-12">
+	      <div class="table-responsive">
+	        <table class="table" id="tables" style="overflow-x: scroll;">
+	          <thead>
+	            <tr>
+	              <th>Id</th>
+	              <th>Menu Name</th>
+	              <th>Menu Description</th>
+	              <th>Action</th>
+	            </tr>
+	          </thead>
+	          	<tbody>
+		         	@foreach($menu_section as $section_data)
+		         		<tr>
+		         			<td>{{$section_data->menu_sec_id}}</td>
+		         			<td>{{$section_data->menu_sec_name}}</td>
+		         			<td>{{$section_data->menu_sec_desc}}</td>
+		         			<td>
+	                            <button class="btn btn-primary" id="menu_group_editBtn" value="{{$section_data->menu_sec_id}}">Edit <i class="far fa-edit"></i></button>
+	                            <br>
+	                         	<br>
+	      
+	                            <button  class="btn btn-danger" id="menu_group_deleteBtn" value="{{$section_data->menu_sec_id}}">Delete<i class="far fa-trash-alt"></i></button>
+	                     
+	                        </td>
+		         		</tr>
+		         	@endforeach   
+	            </tbody>
+	        </table>
+	      </div>
+	    </div>
+	  </div>
+	</div>
   </div>
-</div>
 
 <form action=""  method="post" enctype="multipart/form-data">
 	<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 	  <div class="modal-dialog modal-dialog-centered" role="document">
 	    <div class="modal-content">
-	      <div class="modal-header">
+	      <div class="modal-header" style="background: linear-gradient(-30deg, #00e4d0, #5983e8); color:white;">
 	        <h5 class="modal-title" id="exampleModalLongTitle">New Menu Section</h5>
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 	          <span aria-hidden="true">&times;</span>

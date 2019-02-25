@@ -50,7 +50,7 @@
             <b>Position Requirements</b> <br>\
             '+first_div_position_requirements+'\
           </p>\
-          <a href="/onlineapplication/'+first_div_position_id+'" class="btn btn-large btn-outline-primary float-right" id="history-read-more"> Apply</a>\
+          <a href="/onlineapplication/'+first_div_position_id+'" class="btn btn-large btn-primary float-right" id="history-read-more"> Apply</a>\
          <br><br><br>';
 
         $('#job_position_content').append(job_position_content);

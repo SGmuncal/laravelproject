@@ -27,6 +27,7 @@
         {{-- <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,700" rel="stylesheet"> --}}
         <link href="https://fonts.googleapis.com/css?family=Sarabun:300,400,500,600,700" rel="stylesheet">
         {{-- <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css"> --}}
+        
       
 
         <Style>
@@ -151,7 +152,7 @@
 
             #sidebar ul li a:hover {
                 color: white;
-                background: black;
+                background: #143DF6;
                 text-decoration: none;
 
             }
@@ -165,7 +166,7 @@
             a[aria-expanded="true"] {
                 color: #fff;
                 font-size:13px;
-                background: #6d7fcc;
+                background: #143DF6;
             }
 
             a[data-toggle="collapse"] {
@@ -354,9 +355,9 @@
                                       <i class="fab fa-buromobelexperte"></i> Menu Layout
                                     </a>
                                     <div class="list-group collapse" id="menu_layout">
-                                      <a href="/layout_menu_group" class="list-group-item">Menu Section</a>
-                                      <a href="/layout_sub_menu_group" class="list-group-item">Menu Sub Group</a>
-                                      <a href="/layout_condiments_section" class="list-group-item">Condiments Section</a>
+                                      <a href="/layout_menu_group" class="list-group-item"><i class="far fa-folder-open"></i> Menu Section</a>
+                                      <a href="/layout_sub_menu_group" class="list-group-item"><i class="far fa-folder-open"></i> Menu Sub Group</a>
+                                      <a href="/layout_condiments_section" class="list-group-item"><i class="far fa-folder-open"></i> Condiments Section</a>
                                     </div>
 
                                     <a href="#menu" class="list-group-item" data-toggle="collapse">
@@ -476,10 +477,9 @@
             <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background: linear-gradient(120deg, #00e4d0, #5983e8);">
                 <div class="container-fluid">
 
-                    <button type="button" id="sidebarCollapse" class="btn btn-danger" style="color:white; border-color: transparent;">
-                        <i class="fas fa-align-left"></i>
-                        <span>Toggle Sidebar</span>
-                    </button>
+                    
+                    <i class="fas fa-align-left" id="sidebarCollapse" style="color:white;"> </i> 
+                   
                     <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <i class="fas fa-align-justify"></i>
                     </button>

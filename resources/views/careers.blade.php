@@ -15,7 +15,7 @@
                     <option value="alljob">All Jobs</option>
                   </select>
 				  <div class="input-group-append">
-				    <button class="btn btn-outline-primary" type="submit" id="serach_position_btn">Search</button>
+				    <button class="btn btn-primary" type="submit" id="serach_position_btn">Search</button>
 				  </div>
 				</div>
 

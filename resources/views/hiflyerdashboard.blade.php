@@ -11,8 +11,8 @@
 		<div class="row">
 			<div class="col-md-4">
 				<div class="card">
-				  <div class="card-header">
-				    <i class="fas fa-users" style="color:#007BFF;"></i>
+				  <div class="card-header" style="background-color:#143DF6">
+				    <i class="fas fa-users" style="color:white;"></i>
 				  </div>
 				  <div class="card-body">
 				    <h5 class="card-title">Total Registered Users: {{$user}}</h5>
@@ -24,8 +24,8 @@
 
 			<div class="col-md-4">
 				<div class="card">
-				  <div class="card-header">
-				     <i class="fas fa-credit-card" style="color:#007BFF;"></i>
+				  <div class="card-header" style="background-color:#143DF6">
+				     <i class="fas fa-credit-card" style="color:white;"></i>
 				  </div>
 				  <div class="card-body">
 				    <h5 class="card-title">Total Transactions: (Soon)</h5>
@@ -37,8 +37,8 @@
 
 			<div class="col-md-4">
 				<div class="card">
-				  <div class="card-header">
-				    <i class="fas fa-inbox" style="color:#007BFF;"></i>
+				  <div class="card-header" style="background-color:#143DF6">
+				    <i class="fas fa-inbox" style="color:white ;"></i>
 				  </div>
 				  <div class="card-body">
 				    <h5 class="card-title">Total Messages:
@@ -102,5 +102,5 @@
 	</div>
 	</div>
 
-
+<br><br><br><br>
 @endsection

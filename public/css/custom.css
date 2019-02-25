@@ -5,7 +5,7 @@
 
 .navbar-dark .navbar-nav .nav-link {
     color: black !important;
-    font-size:13.5px;
+    font-size:14.5px;
     font-weight:500;
 }
 
@@ -103,8 +103,8 @@ i {
 
 
 .btn-primary {
-     background-color:#3D0081 !important;
-     border-color:#3D0081 !important;
+     background-color:#143DF6 !important;
+     border-color:#143DF6 !important;
      font-weight: 300px !important;
 
 }
@@ -132,14 +132,14 @@ i {
 
 .btn-outline-primary {
 
-     border-color:#3D0081 !important;
+     border-color:#143DF6 !important;
      font-weight: 300px !important;
     
 }
 
 .btn-outline-primary:hover {
-  background-color:#3D0081 !important;
-       border-color:#3D0081 !important;
+  background-color:#143DF6 !important;
+       border-color:#143DF6 !important;
      font-weight: 300px !important;
      color:white !important;
 }
