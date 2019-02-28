@@ -228,12 +228,12 @@
 
 	     	<div class="row">
 	     		 <div class="col-md-8">
-	     		 	
 	     		 	<div class="jumbotron">
+
 	     		 		<div class="table-responsive conditional_table_hidden_noun">
 						   	 <table id="tables_orders" class="table table-striped table-bordered" style="width:100%">
 						        <thead>
-						            <tr style="background-color:#800000; color:white;" >
+						            <tr style="background: linear-gradient(-20deg, #00e4d0, #5983e8); color:white;" >
 						                <th>Menu</th>
 						                <th>Menu Desc</th>
 						                <th>Menu Price</th>
@@ -287,7 +287,7 @@
 								<table  class="table table-striped table-bordered " id="customer_table_update_chain_order" style="width:100%">
 									<div class="content-noun" style="text-align: center;">
 									<thead>
-							            <tr style="font-size:16px; background-color:#800000; border-color: #800000; color:white;">
+							            <tr style="background: linear-gradient(-20deg, #00e4d0, #5983e8); color:white;" >
 							             	<th>Condiment Screen Name</th>
 								             <th>Condiment Price</th>
 								             <th>Condiment Image</th>
@@ -310,7 +310,7 @@
 	     		 </div>
 	     	 	<div class="col-md-4">
 	     	 		<div class="container">
-	     	 			<div class="jumbotron" style="background-color:#800000;">
+	     	 			<div class="jumbotron" style="background: linear-gradient(-20deg, #00e4d0, #5983e8);">
 	     	 				<div class="header" style="text-align: center;">
 	     	 					<i class="fas fa-cart-arrow-down" style="font-size:50px; color:white;"></i>
 	     	 					<br><br>
@@ -327,6 +327,7 @@
 
 					     	 	<br>
 								<h3 style="color:white; font-weight:bold;" class="append_customer_noun_order"></h3>
+								<h5 style="color:white;" class="append_customer_price_order"></h5>
 								<br>
 				    			<input type="hidden" value="" class="hidden_noun_id" name="">
 					    			<table class="table table-hover" id="noun_chaining_order" style="border:none;">

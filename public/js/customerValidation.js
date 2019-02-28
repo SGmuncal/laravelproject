@@ -41,8 +41,11 @@ $(document).ready(function () {
           swal("Successfully Added to your form.", {
             icon: "success",
           });
+
          $('.append_customer_noun_order').text(menu_name);
-        $('.append_customer_noun_order_price').text(menu_price);
+         $('.append_customer_price_order').text(menu_price);
+          
+
 
         $.ajax({
           url:'/get_noun_group_combination',
@@ -61,6 +64,8 @@ $(document).ready(function () {
               var allow_to_open_condiments = stringify_noun_chaining['allow_to_open_condiments'];
 
               var condiments_section_id = stringify_noun_chaining['condiments_section_id'];
+
+              
               
               if(Qty == null && Condiments === null && Price === null)
               {
@@ -68,17 +73,37 @@ $(document).ready(function () {
               }
               else
               {
-                $("table#noun_chaining_order").append("<tr class='editCondiments'><td>"+Qty+"</td><td>"+Condiments+"</td><td>"+Price+"</td><td class='allow_to_open_condiments_conditional' style='display:none;'>"+allow_to_open_condiments+"</td><td class='condi_section_id' style='display:none;'>"+condiments_section_id+"</td></tr>");
+                $("table#noun_chaining_order").append("<tr class='editCondiments'><td>"+((Qty == '1') ? '-' : Qty) +"</td><td>"+Condiments+"</td><td class='total'>"+Price+"</td><td class='allow_to_open_condiments_conditional' style='display:none;'>"+allow_to_open_condiments+"</td><td class='condi_section_id' style='display:none;'>"+condiments_section_id+"</td></tr>");
               }
               
 
             })
 
+            var sum_sub_total_price = 0;
+            $('td.total').each(function () {
+
+              sum_sub_total_price += parseFloat($(this).text());
+             
+              
+            
+            });
+
+            var with_decimal_subprice = parseFloat(sum_sub_total_price).toFixed(2);
+            var menu_price_total_condiments = parseFloat(with_decimal_subprice) + parseFloat(menu_price);
+            var menu_price_total_condiments_converted = parseFloat(menu_price_total_condiments).toFixed(2);
+            
+
+            $('.append_customer_noun_order_price').text(menu_price_total_condiments_converted);
+            
+
           },
           error:function(response){
             console.log(response);
           }
-        })
+        });
+
+
+        
 
         $('.tbody_noun_chaining_order').html('');
 
@@ -113,40 +138,67 @@ $(document).ready(function () {
             var find_each_id_condiments = $(this).find('td.condi_section_id').text();
              $("table#customer_table_update_chain_order tbody").html('');
 
-            $('#customer_modal_update_chain_order').modal('show');
+              $('#customer_modal_update_chain_order').modal('show');
 
-             $.ajax({
-              url:'/get_each_id_section_condiments',
-              type:'get',
-              data:{find_each_id_condiments:find_each_id_condiments},
-              success:function(response){
-                
-                var get_each_section = response[0].condiments_table;
-
-                
-                $.each(get_each_section, function (index, el) {
-
-                   var stringify = jQuery.parseJSON(JSON.stringify(el));
-
-
-                  var cat_condi_screen_name = stringify['cat_condi_screen_name'];
-                  var cat_condi_price = stringify['cat_condi_price'];
-                  var cat_condi_image = stringify['cat_condi_image'];
-                  var image = '<img src=/storage/' + cat_condi_image + ' class="responsive-img" style="width:100px;">';
+               $.ajax({
+                url:'/get_each_id_section_condiments',
+                type:'get',
+                data:{find_each_id_condiments:find_each_id_condiments},
+                success:function(response){
                   
-                  // $('#edit_chainingBuild').append("<tr class='clickable-row'><td>" + Qty + "</td><td class='clickable-row-condiments'>" + Condiments + "</td><td>" + Price + "</td><td style='display:none;' data-attribute-chain-id="+menu_builder_details_id +" class='data-attribute-chain-id'>"+menu_builder_details_id+"</td></tr>");
+                  var get_each_section = response[0].condiments_table;
+
                   
-                  $('table#customer_table_update_chain_order tbody').append("<tr class='edit_condimentsClicked' style='font-size:14px; border:none;'><td class='edit_condimentsScreenNameClicked'>" + cat_condi_screen_name + "</td><td class='edit_condimentsScreenPriced'>" + cat_condi_price + "</td><td>"+image+"</td></tr>");
-                
-                });
+                  $.each(get_each_section, function (index, el) {
+
+                     var stringify = jQuery.parseJSON(JSON.stringify(el));
+
+
+                    var cat_condi_screen_name = stringify['cat_condi_screen_name'];
+                    var cat_condi_price = stringify['cat_condi_price'];
+                    var cat_condi_image = stringify['cat_condi_image'];
+                    var image = '<img src=/storage/' + cat_condi_image + ' class="responsive-img" style="width:100px;">';
+                    
+                    // $('#edit_chainingBuild').append("<tr class='clickable-row'><td>" + Qty + "</td><td class='clickable-row-condiments'>" + Condiments + "</td><td>" + Price + "</td><td style='display:none;' data-attribute-chain-id="+menu_builder_details_id +" class='data-attribute-chain-id'>"+menu_builder_details_id+"</td></tr>");
+                    
+                    $('table#customer_table_update_chain_order tbody').append("<tr class='customer_edit_table_chaining_condiments' style='font-size:14px; border:none;'><td class='customer_edit_condimentsScreenNameClicked'>" + cat_condi_screen_name + "</td><td class='customer_edit_condimentsScreenPriced'>" + cat_condi_price + "</td><td>"+image+"</td></tr>");
+                  
+                  });
+
+
+                  $(".customer_edit_table_chaining_condiments").click(function(e){
 
 
 
-              },
-              error:function(response){
-                console.log(response);
-              }
-            });
+                    var customer_edit_condimentsScreenNameClicked = $(this).closest('tr').find('.customer_edit_condimentsScreenNameClicked').text();
+                    var customer_edit_condimentsScreenPriced = $(this).closest('tr').find('.customer_edit_condimentsScreenPriced').text();
+                    
+
+
+
+                    $('.tbody_noun_chaining_order tr.selected td:nth-child(2)').html(customer_edit_condimentsScreenNameClicked);
+                    $('.tbody_noun_chaining_order tr.selected td:nth-child(3)').html(customer_edit_condimentsScreenPriced);
+
+
+                    var sum_sub_total_price = 0;
+                    $('td.total').each(function () {
+                      sum_sub_total_price += parseFloat($(this).text());           
+                    });
+
+                    var append_customer_price_order = $('.append_customer_price_order').text();
+                    var convert_append_customer_price_order = parseFloat(append_customer_price_order).toFixed(2);
+
+                    var menu_price_total_condiments = parseFloat(append_customer_price_order) + parseFloat(sum_sub_total_price);
+                    var convert_with_decimal_menu_price_total_condiments = parseFloat(menu_price_total_condiments).toFixed(2);
+                    $('.append_customer_noun_order_price').text(convert_with_decimal_menu_price_total_condiments)
+
+                  });
+
+                },
+                error:function(response){
+                  console.log(response);
+                }
+              });
            
         }
         else
@@ -155,6 +207,9 @@ $(document).ready(function () {
         }
 
     });
+
+
+
 
     $('button.back_to_noun').click(function(){
 

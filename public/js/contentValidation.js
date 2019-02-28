@@ -1216,7 +1216,7 @@ $(document).ready(function(){
                 
 
                 // $('#edit_chainingBuild').append("<tr class='clickable-row'><td>" + Qty + "</td><td class='clickable-row-condiments'>" + Condiments + "</td><td>" + Price + "</td><td style='display:none;' data-attribute-chain-id="+menu_builder_details_id +" class='data-attribute-chain-id'>"+menu_builder_details_id+"</td></tr>");
-                $('#edit_chainingBuild').append("<tr class='clickable-row'><td class='clickable-row-condiments'>" + Condiments + "</td><td>" + Price + "</td><td style='display:none;' data-attribute-condiments-section-id="+condiments_section_id+" data-attribute-chain-id="+menu_builder_details_id +" class='data-attribute-chain-id'>"+menu_builder_details_id+"</td></tr>");
+               $('#edit_chainingBuild').append("<tr class='clickable-row'><td><input type='number' value="+Qty+" class='form-control'></td><td class='clickable-row-condiments'>" + Condiments + "</td><td>" + Price + "</td><td style='display:none;' data-attribute-condiments-section-id="+condiments_section_id+" data-attribute-chain-id="+menu_builder_details_id +" class='data-attribute-chain-id'>"+menu_builder_details_id+"</td</tr>");
 
               })
 
@@ -1233,15 +1233,25 @@ $(document).ready(function(){
 })
 
 
-$('#edit_chainingBuild').on('click','tr.clickable-row',function(e){
-     
-      $('table#edit_chainingBuild tr').removeClass('selected');
-      $(this).addClass('selected');
+// $('#edit_chainingBuild').on('click','tr.clickable-row',function () {
+//       $(this).closest('tr.clickable-row').find('td:not(:last-child)').addClass('selected');
+// });
 
-      var find_each_id_will_update = $(this).find('.data-attribute-chain-id').attr('data-attribute-chain-id');
+
+
+
+$('#edit_chainingBuild').on('click','tr.clickable-row  td:not(:first-child)',function(e){
+     
+      $('table#edit_chainingBuild td.clickable-row-condiments').removeClass('selected');
+      $('table#edit_chainingBuild td').removeClass('selected');
+      $(this).closest('tr.clickable-row').find('td:not(:first-child)').addClass('selected');
+
+
+      var find_each_id_will_update = $(this).closest('tr.clickable-row').find('td.data-attribute-chain-id.selected').attr('data-attribute-chain-id');
+
       $('.id_to_update_chain').val(find_each_id_will_update);
 
-      var find_each_id_condiments = $(this).find('.data-attribute-chain-id').attr('data-attribute-condiments-section-id');
+      var find_each_id_condiments = $(this).closest('tr.clickable-row').find('.data-attribute-chain-id').attr('data-attribute-condiments-section-id');
       $('table#edit_table_chaining_condiments').find('tbody').empty();
 
       $('#EditcondimentsBuilderModal').modal('show'); 
@@ -1269,37 +1279,39 @@ $('#edit_chainingBuild').on('click','tr.clickable-row',function(e){
             
 
             $('table#edit_table_chaining_condiments').append("<tr class='edit_condimentsClicked' style='font-size:14px; border:none;'><td>"+condiment_section_name  +"</td><td class='edit_condimentsScreenNameClicked'>" + cat_condi_screen_name + "</td><td class='edit_condimentsScreenPriced'>" + cat_condi_price + "</td><td>"+image+"</td><td class='edit_condimentsID' style='display:none;'>"+condiments_section_id+"</td></tr>");
-                
-              $("table#edit_table_chaining_condiments tr").click(function(e){
-
-                
-
-                var tableBhtml =  $(this).closest('tr').html();
-                var condiments_name = $(this).closest("tr").find(".edit_condimentsScreenNameClicked").text();
-                var condimentsScreenPriced = $(this).closest("tr").find(".edit_condimentsScreenPriced").text();
-                var edit_condimentsID = $(this).closest("tr").find(".edit_condimentsID").text();
-                var id_to_edit_build = $('.id_to_update_chain').val();
-                var id_to_edit_builders = $('.id_to_update_chain').val();
-                
-                
-                $("#edit_chainingBuild tr.selected").replaceWith("<tr data-attribute-chain-id=" + id_to_edit_build + " class='clickable-row'><td class='new_condiments_name'>"+condiments_name+"</td><td>"+condimentsScreenPriced+"</td><td style='display:none;' data-attribute-condiments-section-id="+edit_condimentsID+" data-attribute-chain-id="+id_to_edit_builders +" class='data-attribute-chain-id'>"+id_to_edit_builders+"</td></tr>");
-                $('#EditcondimentsBuilderModal').modal('hide');
-
-            });
-
 
 
           });
 
+          $("table#edit_table_chaining_condiments tr").click(function(e){
+
+
+              var condiments_name = $(this).closest("tr").find("td.edit_condimentsScreenNameClicked").text();
+              var condimentsScreenPriced = $(this).closest("tr").find("td.edit_condimentsScreenPriced").text();
+
+               $('#edit_chainingBuild .selected').eq(0).html(condiments_name);
+                $('#edit_chainingBuild .selected').eq(1).html(condimentsScreenPriced);
+
+              // var x = $('#edit_chainingBuild tr.clickable-row td.clickable-row-condiments.selected td:nth-child(2)').text();
+              // $('#edit_chainingBuild tr.clickable-row td.selected td:nth-child(3)').html(condimentsScreenPriced);
+
+
+              // var tableBhtml =  $(this).closest('tr').html();
+
+              // var edit_condimentsID = $(this).closest("tr").find(".edit_condimentsID").text();
+              // var id_to_edit_build = $('.id_to_update_chain').val();
+              // var id_to_edit_builders = $('.id_to_update_chain').val();
+              
+              
+              // $("#edit_chainingBuild tr.selected").replaceWith("<tr data-attribute-chain-id=" + id_to_edit_build + " class='clickable-row'><td class='new_condiments_name'>"+condiments_name+"</td><td>"+condimentsScreenPriced+"</td><td style='display:none;' data-attribute-condiments-section-id="+edit_condimentsID+" data-attribute-chain-id="+id_to_edit_builders +" class='data-attribute-chain-id'>"+id_to_edit_builders+"</td></tr>");
+              // $('#EditcondimentsBuilderModal').modal('hide');
+
+          });
         },
         error:function(response){
           console.log(response);
         }
       });
-
-
-
-      
 
 
 });
@@ -1385,7 +1397,7 @@ $('#closeBuildChainUpdate').click(function(){
       .then((willInsert) => {
           if (willInsert) {
             
-              swal("Congrats for updating button", {
+              swal("Cancelled Updating Condiments", {
                   icon: "success",
               });
 

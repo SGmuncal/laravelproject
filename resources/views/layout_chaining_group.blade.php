@@ -227,7 +227,7 @@
 		    	<div class="container">
 		    		<div class="header" style="text-align: center;">
 		    			<br>
-		    			<h3 style="color:#007BFF;">Build Your Chain Button</h3>	
+		    			<h3>Build Your Chain Button</h3>	
 		    			<label>This button will be served as customers menu.</label><br>
 		    			<i class="fab fa-creative-commons-remix" style="font-size:70px;"></i>
 		    			<br><br>
@@ -236,7 +236,7 @@
 		    			<table class="table table-hover" id="edit_chainingBuild">
 		    				<thead>
 					            <tr style="font-size: 15px;">
-					                <!-- <th scope="col">Qty</th> -->
+					                <th scope="col">Qty</th>
 					                <th scope="col">Condiments</th>
 					                <th scope="col">Price</th>
 					            </tr>
@@ -261,7 +261,7 @@
 <div class="modal fade" id="EditcondimentsBuilderModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-keyboard="false" data-backdrop="static">
   <div class="modal-dialog modal-lg role="document" style="float:left;  width:800px;">
     <div class="modal-content">
-        <div class="modal-header" style="background-color:#007BFF; border-color:#007BFF;">
+        <div class="modal-header" style="background: linear-gradient(-30deg, #00e4d0, #5983e8); color:white;">
 	        <h5 class="modal-title" id="exampleModalLongTitle" style="color:white; font-weight: bold;">Attach Chain Condiments <i class="fas fa-mouse-pointer" style="font-size:15px;"></i></h5>
 
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeeditCondiModal" style="">

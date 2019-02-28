@@ -588,6 +588,10 @@ td.dollar:before {
   content: "$";
 }
 
+.append_customer_price_order:before{
+  content: "$";
+}
+
 #sub_total:before {
   content: "$";
 }
@@ -847,6 +851,6 @@ td, th {
 
 
 .selected{
-    background: #3D0081;
+    background: #143DF6;
     color:white;
 }
