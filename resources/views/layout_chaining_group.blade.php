@@ -239,6 +239,7 @@
 					                <th scope="col">Qty</th>
 					                <th scope="col">Condiments</th>
 					                <th scope="col">Price</th>
+					                <th scope="col">Allow to open condiments</th>
 					            </tr>
 					        </thead>
 					        <tbody style="font-size:14px;">	        		

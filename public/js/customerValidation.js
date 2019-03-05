@@ -15,7 +15,6 @@ $(document).ready(function () {
 
 
 
-
   var tbody = $('#myTable').children('tbody');
   //Then if no tbody just select your table 
   var table = tbody.length ? tbody : $('#myTable');
@@ -73,7 +72,7 @@ $(document).ready(function () {
               }
               else
               {
-                $("table#noun_chaining_order").append("<tr class='editCondiments'><td>"+((Qty == '1') ? '-' : Qty) +"</td><td>"+Condiments+"</td><td class='total'>"+Price+"</td><td class='allow_to_open_condiments_conditional' style='display:none;'>"+allow_to_open_condiments+"</td><td class='condi_section_id' style='display:none;'>"+condiments_section_id+"</td></tr>");
+                $("table#noun_chaining_order").append("<tr class='editCondiments'><td class='condiments_order_quantity'>"+Qty+"</td><td>"+Condiments+"</td><td class='total'>"+Price+"</td><td class='allow_to_open_condiments_conditional' style='display:none;'>"+allow_to_open_condiments+"</td><td class='condi_section_id' style='display:none;'>"+condiments_section_id+"</td></tr>");
               }
               
 
@@ -117,17 +116,176 @@ $(document).ready(function () {
     $('.conditional_table_hidden_condiments').hide();
 
     $('table#noun_chaining_order').on('click','tr.editCondiments',function(e){
-       
-
-
+      
         var allow_to_open_condiments_conditional =  $(this).closest("tr").find(".allow_to_open_condiments_conditional").text();
+        var condiments_order_quantity = $(this).closest("tr").find(".condiments_order_quantity").text();
+        // $('tr#append_imaginary_upsize_condiments').removeClass('selected_upsize');
         
-
-        if(allow_to_open_condiments_conditional == 'Yes') {
+        if(allow_to_open_condiments_conditional == 'Yes' && condiments_order_quantity != '-') {
 
             $('.conditional_table_hidden_noun').hide();
 
             $('.conditional_table_hidden_condiments').show();
+
+
+            //$('table#noun_chaining_order tr').removeClass('selected');
+            
+            if($('#noun_chaining_order').find('.selected').length){    
+
+                  swal("You can't upsize the ongoing item", {
+                    icon: "error",
+                    
+                  });
+
+             }
+             else
+             {
+
+               // $(this).find('tr').addClass('selected');
+               
+
+               $(this).closest('tr').addClass('selected');
+
+               var find_each_id_condiments = $(this).find('td.condi_section_id').text();
+
+               
+
+
+               $("table#customer_table_update_chain_order tbody").html('');
+
+                $('#customer_modal_update_chain_order').modal('show');
+
+                 $.ajax({
+                  url:'/get_each_id_section_condiments',
+                  type:'get',
+                  data:{find_each_id_condiments:find_each_id_condiments},
+                  success:function(response){   
+
+
+                    var get_each_section = response[0].condiments_table;              
+                    $.each(get_each_section, function (index, el) {
+                      var stringify = jQuery.parseJSON(JSON.stringify(el));
+                      var cat_condi_screen_name = stringify['cat_condi_screen_name'];
+                      var cat_condi_price = stringify['cat_condi_price'];
+                      var cat_condi_image = stringify['cat_condi_image'];
+                      var image = '<img src=/storage/' + cat_condi_image + ' class="responsive-img" style="width:100px;">';
+                      
+
+                      var hidden_allowed_to_open_condiments_customize = 'Yes';
+
+
+                      
+                      // $('#edit_chainingBuild').append("<tr class='clickable-row'><td>" + Qty + "</td><td class='clickable-row-condiments'>" + Condiments + "</td><td>" + Price + "</td><td style='display:none;' data-attribute-chain-id="+menu_builder_details_id +" class='data-attribute-chain-id'>"+menu_builder_details_id+"</td></tr>");             
+                      //$('table#customer_table_update_chain_order tbody').append("<tr class='customer_edit_table_chaining_condiments' style='font-size:14px; border:none;'><td class='customer_edit_condimentsScreenNameClicked'>" + cat_condi_screen_name + "</td><td class='customer_edit_condimentsScreenPriced'>" + cat_condi_price + "</td><td>"+image+"</td></tr>");
+                      
+                      var dataTable = $("#customer_table_update_chain_order").DataTable({
+                         "pageLength": 8,
+                        "createdRow": function( row, data, dataIndex ) {
+                            
+                              $(row).addClass( 'customer_edit_table_chaining_condiments' );
+                              $( row ).find('td:eq(0)')
+                              .addClass('customer_edit_condimentsScreenNameClicked');
+                              $( row ).find('td:eq(1)')
+                              .addClass('customer_edit_condimentsScreenPriced');
+                           
+                          },
+
+                        "bDestroy": true
+                      });
+
+                      /////////////////////////////////////////////
+                      
+
+                        // use data table row.add, then .draw for table refresh
+                      dataTable.row.add([cat_condi_screen_name, cat_condi_price, image]).draw();
+                    
+
+
+                    });
+
+                    $("#customer_table_update_chain_order tbody tr").on('click',function(e){
+
+                        //this is the item of table B that will append if the table A has no class
+                        var customer_edit_condimentsScreenNameClicked = $(this).find('.customer_edit_condimentsScreenNameClicked').text();
+                        var customer_edit_condimentsScreenPriced = $(this).find('.customer_edit_condimentsScreenPriced').text();
+
+                        //here will check if table A has selected upsize or not
+                        
+                        if($('#noun_chaining_order').find('td.selected_upsize').length){    
+
+                            swal("You can't upsize the ongoing item", {
+                              icon: "error",
+                              
+                            });
+
+                       }else if($('#noun_chaining_order').find('tr.selected').length){
+
+                            $('table#noun_chaining_order .selected').after('<tr class="" id="append_imaginary_upsize_condiments"><td contenteditable="true" class="editable_qty">1</td><td>'+customer_edit_condimentsScreenNameClicked+'</td><td>'+customer_edit_condimentsScreenPriced+'</td><td class="allow_to_open_condiments_conditional" style="display:none;"">Yes</td><td class="done_upsizing_condiments"><i class="fas fa-check"></i></td><td class="remove_upsizing_condiments"><i class="far fa-trash-alt"></i></td></tr>');
+                            $('tr#append_imaginary_upsize_condiments td:not(:nth-child(5)):not(:nth-child(6))').addClass('selected_upsize');
+
+                       }
+                       else
+                       {
+                          swal("You can't upsize item, please select one of the item.", {
+                              icon: "error",
+                              
+                            });
+                       }
+
+
+                       $('td.done_upsizing_condiments').on('click',function(){
+
+                          //computation here..
+                          var condiments_quantity = $(this).closest("tr").find("td.editable_qty").text();
+                          var condiments_order_quantity = $('table#noun_chaining_order').find("tr.selected td.condiments_order_quantity").text();
+                          
+                          var comp_condiments_quantity_vs_condiments_order =  condiments_order_quantity - condiments_quantity;
+
+                          if(comp_condiments_quantity_vs_condiments_order == "0") {
+
+                             $('table#noun_chaining_order').find("tr.selected").remove();
+                          }
+                          else
+                          {
+                            $('table#noun_chaining_order').find("tr.selected td.condiments_order_quantity").text(comp_condiments_quantity_vs_condiments_order);
+                          }
+
+
+                          $('tr#append_imaginary_upsize_condiments td:not(:nth-child(4)):not(:nth-child(5))').removeClass('selected_upsize');
+                          $('#noun_chaining_order tr').removeClass('selected');
+                          $("#noun_chaining_order td.done_upsizing_condiments").remove();
+                          $("#noun_chaining_order td.remove_upsizing_condiments").remove();
+                          $('td.editable_qty').attr('contenteditable','false');
+                          $('tr#append_imaginary_upsize_condiments').removeAttr('id');
+
+
+                       });
+                      
+                       $('td.remove_upsizing_condiments').on('click',function(){
+                          $(this).closest('tr').remove();
+                       });
+                          
+                        
+                    });
+
+                  },
+                  error:function(response){
+                    console.log(response);
+                  }
+                });
+             }
+
+            
+
+           
+           
+        }
+        else if(allow_to_open_condiments_conditional == 'Yes' && condiments_order_quantity == '-')
+        {
+            $('.conditional_table_hidden_noun').hide();
+
+            $('.conditional_table_hidden_condiments').show();
+
 
             $('table#noun_chaining_order tr').removeClass('selected');
 
@@ -173,9 +331,6 @@ $(document).ready(function () {
                     var customer_edit_condimentsScreenNameClicked = $(this).closest('tr').find('.customer_edit_condimentsScreenNameClicked').text();
                     var customer_edit_condimentsScreenPriced = $(this).closest('tr').find('.customer_edit_condimentsScreenPriced').text();
                     
-
-
-
                     $('.tbody_noun_chaining_order tr.selected td:nth-child(2)').html(customer_edit_condimentsScreenNameClicked);
                     $('.tbody_noun_chaining_order tr.selected td:nth-child(3)').html(customer_edit_condimentsScreenPriced);
 
@@ -199,7 +354,6 @@ $(document).ready(function () {
                   console.log(response);
                 }
               });
-           
         }
         else
         {
@@ -236,6 +390,7 @@ $(document).ready(function () {
           if (willInsert) {
             swal("Transaction Close", {
               icon: "success",
+         
             });
 
             location.reload();

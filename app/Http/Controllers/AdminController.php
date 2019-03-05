@@ -3311,15 +3311,20 @@ class AdminController extends Controller
     public function insert_update_build_chain(Request $request) {
 
         $condiments_name = $request->get('condiments_name');
+        $condiments_qty = $request->get('condiments_qty');
         $condimentsScreenPriced = $request->get('condimentsScreenPriced');
         $id_to_edit_build = $request->get('id_to_edit_build');
+        $allow_to_open_condiments = $request->get('allow_to_open_condiments');
+
 
         // Check if button name "Submit" is active, do this 
 
-         DB::update('UPDATE menu_builder_details SET Condiments = ?, Price = ? WHERE menu_builder_details_id = ? ',[
+         DB::update('UPDATE menu_builder_details SET Condiments = ?, Price = ?, Qty = ?, allow_to_open_condiments = ? WHERE menu_builder_details_id = ? ',[
 
             $condiments_name,
             $condimentsScreenPriced,
+            $condiments_qty,
+            $allow_to_open_condiments,
             $id_to_edit_build
 
         ]);
@@ -3455,7 +3460,7 @@ class AdminController extends Controller
 
         $find_each_id_condiments = $request->get('find_each_id_condiments');
 
-        $condiments_table = DB::select('SELECT msc.condiments_section_id,cat_condi_id,condiment_section_name,cat_condi_name,cat_condi_price,cat_condi_image,cat_condi_screen_name FROM menu_cat_condiments LEFT JOIN (SELECT condiments_section_id,condiment_section_name FROM menu_section_condiments) msc ON menu_cat_condiments.condiments_section_id = msc.condiments_section_id WHERE cat_condi_status = ? AND msc.condiments_section_id =? ',[
+        $condiments_table = DB::select('SELECT msc.condiments_section_id,cat_condi_id,condiment_section_name,cat_condi_name,cat_condi_price,cat_condi_image,cat_condi_screen_name FROM menu_cat_condiments LEFT JOIN (SELECT condiments_section_id,condiment_section_name FROM menu_section_condiments) msc ON menu_cat_condiments.condiments_section_id = msc.condiments_section_id WHERE cat_condi_status = ? AND msc.condiments_section_id =?',[
             'Active',
             $find_each_id_condiments
         ]);

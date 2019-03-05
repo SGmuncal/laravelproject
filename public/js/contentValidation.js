@@ -1213,10 +1213,11 @@ $(document).ready(function(){
                 var Condiments = stringify['Condiments'];
                 var menu_builder_details_id = stringify['menu_builder_details_id'];
                 var condiments_section_id = stringify['condiments_section_id'];
+                var allow_to_open_condiments = stringify['allow_to_open_condiments'];
                 
 
                 // $('#edit_chainingBuild').append("<tr class='clickable-row'><td>" + Qty + "</td><td class='clickable-row-condiments'>" + Condiments + "</td><td>" + Price + "</td><td style='display:none;' data-attribute-chain-id="+menu_builder_details_id +" class='data-attribute-chain-id'>"+menu_builder_details_id+"</td></tr>");
-               $('#edit_chainingBuild').append("<tr class='clickable-row'><td><input type='number' value="+Qty+" class='form-control'></td><td class='clickable-row-condiments'>" + Condiments + "</td><td>" + Price + "</td><td style='display:none;' data-attribute-condiments-section-id="+condiments_section_id+" data-attribute-chain-id="+menu_builder_details_id +" class='data-attribute-chain-id'>"+menu_builder_details_id+"</td</tr>");
+               $('#edit_chainingBuild').append("<tr class='clickable-row'><td><input type='number' value="+Qty+" class='form-control qty_condiments_edit'></td><td class='clickable-row-condiments'>" + Condiments + "</td><td>" + Price + "</td><td><select class='form-control allow_to_open_condiments'><option selected value="+allow_to_open_condiments+">"+allow_to_open_condiments+"</option><option value='No'>No</option><option value='Yes'>Yes</option></select></td><td style='display:none;' data-attribute-condiments-section-id="+condiments_section_id+" data-attribute-chain-id="+menu_builder_details_id +" class='data-attribute-chain-id'>"+menu_builder_details_id+"</td</tr>");
 
               })
 
@@ -1240,11 +1241,11 @@ $(document).ready(function(){
 
 
 
-$('#edit_chainingBuild').on('click','tr.clickable-row  td:not(:first-child)',function(e){
+$('#edit_chainingBuild').on('click','tr.clickable-row  td:not(:nth-child(1)):not(:nth-child(4))',function(e){
      
       $('table#edit_chainingBuild td.clickable-row-condiments').removeClass('selected');
       $('table#edit_chainingBuild td').removeClass('selected');
-      $(this).closest('tr.clickable-row').find('td:not(:first-child)').addClass('selected');
+      $(this).closest('tr.clickable-row').find('td:not(:nth-child(1)):not(:nth-child(4))').addClass('selected');
 
 
       var find_each_id_will_update = $(this).closest('tr.clickable-row').find('td.data-attribute-chain-id.selected').attr('data-attribute-chain-id');
@@ -1288,12 +1289,10 @@ $('#edit_chainingBuild').on('click','tr.clickable-row  td:not(:first-child)',fun
 
               var condiments_name = $(this).closest("tr").find("td.edit_condimentsScreenNameClicked").text();
               var condimentsScreenPriced = $(this).closest("tr").find("td.edit_condimentsScreenPriced").text();
+              var edit_condimentsID = $(this).closest("tr").find("td.edit_condimentsID").text();
 
-               $('#edit_chainingBuild .selected').eq(0).html(condiments_name);
-                $('#edit_chainingBuild .selected').eq(1).html(condimentsScreenPriced);
-
-              // var x = $('#edit_chainingBuild tr.clickable-row td.clickable-row-condiments.selected td:nth-child(2)').text();
-              // $('#edit_chainingBuild tr.clickable-row td.selected td:nth-child(3)').html(condimentsScreenPriced);
+              $('#edit_chainingBuild .selected').eq(0).html(condiments_name);
+              $('#edit_chainingBuild .selected').eq(1).html(condimentsScreenPriced);
 
 
               // var tableBhtml =  $(this).closest('tr').html();
@@ -1332,14 +1331,18 @@ $('.edit_build_success_insert').click(function(){
               $('table#edit_chainingBuild').find('.clickable-row').each(function (i) {
 
                     var $tds = $(this).find('td'),
-                    condiments_name = $tds.eq(0).text(),
-                    condimentsScreenPriced = $tds.eq(1).text(),
-                    id_to_edit_build = $tds.eq(2).text()
-
+                    condiments_qty =  $(this).closest('tr').find('td').eq(0).find('.qty_condiments_edit').val(),
+                    condiments_name = $tds.eq(1).text(),
+                    condimentsScreenPriced = $tds.eq(2).text(),
+                    allow_to_open_condiments = $(this).closest('tr').find('td').eq(3).find('.allow_to_open_condiments').val(),
+                    id_to_edit_build = $tds.eq(4).text()
+                    
 
                     var formData_edit_condiments = new FormData();
+                    formData_edit_condiments.append('condiments_qty',condiments_qty);
                     formData_edit_condiments.append('condiments_name',condiments_name);
                     formData_edit_condiments.append('condimentsScreenPriced',condimentsScreenPriced);
+                    formData_edit_condiments.append('allow_to_open_condiments',allow_to_open_condiments);
                     formData_edit_condiments.append('id_to_edit_build',id_to_edit_build);
 
                     $.ajax({

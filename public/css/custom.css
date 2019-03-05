@@ -24,6 +24,8 @@ i {
     font-family: FontAwesome;
 }
 
+
+
 .navbar-dark .navbar-toggler {
     color:  rgba(4, 0, 0, 0.2) !important;
     /* border-color:  rgba(12, 0, 0, 0.5) !important; */
@@ -110,22 +112,22 @@ i {
 }
 
 .btn-danger {
-       background-color:#800000 !important;
-     border-color:#800000 !important;
+       background-color:#CF304D !important;
+     border-color:#CF304D !important;
      font-weight: 300px !important;
 }
 
 
 .btn-outline-danger {
 
-     border-color:#800000 !important;
+     border-color:#CF304D !important;
      font-weight: 300px !important;
     
 }
 
 .btn-outline-danger:hover {
-  background-color:#800000 !important;
-       border-color:#800000 !important;
+  background-color:#CF304D !important;
+       border-color:#CF304D !important;
      font-weight: 300px !important;
 }
 
@@ -851,6 +853,12 @@ td, th {
 
 
 .selected{
-    background: #143DF6;
+    background: #30CFB2;
     color:white;
 }
+
+.selected_upsize{
+    background: #CF304D;
+    color:white;
+}
+
