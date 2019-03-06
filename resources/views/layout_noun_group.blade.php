@@ -44,7 +44,7 @@
 	         			@if($noun_data->menu_cat_image == '')
 	         				<td>No Image Uploaded</td>
 	         			@else
-	         				<td><img src="{{url('/storage/'.$noun_data->menu_cat_image.'')}}" style="height:130px; width:250px;" class="img-fluid"></td>
+	         				<td><img src="{{url('/storage/'.$noun_data->menu_cat_image.'')}}" style="height:180px; width:250px;" class="img-fluid"></td>
 	         			@endif
 	         			<td>
 	         				 <button class="btn btn-primary" id="noun_editBtn" value="{{$noun_data->menu_cat_id}}">Edit <i class="far fa-edit"></i></button>

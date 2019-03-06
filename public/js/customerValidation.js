@@ -21,97 +21,96 @@ $(document).ready(function () {
 
 
   //function for getting the data from search product by clicking to the table row
+  $('.append_customer_price_order').hide();
+    $("tr#productClicked").click(function () {
 
-  $("tr#productClicked").click(function () {
+          var menu_name = $(this).closest("tr").find(".menu_name").text();
+          var menu_price = $(this).closest("tr").find(".menu_price").text();
+          var chain_id =  $(this).closest("tr").find(".chain_id").text();
 
-        var menu_name = $(this).closest("tr").find(".menu_name").text();
-        var menu_price = $(this).closest("tr").find(".menu_price").text();
-        var chain_id =  $(this).closest("tr").find(".chain_id").text();
-
-        swal({
-        title: "Are you sure to add " + menu_name + " ?",
-        text: "Once you will add it will automatically send to the cart",
-        icon: "warning",
-        buttons: true,
-        dangerMode: true,
-      })
-      .then((willInsert) => {
-        if (willInsert) {
-          swal("Successfully Added to your form.", {
-            icon: "success",
-          });
-
-         $('.append_customer_noun_order').text(menu_name);
-         $('.append_customer_price_order').text(menu_price);
-          
-
-
-        $.ajax({
-          url:'/get_noun_group_combination',
-          type:'get',
-          data:{chain_id:chain_id},
-          success:function(response){
-             var noun_chaining = response[0].noun_chaining;
-             $.each(noun_chaining, function (index, el) {
-
-              var stringify_noun_chaining = jQuery.parseJSON(JSON.stringify(el));
-
-              // console.log(stringify['menu_cat_image']);
-              var Qty = stringify_noun_chaining['Qty'];
-              var Condiments = stringify_noun_chaining['Condiments'];
-              var Price = stringify_noun_chaining['Price'];
-              var allow_to_open_condiments = stringify_noun_chaining['allow_to_open_condiments'];
-
-              var condiments_section_id = stringify_noun_chaining['condiments_section_id'];
-
-              
-              
-              if(Qty == null && Condiments === null && Price === null)
-              {
-
-              }
-              else
-              {
-                $("table#noun_chaining_order").append("<tr class='editCondiments'><td class='condiments_order_quantity'>"+Qty+"</td><td>"+Condiments+"</td><td class='total'>"+Price+"</td><td class='allow_to_open_condiments_conditional' style='display:none;'>"+allow_to_open_condiments+"</td><td class='condi_section_id' style='display:none;'>"+condiments_section_id+"</td></tr>");
-              }
-              
-
-            })
-
-            var sum_sub_total_price = 0;
-            $('td.total').each(function () {
-
-              sum_sub_total_price += parseFloat($(this).text());
-             
-              
-            
+          swal({
+          title: "Are you sure to add " + menu_name + " ?",
+          text: "Once you will add it will automatically send to the cart",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        })
+        .then((willInsert) => {
+          if (willInsert) {
+            swal("Successfully Added to your form.", {
+              icon: "success",
             });
 
-            var with_decimal_subprice = parseFloat(sum_sub_total_price).toFixed(2);
-            var menu_price_total_condiments = parseFloat(with_decimal_subprice) + parseFloat(menu_price);
-            var menu_price_total_condiments_converted = parseFloat(menu_price_total_condiments).toFixed(2);
-            
-
-            $('.append_customer_noun_order_price').text(menu_price_total_condiments_converted);
-            
-
-          },
-          error:function(response){
-            console.log(response);
-          }
-        });
+           $('.append_customer_price_order').show();
+           $('.append_customer_noun_order').text(menu_name);
+           $('.append_customer_price_order').text(menu_price);
+           
 
 
-        
+          $.ajax({
+            url:'/get_noun_group_combination',
+            type:'get',
+            data:{chain_id:chain_id},
+            success:function(response){
+               var noun_chaining = response[0].noun_chaining;
+               $.each(noun_chaining, function (index, el) {
 
-        $('.tbody_noun_chaining_order').html('');
+                var stringify_noun_chaining = jQuery.parseJSON(JSON.stringify(el));
 
-      }
+                // console.log(stringify['menu_cat_image']);
+                var Qty = stringify_noun_chaining['Qty'];
+                var Condiments = stringify_noun_chaining['Condiments'];
+                var Price = stringify_noun_chaining['Price'];
+                var allow_to_open_condiments = stringify_noun_chaining['allow_to_open_condiments'];
+
+                var condiments_section_id = stringify_noun_chaining['condiments_section_id'];
+
+                
+                
+                if(Qty == null && Condiments === null && Price === null)
+                {
+
+                }
+                else
+                {
+                  $("table#noun_chaining_order").append("<tr class='editCondiments'><td class='condiments_order_quantity'>"+Qty+"</td><td>"+Condiments+"</td><td class='total'>"+Price+"</td><td class='allow_to_open_condiments_conditional' style='display:none;'>"+allow_to_open_condiments+"</td><td class='condi_section_id' style='display:none;'>"+condiments_section_id+"</td></tr>");
+                }
+                
+
+              })
+
+              var sum_sub_total_price = 0;
+              $('td.total').each(function () {
+
+                sum_sub_total_price += parseFloat($(this).text());
+               
+                
+              
+              });
+
+              var with_decimal_subprice = parseFloat(sum_sub_total_price).toFixed(2);
+              var menu_price_total_condiments = parseFloat(with_decimal_subprice) + parseFloat(menu_price);
+              var menu_price_total_condiments_converted = parseFloat(menu_price_total_condiments).toFixed(2);
+              
+
+              $('.append_customer_noun_order_price').text(menu_price_total_condiments_converted);
+              
+
+            },
+            error:function(response){
+              console.log(response);
+            }
+          });
+
+
+          
+
+          $('.tbody_noun_chaining_order').html('');
+
+        }
+      });
+
     });
-
-  });
-
-
 
     $('.conditional_table_hidden_condiments').hide();
 
@@ -142,14 +141,10 @@ $(document).ready(function () {
              {
 
                // $(this).find('tr').addClass('selected');
-               
 
                $(this).closest('tr').addClass('selected');
 
                var find_each_id_condiments = $(this).find('td.condi_section_id').text();
-
-               
-
 
                $("table#customer_table_update_chain_order tbody").html('');
 
@@ -220,8 +215,8 @@ $(document).ready(function () {
 
                        }else if($('#noun_chaining_order').find('tr.selected').length){
 
-                            $('table#noun_chaining_order .selected').after('<tr class="" id="append_imaginary_upsize_condiments"><td contenteditable="true" class="editable_qty">1</td><td>'+customer_edit_condimentsScreenNameClicked+'</td><td>'+customer_edit_condimentsScreenPriced+'</td><td class="allow_to_open_condiments_conditional" style="display:none;"">Yes</td><td class="done_upsizing_condiments"><i class="fas fa-check"></i></td><td class="remove_upsizing_condiments"><i class="far fa-trash-alt"></i></td></tr>');
-                            $('tr#append_imaginary_upsize_condiments td:not(:nth-child(5)):not(:nth-child(6))').addClass('selected_upsize');
+                            $('table#noun_chaining_order .selected').after('<tr class="editCondiments" id="append_imaginary_upsize_condiments"><td contenteditable="true" class="editable_qty">1</td><td>'+customer_edit_condimentsScreenNameClicked+'</td><td class="upsize_price">'+customer_edit_condimentsScreenPriced+'</td><td class="done_upsizing_condiments"><i class="fas fa-check"></i></td><td class="remove_upsizing_condiments"><i class="far fa-trash-alt"></i></td></tr>');
+                            $('tr#append_imaginary_upsize_condiments td:not(:nth-child(4)):not(:nth-child(5))').addClass('selected_upsize');
 
                        }
                        else
@@ -235,29 +230,81 @@ $(document).ready(function () {
 
                        $('td.done_upsizing_condiments').on('click',function(){
 
-                          //computation here..
-                          var condiments_quantity = $(this).closest("tr").find("td.editable_qty").text();
-                          var condiments_order_quantity = $('table#noun_chaining_order').find("tr.selected td.condiments_order_quantity").text();
-                          
-                          var comp_condiments_quantity_vs_condiments_order =  condiments_order_quantity - condiments_quantity;
 
-                          if(comp_condiments_quantity_vs_condiments_order == "0") {
+                          swal({
+                            title: "Do you want to upsize this condiments?",
+                            icon: "warning",
+                            buttons: true,
+                            dangerMode: true,
+                          })
+                            .then((willInsert) => {
+                              if (willInsert) {
 
-                             $('table#noun_chaining_order').find("tr.selected").remove();
-                          }
-                          else
-                          {
-                            $('table#noun_chaining_order').find("tr.selected td.condiments_order_quantity").text(comp_condiments_quantity_vs_condiments_order);
-                          }
+                                //computation here..
+                                var condiments_quantity = $(this).closest("tr").find("td.editable_qty").text();
+                                var condiments_order_quantity = $('table#noun_chaining_order').find("tr.selected td.condiments_order_quantity").text();                             
+                                var comp_condiments_quantity_vs_condiments_order =  condiments_order_quantity - condiments_quantity;
+
+                                if(comp_condiments_quantity_vs_condiments_order == "0") {
+
+                                   $('table#noun_chaining_order').find("tr.selected").remove();
+                                }
+                                else
+                                {
+                                  $('table#noun_chaining_order').find("tr.selected td.condiments_order_quantity").text(comp_condiments_quantity_vs_condiments_order);
+                                }
 
 
-                          $('tr#append_imaginary_upsize_condiments td:not(:nth-child(4)):not(:nth-child(5))').removeClass('selected_upsize');
-                          $('#noun_chaining_order tr').removeClass('selected');
-                          $("#noun_chaining_order td.done_upsizing_condiments").remove();
-                          $("#noun_chaining_order td.remove_upsizing_condiments").remove();
-                          $('td.editable_qty').attr('contenteditable','false');
-                          $('tr#append_imaginary_upsize_condiments').removeAttr('id');
 
+
+
+                                //upsize and total text
+                                var upsize_price = $(this).closest("tr").find("td.upsize_price").text();
+                                var append_customer_noun_order_price = $('.append_customer_noun_order_price').text();
+
+
+                                //multiply quantity and price and set it default
+                                var multiplyed_quantity_price = parseFloat(condiments_quantity) * parseFloat(upsize_price);
+                                //need this
+                                var with_decimal_append_multiplyed_quantity_price = parseFloat(multiplyed_quantity_price).toFixed(2);
+
+                                $('td.upsize_price').text(with_decimal_append_multiplyed_quantity_price);
+                                
+
+                                //get_total_price with upsize
+                                // var with_decimal_upsize_price = parseFloat(upsize_price).toFixed(2);
+                                
+                                var with_decimal_append_customer_noun_order_price = parseFloat(append_customer_noun_order_price).toFixed(2);
+
+                                var menu_price_total_upsize_price = parseFloat(with_decimal_append_multiplyed_quantity_price) + parseFloat(with_decimal_append_customer_noun_order_price);
+                                var menu_price_total_upsize_price_converted = parseFloat(menu_price_total_upsize_price).toFixed(2);
+                                $('.append_customer_noun_order_price').text(menu_price_total_upsize_price_converted);
+                                $('table#noun_chaining_order td').removeClass('upsize_price');
+
+
+
+                                $('tr#append_imaginary_upsize_condiments td:not(:nth-child(4)):not(:nth-child(5))').removeClass('selected_upsize');
+
+                                $('#noun_chaining_order tr').removeClass('selected');
+                                $("#noun_chaining_order td.done_upsizing_condiments").remove();
+                                $("#noun_chaining_order td.remove_upsizing_condiments").remove();
+                                $('td.editable_qty').attr('contenteditable','false');
+                                $('tr#append_imaginary_upsize_condiments').removeAttr('id');
+                                $('.conditional_table_hidden_condiments').hide();
+                                $('.conditional_table_hidden_noun').show();
+                                $("table#customer_table_update_chain_order tbody").remove();
+
+                                swal("Upsize Success", {
+                                  icon: "success",
+                             
+                                });
+
+                              } else {
+                                swal("Cancelled");
+                              }
+                            });
+
+       
 
                        });
                       
@@ -273,12 +320,7 @@ $(document).ready(function () {
                     console.log(response);
                   }
                 });
-             }
-
-            
-
-           
-           
+             }        
         }
         else if(allow_to_open_condiments_conditional == 'Yes' && condiments_order_quantity == '-')
         {
@@ -370,8 +412,11 @@ $(document).ready(function () {
         $('.conditional_table_hidden_noun').show();
 
         $('.conditional_table_hidden_condiments').hide();
+
         $('table#noun_chaining_order tr').removeClass('selected');
-        $("table#customer_table_update_chain_order tbody").html('');
+
+        $("table#customer_table_update_chain_order tbody").remove();
+
     });
 
     $('button#close_customer_modal_chaining').click(function(){
@@ -1133,11 +1178,13 @@ $(document).ready(function(){
 
 
 $("body").on("click", "#show_cart_button",function () {
+
   var fired_button = $(this).val();
 
   $('#customer_details').val(fired_button);
-
   var details_id = $('#customer_details').val();
+
+
 
   $.ajax({
     url: '/customer_data_append',
@@ -1146,13 +1193,19 @@ $("body").on("click", "#show_cart_button",function () {
     data: { customer_id: details_id },
     success: function (response) {
 
+    
+
       var address_customer = response[0]['customer_address'];
       var id_customer = response[0]['customer_id'];
       var province_customer = response[0]['customer_location'];
+      var customer_name = response[0]['customer_name'];
     
       $('#place_customer').text(address_customer);
       $('#hidden_customer_id').val(id_customer);
       $('#hidden_province').val(province_customer);
+      $('#append_customer_name').text(customer_name);
+
+
     
 
     },
@@ -1165,3 +1218,95 @@ $("body").on("click", "#show_cart_button",function () {
 
 
 
+ $(document).ready(function () {
+    $('#add_to_cart').click(function () {
+
+      var customer_id = $('#hidden_customer_id').val();
+      var append_customer_noun_order = $('.append_customer_noun_order').text();
+      var append_customer_noun_order_price = $('.append_customer_noun_order_price').text();
+
+      swal({
+        title: "Are you sure to submit this?",
+        text: "Once inserted, you will not be able to edit the transaction!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+        .then((willInsert) => {
+          if (willInsert) {
+
+            //insert order properties
+            // insert_wish_list_menu_order
+            $.ajax({
+              // url: '/insert_customer_order_properties',
+              url: '/insert_wish_list_menu_order',
+              type: 'post',
+              data: {
+                customer_id: customer_id,
+                append_customer_noun_order: append_customer_noun_order,
+                append_customer_noun_order_price: append_customer_noun_order_price,
+              },
+
+              success: function (response) {
+
+                  $('#noun_chaining_order').find('tr.editCondiments').each(function (i) {
+
+                    var rowCount = $('#noun_chaining_order tr.editCondiments').length;
+
+                    if(rowCount == 0) {
+
+                    }
+                    else
+                    {
+                          var $tds = $(this).find('td'),
+
+                          Qty = $tds.eq(0).text(),
+                          Item = $tds.eq(1).text(),
+                          Cost = $tds.eq(2).text();
+
+                          $.ajax({
+                            // url: '/insert_customer_order_details_properties',
+                            url: '/insert_wish_list_menu_belong_condiments',
+                            type: 'post',
+                            data: {
+                              Qty: Qty,
+                              Item: Item,
+                              Cost: Cost
+                            },
+
+                            success: function (response) {
+
+                            },
+
+                            error: function (response) {
+                              console.log(response);
+                            }
+
+
+                          });
+                    }
+
+
+                  });
+              },
+
+              error: function (response) {
+                console.log(response);
+              }
+
+            });
+
+
+            swal("Add to cart success", {
+              icon: "success",
+            });
+          } else {
+            swal("Cancelled");
+          }
+        });
+
+      
+
+  });
+
+});

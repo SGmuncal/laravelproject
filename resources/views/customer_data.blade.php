@@ -322,14 +322,14 @@
 				    			<label style="color:white;  font-size:15px;">This button will be served as customers menu.</label><br>
 				    			<div style="line-height:15px;">
 
-							    	<b style="font-size:17px; font-weight: 300; color:white;"><label>Order #: </label> <label id="or_number" style="font-weight: 300;"> {{ rand()}}</label></b>
+							    	<b style="font-size:17px; font-weight: 300; color:white;"><label>Customer: </label> <label id="append_customer_name" style="font-weight: 300;"> </label></b>
 							    	<label style="font-size:17px; font-weight: 300; color:white;">Deliver to: <label id="place_customer" style="font-weight: 300;"></label> </label>
 
 					     	 	</div>	
 				    			
 
 					     	 	<br>
-								<h3 style="color:white; font-weight:bold;" class="append_customer_noun_order"></h3>
+								<h4 style="color:white; font-weight:bold;" class="append_customer_noun_order"></h4>
 								<h5 style="color:white;" class="append_customer_price_order"></h5>
 								<br>
 				    			<input type="hidden" value="" class="hidden_noun_id" name="">
@@ -348,12 +348,14 @@
 					    			<!-- <button type="button" style="" class="form-control btn-primary"></button> -->
 					    			<hr>
 					    			<div class="row">
+					    				<input type="hidden" name="" value="" id="hidden_customer_id">
+					    				<input type="hidden" value="" id="customer_details">
 					    				<div class="col-md-7"  style="color:white; font-size: 30px; font-weight: bold;">Total:</div>
 					    				<div class="col-md-3" style="color:white; font-weight: bold; font-size: 30px;"><p class="append_customer_noun_order_price">0.00</p></div>
 					    			</div>
 					    			<hr>
 				    			 <br>
-				    			 <button type="button" class="btn btn-primary" style="background-color:#3D0081; border-color:#3D0081;" id="checkout_button">Add To Customer Cart</button>
+				    			 <button type="button" class="btn btn-primary" style="background-color:#3D0081; border-color:#3D0081;" id="add_to_cart">Add To Customer Cart</button>
 				    		</div>
 	     	 			</div>
 	     	 		</div>
@@ -363,120 +365,6 @@
     </div>
   </div>
 </div>
-
-
-
-
-
-<!-- imaginary cart -->
-
-<div class="modal fade" id="imaginary_cart" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-keyboard="false" data-backdrop="static">
-  <div class="modal-dialog modal-lg float-right" role="document" style="width:35%;">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Shopping Cart</h5>
-        <div class="col-md-6"></div>
-        <div class="col-md-1"><button class="btn btn-primary" type="button" id="btn-add-product" data-toggle="modal" data-target="#add_product"><i class="fas fa-cart-arrow-down"></i></button></div>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="refresh_order">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-     	    <div class="modal-body">
-		     	 <div  style="overflow-y:scroll; height:430px;">
-		     	 	
-		     	 	<!-- <div style="line-height:15px;">
-		     	 		<label style="font-size:14px; font-weight: 600;">Deliver to: <label id="place_customer"></label> </label><br>
-				    	<b style="font-size:14px; font-weight: 600;"><label>Order #: </label><label id="or_number"> {{ rand()}}</label></b>
-		     	 	</div> -->
-		     	 	<br>		
-		     	 	<div class="table-responsive">
-		     	  		<table class="table table-hover" id="imaginary_myTable">
-					        <thead>
-					            <tr style="font-size: 14px; ">
-					            	<th scope="col">#</th>
-					                <th scope="col">Qty</th>
-					                <th scope="col">Item</th>
-					                <th scope="col" style="text-align: right">Cost</th>
-					                <th scope="col" style="text-align: right">Total</th>
-					            </tr>
-					        </thead>
-					        <tbody style="font-size:14px;">	        		
-				        	
-					        </tbody>
-
-					    </table>
-					     
-					    <hr>
-					    <br>
-				     	<div class="container">
-				     		
-				     		<input type="hidden" name="" value="" id="hidden_customer_id">
-				     		<input type="hidden" name="" value="" id="hidden_province">
-				     		
-			     			<div class="row">
-
-			     				<div class="col-md-5">
-			     					
-			     					<div class="cart-detail" style="font-size:14px;">
-			     						<label><b>Items:</b></label><br>
-			     						<label><b>Subtotal:</b></label><br>
-					     				<label><b>Tax GST 5%:</b></label><br>
-					     				<label><b>Delivery Charge $5</b></label>
-					     				<hr>
-					     				<label style="font-size: 20px;"><b>Total:</b></label>
-			     					</div>
-			     				</div>
-			     			
-			     				<br>
-			     				<div class="col-md-1"></div>
-			     				<div class="col-md-2"></div>
-			     				<div class="col-md-3">
-			     					<div class="cart-detail" style="font-size:14px; position: relative; left:15px;">
-			     						<label id="total_item_count">0</label><br>
-			     						<label id="sub_total">0.00</label><br>
-			     						@if(Auth::user())
-			     							@foreach($tax as $province_tax_rate)
-				     							<label id="province_tax_rate">{{$province_tax_rate->value}}</label>
-				     						@endforeach
-			     						@endif
-			     						<label id="label_province_tax_rate">0.00</label> <br>
-
-			     						@if(Auth::user())
-			     							@foreach($delivery_charge as $charge_rate)
-				     							<label id="delivery_charge" style="display:none;">{{$charge_rate->charge_value}}</label>
-				     						@endforeach
-			     						@endif
-			     						<label id="label_delivery_charge">0.00</label>
-
-			     						<br><br>
-			     						<b><label id="total_price_label" style="font-size:20px;">0.00</label></b>
-			     					</div>
-			     				</div>
-			     				
-			     			</div>
-
-			     			<input type="hidden" value="" id="customer_details">
-			     			<input type="hidden" value="" class="imaginary_qty_upsize_condiments" name="">
-				     		
-				     	</div>
-					    
-		     	  	</div>
-				    <br><br>
-				   
-		     	 </div>
-	     	  </div>
-	      
-
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-primary" id="checkout_button" style="background: linear-gradient(-25deg, #00e4d0, #5983e8); border-color:transparent;">Proceed to Checkout</button>
-	      </div>
-	    
-    </div>
-  </div>
-</div>
-
-
-
 
 
 

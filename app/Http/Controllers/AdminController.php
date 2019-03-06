@@ -2210,25 +2210,21 @@ class AdminController extends Controller
     }
 
 
-    public function insert_customer_order_properties(Request $request) {
+    public function insert_wish_list_menu_order(Request $request) {
 
         $customer_id = $request->get('customer_id');
-        $order_ship_address = $request->get('order_ship_address');
-        $order_ship_province = $request->get('order_ship_province');
-        $order_number = $request->get('order_number');
+        $append_customer_noun_order = $request->get('append_customer_noun_order');
+        $append_customer_noun_order_price = $request->get('append_customer_noun_order_price');
         $now = new DateTime();
 
 
-        DB::insert('INSERT INTO order_properties (customer_id,order_date,or_number,order_ship_address,order_ship_province) 
-            VALUES(?,?,?,?,?) ',[
+        DB::insert('INSERT INTO wish_list_menu_order (customer_id,wish_list_menu_name,wish_list_total_price,wish_created_at) 
+            VALUES(?,?,?,?) ',[
 
              $customer_id,
+             $append_customer_noun_order,
+             $append_customer_noun_order_price,
              $now,
-             $order_number,
-             $order_ship_address,
-             $order_ship_province
-
-
         ]);
         
         return response()->json('Successfully Inserted');
@@ -2236,14 +2232,16 @@ class AdminController extends Controller
     } 
 
 
-    public function insert_customer_order_details_properties(Request $request) {
+    public function insert_wish_list_menu_belong_condiments(Request $request) {
 
         
-        $product_id = $request->get('product_id');
-        $UnitPrice = $request->get('UnitPrice');
-        $Quantity = $request->get('Quantity');
+        $Qty = $request->get('Qty');
+        $Item = $request->get('Item');
+        $Cost = $request->get('Cost');
 
-        $last_id_insert = DB::select('SELECT max(order_id) as id FROM order_properties');
+        $now = new DateTime();
+
+        $last_id_insert = DB::select('SELECT max(wish_menu_id) as id FROM wish_list_menu_order');
 
         foreach($last_id_insert as $result)
         {
@@ -2251,13 +2249,14 @@ class AdminController extends Controller
 
         }
 
-        DB::insert('INSERT INTO order_details_properties (order_properties_id,product_id,UnitPrice,Quantity) 
-            VALUES(?,?,?,?) ',[
+        DB::insert('INSERT INTO wish_list_menu_belong_condiments (wish_menu_id,belong_condi_name,belong_condi_qty,belong_condi_price,belong_condi_created) 
+            VALUES(?,?,?,?,?) ',[
 
              $id_last_inserted,
-             $product_id,
-             $UnitPrice,
-             $Quantity
+             $Item,
+             $Qty,
+             $Cost,
+             $now
 
 
         ]);
@@ -2801,7 +2800,7 @@ class AdminController extends Controller
     public function layout_sub_menu_group() {
 
 
-        $sub_menu_section = DB::select('SELECT menu_id,menu_section_id,menu_name,menu_desc,menu_main_image FROM menu WHERE menu_status = ?',['Active']); 
+        $sub_menu_section = DB::select('SELECT menu_sec_name,menu_id,menu_section_id,menu_name,menu_desc,menu_main_image FROM menu_section LEFT JOIN (SELECT menu_id,menu_section_id,menu_name,menu_desc,menu_main_image,menu_status FROM menu) m ON menu_section.menu_sec_id = m.menu_section_id WHERE menu_status = ?',['Active']); 
 
         $menu_section_id = DB::select('SELECT menu_sec_id,menu_sec_name FROM menu_section WHERE menu_sec_status = ? ',['Active']);
 
@@ -3484,6 +3483,11 @@ class AdminController extends Controller
         ]);
 
         return response()->json(array(['noun_chaining' => $noun_chaining]));
+    }
+
+
+    public function customers_wish_list(Request $request) {
+        return View('customers_wish_list');
     }
 
 

@@ -22,6 +22,7 @@
 	          <thead>
 	            <tr>
 	              <th>Id</th>
+	              <th>Section Menu</th>
 	              <th>Sub Menu Name</th>
 	              <th>Sub Menu Description</th>
 	              <th>Sub Menu Images</th>
@@ -32,13 +33,14 @@
 		         	@foreach($sub_menu_section as $sub_section_data)
 		         		<tr>
 		         			<td>{{$sub_section_data->menu_id}}</td>
+		         			<td>{{$sub_section_data->menu_sec_name}}</td>
 		         			<td>{{$sub_section_data->menu_name}}</td>
 		         			<td>{{$sub_section_data->menu_desc}}</td>
 		         			
 		         			@if($sub_section_data->menu_main_image == '')
 		         				<td>No Image Uploaded</td>
 		         			@else
-								<td><img src="{{url('/storage/'.$sub_section_data->menu_main_image.'')}}" style="height:130px; width:250px;" class="img-fluid"></td>
+								<td><img src="{{url('/storage/'.$sub_section_data->menu_main_image.'')}}" style="height:180px; width:250px;" class="img-fluid"></td>
 		         			@endif
 		         			<td>
 	                           <button class="btn btn-primary" id="sub_menu_group_editBtn" value="{{$sub_section_data->menu_id}}">Edit <i class="far fa-edit"></i></button>

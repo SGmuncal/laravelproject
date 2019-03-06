@@ -912,7 +912,7 @@ $(document).ready(function(){
  $(document).ready(function() {
 
         $('.first_render').DataTable( {
-            "pageLength": 2,
+            "pageLength": 8,
              "bInfo": false ,
              "bLengthChange": false,
 
@@ -920,7 +920,7 @@ $(document).ready(function(){
 
 
         $('.second_render').DataTable( {
-            "pageLength": 2,
+            "pageLength": 8,
              "bInfo": false ,
              "bLengthChange": false,
 

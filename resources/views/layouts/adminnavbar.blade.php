@@ -425,7 +425,10 @@
                                     <a href="{{ url('customer_data') }}" >Ordering</a>
                                 </li>
                                 <li>
-                                    <a href="{{ url('customers_details') }}">Customers Details</a>
+                                    <a href="{{ url('customers_wish_list') }}">Customers Cart</a>
+                                </li>
+                                <li>
+                                    <a href="{{ url('customers_details') }}">Customers Transaction History</a>
                                 </li>
                                 <li>
                                     <a href="{{ url('delivery_status') }}" >Delivery Status</a>

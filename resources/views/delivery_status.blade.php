@@ -15,7 +15,7 @@
 		<div class="row">
 			<div class="col-md-3">
 				<div id="launchPad" style="overflow-y: scroll; height:700px;">
-					<div class="stackHdr" style="background-color:#800000; color:white; text-align: center; width:230px;">
+					<div class="stackHdr" style="background: linear-gradient(-20deg, #00e4d0, #5983e8); color:white; text-align: center; width:230px;">
 				        <text>Open Orders</text>
 				    </div>    
 					@foreach($customer_orders_details as $transac_details)
@@ -55,7 +55,7 @@
 			<div class="col-md-3">
 				<div id="dropZone">
 				    <div class="stack"  style="width:240px;">
-				        <div class="stackHdr" style="background-color:#800000; color:white;  text-align: center;">
+				        <div class="stackHdr" style="background: linear-gradient(-20deg, #00e4d0, #5983e8); color:white;  text-align: center;">
 				            <text>In the Kitchen</text>
 				        </div>
 				        <center>
@@ -100,7 +100,7 @@
 			<div class="col-md-3">
 				<div id="dropZone">
 				    <div class="stack"  style="width:240px;">
-				        <div class="stackHdr" style="background-color:#800000; color:white;  text-align: center;">
+				        <div class="stackHdr" style="background: linear-gradient(-20deg, #00e4d0, #5983e8); color:white;  text-align: center;">
 				            <text>On the Road</text>
 				        </div>
 				        <center>
@@ -145,7 +145,7 @@
 			<div class="col-md-3">
 				<div id="dropZone">
 				    <div class="stack"  style="width:240px;">
-				        <div class="stackHdr" style="background-color:#800000;  color:white;  text-align: center;">
+				        <div class="stackHdr" style="background: linear-gradient(-20deg, #00e4d0, #5983e8); color:white;  text-align: center;">
 				            <text>Completed</text>
 				        </div>
 				        <center>

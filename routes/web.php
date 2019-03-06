@@ -240,8 +240,9 @@ Route::get('/customize_customer_order/','AdminController@customize_customer_orde
 Route::get('/customer_data_append/','AdminController@customer_data_append')->name('customer_data_append');
 
 
-Route::post('/insert_customer_order_properties','AdminController@insert_customer_order_properties')->name('insert_customer_order_properties');
-Route::post('/insert_customer_order_details_properties','AdminController@insert_customer_order_details_properties')->name('insert_customer_order_details_properties');
+Route::post('/insert_wish_list_menu_order','AdminController@insert_wish_list_menu_order')->name('insert_customer_order_properties');
+
+Route::post('/insert_wish_list_menu_belong_condiments','AdminController@insert_wish_list_menu_belong_condiments')->name('insert_wish_list_menu_belong_condiments');
 
 Route::post('/insert_customer_payment_details','AdminController@insert_customer_payment_details')->name('insert_customer_payment_details');
 
@@ -355,4 +356,4 @@ Route::get('/get_each_id_section_condiments','AdminController@get_each_id_sectio
 Route::get('/get_noun_group_combination','AdminController@get_noun_group_combination')->name('get_noun_group_combination');
 
 
-
+Route::get('/customers_wish_list','AdminController@customers_wish_list')->name('customers_wish_list');
