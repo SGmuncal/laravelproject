@@ -3485,10 +3485,64 @@ class AdminController extends Controller
         return response()->json(array(['noun_chaining' => $noun_chaining]));
     }
 
+    public function customers_cart(Request $request) {
+        if(Auth::user())
+        {
+            $get_customer_details = DB::select('SELECT customer_id,name,role,customer_name,customer_address,customer_number,customer_registered,customer_email,customer_status,customer_location FROM customer_details as cd LEFT JOIN (SELECT * FROM users) users ON cd.customer_location = users.manager_location_assign WHERE customer_location = ? GROUP BY customer_id,customer_name ',[
 
-    public function customers_wish_list(Request $request) {
-        return View('customers_wish_list');
+                Auth::user()->store_name
+            
+                
+
+            ]);
+
+           return View('customers_cart')->with('customer_details',$get_customer_details);
+        }
     }
+
+    public function customers_wish_list(Request $request, $id) {
+
+        $customer_details_id = DB::select('SELECT * FROM customer_details WHERE customer_id = ? ',[$id]);
+
+        $select_delivery_charge = DB::select('SELECT charge_value FROM delivery_charge_rate');
+
+        // $select_order_properties = DB::select('SELECT * FROM order_properties WHERE customer_id = ? ORDER BY order_id DESC LIMIT 3',[$id]);
+
+        // $select_order_details = DB::select('SELECT order_properties_id,menu_cat_image,or_number,Quantity,Subtotal,menu_cat_name FROM order_properties as op LEFT JOIN (SELECT order_properties_id,product_id,UnitPrice,Quantity,(UnitPrice * Quantity) as Subtotal FROM order_details_properties) odp ON op.order_id = odp.order_properties_id 
+        // LEFT JOIN (SELECT menu_cat_image,menu_cat_name,menu_cat_id FROM menu_category) mc ON odp.product_id = mc.menu_cat_id
+        // WHERE customer_id = ?  ',[
+        //     $id
+        // ]);
+
+        $wish_list_menu_order = DB::select('SELECT wish_menu_id,customer_id,wish_list_menu_name,wish_list_total_price FROM wish_list_menu_order WHERE customer_id = ? ',[$id]);
+
+        $wish_list_menu_belong_condiments = DB::select('SELECT customer_id,wlmbc.wish_menu_id,wish_list_menu_name,belong_condi_name,belong_condi_qty,wish_list_total_price FROM wish_list_menu_order as wlmo LEFT JOIN (SELECT wish_menu_id,belong_condi_name,belong_condi_qty,belong_condi_price FROM wish_list_menu_belong_condiments) wlmbc ON wlmo.wish_menu_id = wlmbc.wish_menu_id WHERE customer_id = ?',[$id]);
+
+        $get_tax = DB::select('SELECT name,province_name,value FROM users LEFT JOIN(SELECT province_name,value FROM province_tax) pt ON users.manager_location_assign = pt.province_name WHERE users.role = ? LIMIT 1 ',[
+
+                Auth::user()->role
+            ]);
+
+
+        return View('customers_wish_list')
+        ->with('customer_details',$customer_details_id)
+        ->with('delivery_charge',$select_delivery_charge)
+        ->with('wish_list_menu_order',$wish_list_menu_order)
+        ->with('wish_list_menu_belong_condiments',$wish_list_menu_belong_condiments)
+        ->with('get_tax',$get_tax);
+    }
+
+    public function remove_order_in_the_list(Request $request) {
+
+        $order_item_id  = $request->get('order_item_id');
+        DB::delete('DELETE FROM wish_list_menu_order WHERE wish_menu_id = ?',[$order_item_id]);
+        DB::delete('DELETE FROM wish_list_menu_belong_condiments WHERE wish_menu_id = ?',[$order_item_id]);
+
+        return response()->json('Successfully Deleted');
+
+    }
+
+
 
 
 }

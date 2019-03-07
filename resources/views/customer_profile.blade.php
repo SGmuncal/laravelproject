@@ -7,7 +7,7 @@
 	<h3>Manage Account</h3>
 	<br>
 	<div class="row">
-		<div class="col-md-4">
+		<div class="col-md-4">s
 			<div class="card">
 			  <div class="card-header" style="background: linear-gradient(-25deg, #00e4d0, #5983e8); color:white;">
 			    <i class="fas fa-users"></i> Personal Profile

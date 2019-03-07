@@ -356,4 +356,6 @@ Route::get('/get_each_id_section_condiments','AdminController@get_each_id_sectio
 Route::get('/get_noun_group_combination','AdminController@get_noun_group_combination')->name('get_noun_group_combination');
 
 
-Route::get('/customers_wish_list','AdminController@customers_wish_list')->name('customers_wish_list');
+Route::get('/customers_wish_list/{id}','AdminController@customers_wish_list')->name('customers_wish_list');
+Route::get('/customers_cart','AdminController@customers_cart')->name('customers_cart');
+Route::post('/remove_order_in_the_list','AdminController@remove_order_in_the_list')->name('remove_order_in_the_list');

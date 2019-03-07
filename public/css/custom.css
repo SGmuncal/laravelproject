@@ -582,6 +582,18 @@ td.dollar:before {
   content: "$";
 }
 
+.total_wish_sub_total:before {
+  content: "$";
+}
+
+.total_tax_rate_computation:before {
+  content:"$";
+}
+
+.total_price_label:before {
+  content:"$";
+}
+
 .noun_build_item:before {
   content: "CH: ";
 }
@@ -862,3 +874,9 @@ td, th {
     color:white;
 }
 
+#hover_row_order:hover {
+  background-color:#007BFF;
+  color:white;
+  transition: 1s;
+  font-weight: 300;
+}

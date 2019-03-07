@@ -1310,3 +1310,91 @@ $("body").on("click", "#show_cart_button",function () {
   });
 
 });
+
+
+ $(document).ready(function(){
+
+    
+      var total_wish_order = $('.total_wish_order').length;
+
+      $('.total_order_count').text(total_wish_order);
+      
+      var sum_sub_total_price = 0;
+
+      $('label.compute_order_prices').each(function () {
+        sum_sub_total_price += parseFloat($(this).text().replace('$',''));
+        
+      });
+        
+      var sum_sub_total_price_converted_fixed = parseFloat(sum_sub_total_price).toFixed(2);
+       $('.total_wish_sub_total').text(sum_sub_total_price_converted_fixed);
+
+      //get the tax rate computation
+
+      var province_tax_rate = $('.tax_rate').val();
+      var total_wish_subtotal = $('.total_wish_sub_total').text();
+
+      var convert_to_float_tax = parseFloat(province_tax_rate).toFixed(2);
+      var covert_total_wish_subtotal = parseFloat(total_wish_subtotal).toFixed(2);
+     
+      var computation_subtotal_with_tax = parseFloat(covert_total_wish_subtotal) * parseFloat(convert_to_float_tax);
+      $('.total_tax_rate_computation').text(parseFloat(computation_subtotal_with_tax).toFixed(2));
+
+      var get_delivery_rate = $('.delivery_rate').text().replace('$','');
+      var delivery_rate = parseFloat(get_delivery_rate).toFixed(2);
+
+      var grand_price = parseFloat(covert_total_wish_subtotal) + parseFloat(computation_subtotal_with_tax) + parseFloat(delivery_rate);
+      $('.total_price_label').text(parseFloat(grand_price).toFixed(2));
+
+ });
+
+
+ $(document).ready(function(){
+    $('.remove_wish_order').on('click',function(){
+        
+        var order_item_id = $(this).attr('data-attribute-delete-wish-order');
+
+        swal({
+          title: "Do you want to delete your order?",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        })
+          .then((willInsert) => {
+            if (willInsert) {
+
+               $.ajax({
+                url:'/remove_order_in_the_list',
+                type:'POST',
+                data:{order_item_id: order_item_id},
+                success:function(response){
+                  console.log(response);
+
+                  location.reload();
+                },  
+                error:function(response){
+                  console.log(response);
+                }
+
+              })
+
+              swal("Order remove", {
+                icon: "success",
+              });
+
+         
+            } else {
+              swal("Cancelled");
+            }
+        });
+
+       
+    })
+ });
+
+
+ $(document).ready(function(){
+    $('#btn_order_peroperties').on('click',function(){
+      
+    });
+ })
