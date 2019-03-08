@@ -9,16 +9,17 @@
 
 @foreach($get_tax as $tax)
 @endforeach
-
+<input type="hidden" class="hidden_customer_id" value="{{$customer_detail->customer_id}}" name="">
+<input type="hidden" class="hidden_province" value="@if(Auth::user()){{Auth::user()->manager_location_assign}}@endif" name="">
 <div class="container">
 
 	<div class="row">
 		<div class="col-md-4">
 			<div class="card">
-			  <div class="card-header" style="background: linear-gradient(-25deg, #00e4d0, #5983e8); color:white;">
+			  <div class="card-header">
 			    <i class="fas fa-users"></i> Personal Profile
 			  </div>
-			  <div class="card-body">
+			  <div class="card-body" style="background: linear-gradient(-25deg, #00e4d0, #5983e8); color:white;">
 			    <label>{{$customer_detail->customer_name}}</label><br>
 			    <label>{{$customer_detail->customer_email}}</label>
 			  </div>
@@ -27,14 +28,14 @@
 
 		<div class="col-md-4">
 			<div class="card">
-			  <div class="card-header" style="background: linear-gradient(-25deg, #00e4d0, #5983e8); color:white;">
+			  <div class="card-header" >
 			     <i class="fas fa-address-card"></i> Default Shipping Address
 			  </div>
-			  <div class="card-body">
+			  <div class="card-body" style="background: linear-gradient(-25deg, #00e4d0, #5983e8); color:white;">
 			    <label></label>
 			    <label>{{$customer_detail->customer_name}}</label>
 			    <div style="font-size:14px; line-height: 9px;">
-			    	<label>{{$customer_detail->customer_address}}</label><br>
+			    	<label class="hidden_customer_address">{{$customer_detail->customer_address}}</label><br>
 			    	<label>{{$customer_detail->customer_number}}</label>
 			    </div>
 			  </div>
@@ -42,10 +43,10 @@
 		</div>
 		<div class="col-md-4">
 			<div class="card">
-			  <div class="card-header" style="background: linear-gradient(-25deg, #00e4d0, #5983e8); color:white;">
+			  <div class="card-header" >
 			    <i class="fas fa-truck"></i> Delivery Charge
 			  </div>
-			  <div class="card-body">
+			  <div class="card-body" style="background: linear-gradient(-25deg, #00e4d0, #5983e8); color:white;">
 			    <p><i class="fas fa-check"></i> <b>${{$charge->charge_value}}</b></p>
 			    <br>
 			  </div>
@@ -64,37 +65,46 @@
 			</div>
 		</div>
 		<hr>
-		@foreach($wish_list_menu_order as $wish_list_order)
+		<?php
+			$today = date("Ymd");
+			$rand = strtoupper(substr(uniqid(sha1(time())),0,4));
+			echo "<input type='hidden' class='hidden_order_number_rand' value='".$unique = $today . $rand."'>";
+		?>
+
+		@if (count($wish_list_menu_order) > 0)
+
+			@foreach($wish_list_menu_order as $wish_list_order)
 
 			
-			<div class="row">
+				<div class="row">
 
-				<div class="col-md-11">
+					<div class="col-md-11">
 
-					<p style="font-weight: bold;" class="total_wish_order" data-attribute-wish-order-id='{{$wish_list_order->wish_menu_id}}'>{{$wish_list_order->wish_list_menu_name}} <br></p>
+						<p style="font-weight: bold;" class="total_wish_order get_wish_order_id" data-attribute-wish-order-id='{{$wish_list_order->wish_menu_id}}'>{{$wish_list_order->wish_list_menu_name}} <br></p>
 
-					@foreach($wish_list_menu_belong_condiments as $wish_menu_condiments)
+						@foreach($wish_list_menu_belong_condiments as $wish_menu_condiments)
 
-						@if($wish_menu_condiments->wish_menu_id == $wish_list_order->wish_menu_id)
-							&nbsp;&nbsp;&nbsp;<label>{{$wish_menu_condiments->belong_condi_qty}}x {{$wish_menu_condiments->belong_condi_name}}</label><br>
-						@endif
+							@if($wish_menu_condiments->wish_menu_id == $wish_list_order->wish_menu_id)
+								&nbsp;&nbsp;&nbsp;<label>{{$wish_menu_condiments->belong_condi_qty}}x {{$wish_menu_condiments->belong_condi_name}}</label><br>
+							@endif
 
-					@endforeach
-					
+						@endforeach
+						
+					</div>
+
+					<div class="col-md-1">
+						<i class="far fa-trash-alt remove_wish_order" data-attribute-delete-wish-order='{{$wish_list_order->wish_menu_id}}' style="cursor: pointer; color:#007BFF;"></i><br><br>
+						<label style="font-weight: bold;" class="compute_order_prices">${{$wish_list_order->wish_list_total_price}}</label>
+					</div>
+
 				</div>
 
-				<div class="col-md-1">
-					<i class="far fa-trash-alt remove_wish_order" data-attribute-delete-wish-order='{{$wish_list_order->wish_menu_id}}' style="cursor: pointer; color:#007BFF;"></i><br><br>
-					<label style="font-weight: bold;" class="compute_order_prices">${{$wish_list_order->wish_list_total_price}}</label>
-				</div>
+				<hr>
 
-			</div>
+				
 
-			<hr>
-
-
-			
-		@endforeach
+				
+			@endforeach
 
 			<div class="d-flex">
 				
@@ -119,15 +129,22 @@
 				</div>
 			</div>
 
-			
-		
-		<br><br><br>
-		<center>
-			<div class="col-md-6">
-				<button class="btn btn-primary form-control" id="btn_order_peroperties" style="height:50px;">Proceed to processing</button><br><br>
-				<button class="btn btn-outline-danger form-control" style="height:50px;">Add More Food</button><br>
+			<br><br><br>
+			<center>
+				<div class="col-md-6">
+					<button class="btn btn-primary form-control" id="btn_order_peroperties" style="height:50px;">Proceed to processing</button><br><br>
+					<a href="/customer_data" class="btn btn-outline-danger form-control" style="height:50px;">Add More Food</a><br>
+				</div>
+			</center>
+
+
+		@else
+
+			<div class="jumbotron" style="background: linear-gradient(-25deg, #00e4d0, #5983e8); color:white;">
+				<center><h2>YOUR CART IS EMPTY</h2><br><a class="btn btn-primary" href="/customer_data" role="button">Add More Food</a></center>
 			</div>
-		</center>
+
+		@endif
 	</div>
 </div>
 

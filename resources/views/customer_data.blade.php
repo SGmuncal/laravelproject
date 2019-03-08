@@ -66,28 +66,61 @@
 @if(Auth::user())
 <input type="hidden" name="" id="auth_postal_code" value="{{Auth::user()->store_postal_code}}">
 @endif
-<div class="jumbotron" style="background-color:#3366CC;">
+<div class="row">
+	<div class="col-md-4">
+		<div class="card">
+		  <div class="card-header">
+		    <i class="fas fa-users"></i> Customers
+		  </div>
+		  <div class="card-body" style="background: linear-gradient(-25deg, #00e4d0, #5983e8); color:white;">
+		    <i class="far fa-user" style="font-size:40px; color:white !important;"> </i> <label style="font-weight: 300; font-size:40px; color:white">{{ $total_users }}</label>
+				 <br>
+				 <label style="font-weight: bold; color:white">Total Customers</label>
+		  </div>
+		</div>
+	</div>
+
+	<div class="col-md-4">
+		<div class="card">
+		  <div class="card-header" >
+		     <i class="fas fa-address-card"></i> Ordered
+		  </div>
+		  <div class="card-body" style="background: linear-gradient(-25deg, #00e4d0, #5983e8); color:white;">
+			   	<i class="fas fa-cart-plus" style="font-size:40px; color:white !important;"></i>  <label style="font-weight: 300; font-size:40px; color:white">{{ $total_users_already_delivered }}</label>
+					 <br>
+					 <label style="font-weight: bold; color:white">Total Customers Ordered</label>
+			  </div>
+			</div>
+		</div>
+	<div class="col-md-4">
+		<div class="card">
+		  <div class="card-header" >
+		    <i class="fas fa-truck"></i> Canceled Order
+		  </div>
+		  <div class="card-body" style="background: linear-gradient(-25deg, #00e4d0, #5983e8); color:white;">
+		     <i class="fas fa-bell-slash" style="font-size:40px; color:white !important;"></i>   <label style="font-weight: 300; font-size:40px; color:white">{{ $total_users_cancelled_deliver }}</label>
+				 <br>
+				 <label style="font-weight: bold; color:white">Total Customers Canceled Order</label>
+		  </div>
+		</div>
+	</div>
+</div>
+<!-- <div class="jumbotron" style="background-color:#3366CC;">
 	
 	<center>
 		<div class="row">
 			<div class="col-md-4">
-				 <i class="far fa-user" style="font-size:50px; color:white !important;"> </i> <label style="font-weight: 300; font-size:50px; color:white">{{ $total_users }}</label>
-				 <br><br>
-				 <label style="font-weight: bold; color:white">Total Customers</label>
+				 
 			</div>
 			<div class="col-md-4">
-				 <i class="fas fa-cart-plus" style="font-size:50px; color:white !important;"></i>  <label style="font-weight: 300; font-size:50px; color:white">{{ $total_users_already_delivered }}</label>
-				 <br><br>
-				 <label style="font-weight: bold; color:white">Total Customers Ordered</label>
+				 
 			</div>
 			<div class="col-md-4">
-				 <i class="fas fa-bell-slash" style="font-size:50px; color:white !important;"></i>   <label style="font-weight: 300; font-size:50px; color:white">{{ $total_users_cancelled_deliver }}</label>
-				 <br><br>
-				 <label style="font-weight: bold; color:white">Total Customers Canceled Order</label>
+				
 			</div>
 		</div>
 	</center>
-</div>
+</div> -->
 
 
 
@@ -99,7 +132,7 @@
 				<br><br>
 				<table id="tables" class="table table-striped table-bordered" style="width:100%;">
 		        <thead>
-		            <tr style="background-color:none !important; border-style:hidden !important; font-size: 14px; ">
+		            <tr style="background: linear-gradient(-25deg, #00e4d0, #5983e8); color:white; font-size:14px; text-align: center;">
 		                <th scope="col">Name</th>
 		                <th scope="col">Ship to</th>
 		                <th scope="col">Email</th>

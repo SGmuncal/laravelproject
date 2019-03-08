@@ -759,6 +759,7 @@ $('#dismiss_monitoring_detail').click(function () {
 
 
 $('button#gather_customer_order').on('click', function () {
+
   var order_id = $(this).attr('data-order-id');
   var customer_id = $(this).attr('data-customer-id');
 
@@ -779,10 +780,8 @@ $('button#gather_customer_order').on('click', function () {
         type: 'GET',
         dataType: 'json',
         data: { response_order_id: response_order_id, response_customer_id: response_customer_id },
+
         success: function (res) {
-
-
-
 
           var customers_details_id = jQuery.parseJSON(JSON.stringify(res[0].customers_details_id));
 
@@ -799,41 +798,24 @@ $('button#gather_customer_order').on('click', function () {
 
           $('.order_number_monitoring').append(response_order_number)
 
-
-          // var select_order_properties = jQuery.parseJSON(JSON.stringify(res[0].select_order_properties));
-          // console.log(select_order_properties);
           var select_delivery_charge = jQuery.parseJSON(JSON.stringify(res[0].select_delivery_charge));
           $('#label_delivery_charge').append(select_delivery_charge[0].charge_value);
 
 
+          var select_order_details = jQuery.parseJSON(JSON.stringify(res[0].select_order_details));
+
           var select_order_properties = jQuery.parseJSON(JSON.stringify(res[0].select_order_properties));
-          $('#label_province_tax_rate').append(select_order_properties[0].total_tax);
 
+          $.each(select_order_properties, function (index, el) {
 
+              var stringify = jQuery.parseJSON(JSON.stringify(el));
+              console.log(stringify);
 
-          var select_order_details = response[0].select_order_details;
-
-          var select_order_details_monitor = res[0].select_order_properties;
-
-          $('#label_province_tax_rate').append(select_order_details_monitor[0].charge_value);
-          $('#sub_total').append(select_order_details_monitor[0].subtotal);
-          $('#total_price_label').append(select_order_details_monitor[0].amount);
-
-
-
+          });
 
           $.each(select_order_details, function (index, el) {
-
-            var stringify = jQuery.parseJSON(JSON.stringify(el));
-            // console.log(stringify['menu_cat_image']);
-            var cat_image = stringify['menu_cat_image'];
-            var menu_cat_name = stringify['menu_cat_name'];
-            var Quantity = stringify['Quantity'];
-            var Subtotal = stringify['Subtotal'];
-            var image = '<img src=/storage/' + cat_image + ' class="responsive-img" style="width:100px;">';
-            $("#result").append("<tr><td>" + image + "</td><td>" + menu_cat_name + "</td><td>" + Quantity + "</td><td>" + Subtotal + "</td></tr>");
-
-          })
+              console.log(el);
+          });
 
 
         }
@@ -1395,6 +1377,77 @@ $("body").on("click", "#show_cart_button",function () {
 
  $(document).ready(function(){
     $('#btn_order_peroperties').on('click',function(){
-      
+        //insert order properties
+
+          var hidden_customer_id = $('.hidden_customer_id').val();
+          var hidden_customer_address = $('.hidden_customer_address').text();
+          var hidden_order_number_rand = $('.hidden_order_number_rand').val();
+          var hidden_province = $('.hidden_province').val();
+
+          swal({
+          title: "Do you want to procceed this order?",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+          })
+            .then((willInsert) => {
+              if (willInsert) {
+
+                 $.ajax({
+                    url: '/insert_customer_order_properties',
+                    type: 'post',
+                    data: {
+                      hidden_customer_id: hidden_customer_id,
+                      hidden_customer_address: hidden_customer_address,
+                      hidden_order_number_rand: hidden_order_number_rand,
+                      hidden_province: hidden_province,
+                    },
+
+                    success: function (response) {
+                      $('.get_wish_order_id').each(function () {
+
+                           var data_attribute_wish_order_id= $(this).attr('data-attribute-wish-order-id');
+                        
+                           $.ajax({
+                              url: '/insert_customer_order_details_properties',
+                              type: 'post',
+                              data: {
+                                data_attribute_wish_order_id: data_attribute_wish_order_id,
+                              },
+                              success:function(response){
+                                console.log(response);
+                                location.reload();
+                              },
+                              error:function(response){
+                                console.log(response);
+                              }
+                           });
+
+
+                          
+                       });
+
+
+                      swal("Order Success", {
+                        icon: "success",
+                      });
+                    },
+
+                    error: function (response) {
+                      console.log(response);
+                    }
+
+
+                  });
+
+
+
+
+              } else {
+                swal("Cancelled");
+              }
+          });
+
+          
     });
  })

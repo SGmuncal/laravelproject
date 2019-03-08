@@ -2322,18 +2322,32 @@ class AdminController extends Controller
 
         $customer_details_id = DB::select('SELECT * FROM customer_details WHERE customer_id = ? ',[$id]);
 
-        $select_order_properties = DB::select('SELECT * FROM order_properties WHERE customer_id = ? ORDER BY order_id DESC LIMIT 3',[$id]);
+        //first step
+        $order_properties = DB::select('SELECT order_id,or_number,order_date,order_ship_address,order_ship_province,delivery_status FROM order_properties WHERE delivery_Status = ? AND customer_id = ? AND DATE(order_date) = CURDATE() ORDER BY order_id DESC LIMIT 3 ',['Completed',$id]);
 
-        $select_order_details = DB::select('SELECT order_properties_id,menu_cat_image,or_number,Quantity,Subtotal,menu_cat_name FROM order_properties as op LEFT JOIN (SELECT order_properties_id,product_id,UnitPrice,Quantity,(UnitPrice * Quantity) as Subtotal FROM order_details_properties) odp ON op.order_id = odp.order_properties_id 
-        LEFT JOIN (SELECT menu_cat_image,menu_cat_name,menu_cat_id FROM menu_category) mc ON odp.product_id = mc.menu_cat_id
-        WHERE customer_id = ?  ',[
-            $id
+        //second step
+        $order_details_properties = DB::select('SELECT order_properties_id,product_id FROM order_details_properties');
+
+
+        //third step
+        $wish_list_menu_order = DB::select('SELECT wish_menu_id,customer_id,wish_list_menu_name,menu_cat_desc,menu_cat_image,wish_list_total_price FROM wish_list_menu_order LEFT JOIN (SELECT menu_cat_name,menu_cat_desc,menu_cat_image FROM menu_category) mc ON wish_list_menu_order.wish_list_menu_name = mc.menu_cat_name WHERE customer_id = ? AND wish_status = ? ',[
+
+            $id,
+            'Processing'
+
         ]);
+
+
+        $wish_list_menu_belong_condiments = DB::select('SELECT customer_id,wlmbc.wish_menu_id,wish_list_menu_name,belong_condi_name,belong_condi_qty,wish_list_total_price FROM wish_list_menu_order as wlmo LEFT JOIN (SELECT wish_menu_id,belong_condi_name,belong_condi_qty,belong_condi_price FROM wish_list_menu_belong_condiments) wlmbc ON wlmo.wish_menu_id = wlmbc.wish_menu_id WHERE customer_id = ? AND wish_status = ? ',[$id,'Processing']);
+
+        
 
         return View('customer_profile')
         ->with('customer_details',$customer_details_id)
-        ->with('order_properties',$select_order_properties)
-        ->with('customer_order',$select_order_details);
+        ->with('wish_list_menu_order',$wish_list_menu_order)
+        ->with('wish_list_menu_belong_condiments',$wish_list_menu_belong_condiments)
+        ->with('order_properties',$order_properties)
+        ->with('order_details_properties',$order_details_properties);
 
     } 
 
@@ -2486,9 +2500,12 @@ class AdminController extends Controller
 
     public function delivery_driver() {
 
-        $select_driver_by_store = DB::select('SELECT driver_id,driver_name,driver_email,driver_number,store_driver,driver_status FROM driver WHERE store_driver = ? ',[
-            Auth::user()->store_name
-        ]);
+       if(Auth::user())
+        {
+             $select_driver_by_store = DB::select('SELECT driver_id,driver_name,driver_email,driver_number,store_driver,driver_status FROM driver WHERE store_driver = ? ',[
+                Auth::user()->store_name
+            ]);
+        }
 
         return View('delivery_driver')->with('drivers',$select_driver_by_store);
         
@@ -2621,27 +2638,36 @@ class AdminController extends Controller
     public function fetch_detail_order_monitor(Request $request) {
 
         $response_order_id = $request->get('response_order_id');
+
         $response_customer_id = $request->get('response_customer_id');
 
-        $customers_details_id = DB::select('SELECT * FROM customer_details WHERE customer_id = ? ',[$response_customer_id]);
 
-        $customer_details_id = DB::select('SELECT * FROM order_properties WHERE customer_id = ? ',[$response_customer_id]);
+        $customers_details_id = DB::select('SELECT * FROM customer_details WHERE customer_id = ? ',[$response_customer_id]);
 
         $select_delivery_charge = DB::select('SELECT charge_value FROM delivery_charge_rate');
        
         $select_order_properties = DB::select('SELECT * FROM order_properties as op 
-        LEFT JOIN (SELECT order_id,amount,subtotal,total_tax FROM payment) p 
-        ON op.order_id = p.order_id
         WHERE op.order_id = ? LIMIT 1',[$response_order_id]);
 
-        $select_order_details = DB::select('SELECT order_properties_id,menu_cat_image,or_number,Quantity,Subtotal,menu_cat_name FROM order_properties as op LEFT JOIN (SELECT order_properties_id,product_id,UnitPrice,Quantity,(UnitPrice * Quantity) as Subtotal FROM order_details_properties) odp ON op.order_id = odp.order_properties_id 
-        LEFT JOIN (SELECT menu_cat_image,menu_cat_name,menu_cat_id FROM menu_category) mc ON odp.product_id = mc.menu_cat_id
-        WHERE order_id = ?  ',[
+        $select_order_details = DB::select('SELECT ap.order_id,customer_id,or_number,wish_list_menu_name,belong_condi_name FROM `order_properties` as ap 
+            LEFT JOIN (SELECT order_properties_id,product_id FROM order_details_properties) odp 
+            ON ap.order_id = odp.order_properties_id
+            LEFT JOIN (SELECT wish_menu_id,wish_list_menu_name FROM wish_list_menu_order) wlmo 
+            ON odp.product_id = wlmo.wish_menu_id
+            LEFT JOIN (SELECT wish_menu_id,belong_condi_name FROM wish_list_menu_belong_condiments) wlmbc 
+            ON wlmo.wish_menu_id = wlmbc.wish_menu_id WHERE order_id = ?  ',[
+
             $response_order_id
         ]);
 
-        return response()->json(array(['customer_details_id'=>$customer_details_id,'select_delivery_charge'=>$select_delivery_charge,
-            'select_order_properties'=>$select_order_properties,'select_order_details'=>$select_order_details,'customers_details_id'=>$customers_details_id]));
+        return response()->json(array([
+
+            'select_delivery_charge'=>$select_delivery_charge,
+            'customers_details_id'=>$customers_details_id,
+            'select_order_details'=>$select_order_details,
+            'select_order_properties'=>$select_order_properties
+
+        ]));
 
     }
 
@@ -2721,28 +2747,33 @@ class AdminController extends Controller
     
     public function logic_get_customer_data() {
 
-        $get_customer_details = DB::select('SELECT customer_id,customer_name,customer_address,customer_order_note,customer_number,customer_registered,customer_email,customer_status,customer_location FROM customer_details as cd LEFT JOIN (SELECT * FROM users) users ON cd.customer_location = users.manager_location_assign WHERE customer_location = ? GROUP BY customer_id,customer_name ORDER BY customer_id DESC',[
+        if(Auth::user())
+        {
+            $get_customer_details = DB::select('SELECT customer_id,customer_name,customer_address,customer_order_note,customer_number,customer_registered,customer_email,customer_status,customer_location FROM customer_details as cd LEFT JOIN (SELECT * FROM users) users ON cd.customer_location = users.manager_location_assign WHERE customer_location = ? GROUP BY customer_id,customer_name ORDER BY customer_id DESC',[
 
-            Auth::user()->store_name
-        
-            
+                    Auth::user()->store_name
+                
+                    
 
-        ]);
-        return response()->json(array('data'=>$get_customer_details));
+                ]);
+                return response()->json(array('data'=>$get_customer_details));
+        }
         // return View('logic_get_customer_data')->with('customer_details',$get_customer_details);
     }
 
 
     public function get_imaginary_customer_details() {
 
-         $get_customer_details = DB::select('SELECT * FROM customer_details WHERE customer_location = ? ORDER BY customer_id DESC LIMIT 1',[
+        if(Auth::user()) {
+             $get_customer_details = DB::select('SELECT * FROM customer_details WHERE customer_location = ? ORDER BY customer_id DESC LIMIT 1',[
 
-            Auth::user()->store_name
-        
+                Auth::user()->store_name
             
+                
 
-        ]);
-        return response()->json($get_customer_details);
+            ]);
+            return response()->json($get_customer_details);
+        }
     }
 
 
@@ -3506,21 +3537,15 @@ class AdminController extends Controller
 
         $select_delivery_charge = DB::select('SELECT charge_value FROM delivery_charge_rate');
 
-        // $select_order_properties = DB::select('SELECT * FROM order_properties WHERE customer_id = ? ORDER BY order_id DESC LIMIT 3',[$id]);
+        $wish_list_menu_order = DB::select('SELECT wish_menu_id,customer_id,wish_list_menu_name,wish_list_total_price FROM wish_list_menu_order WHERE customer_id = ? AND wish_status = ? ',[$id,'Cart']);
 
-        // $select_order_details = DB::select('SELECT order_properties_id,menu_cat_image,or_number,Quantity,Subtotal,menu_cat_name FROM order_properties as op LEFT JOIN (SELECT order_properties_id,product_id,UnitPrice,Quantity,(UnitPrice * Quantity) as Subtotal FROM order_details_properties) odp ON op.order_id = odp.order_properties_id 
-        // LEFT JOIN (SELECT menu_cat_image,menu_cat_name,menu_cat_id FROM menu_category) mc ON odp.product_id = mc.menu_cat_id
-        // WHERE customer_id = ?  ',[
-        //     $id
-        // ]);
-
-        $wish_list_menu_order = DB::select('SELECT wish_menu_id,customer_id,wish_list_menu_name,wish_list_total_price FROM wish_list_menu_order WHERE customer_id = ? ',[$id]);
-
-        $wish_list_menu_belong_condiments = DB::select('SELECT customer_id,wlmbc.wish_menu_id,wish_list_menu_name,belong_condi_name,belong_condi_qty,wish_list_total_price FROM wish_list_menu_order as wlmo LEFT JOIN (SELECT wish_menu_id,belong_condi_name,belong_condi_qty,belong_condi_price FROM wish_list_menu_belong_condiments) wlmbc ON wlmo.wish_menu_id = wlmbc.wish_menu_id WHERE customer_id = ?',[$id]);
+        $wish_list_menu_belong_condiments = DB::select('SELECT customer_id,wlmbc.wish_menu_id,wish_list_menu_name,belong_condi_name,belong_condi_qty,wish_list_total_price FROM wish_list_menu_order as wlmo LEFT JOIN (SELECT wish_menu_id,belong_condi_name,belong_condi_qty,belong_condi_price FROM wish_list_menu_belong_condiments) wlmbc ON wlmo.wish_menu_id = wlmbc.wish_menu_id WHERE customer_id = ? AND wish_status = ? ',[$id,'Cart']);
 
         $get_tax = DB::select('SELECT name,province_name,value FROM users LEFT JOIN(SELECT province_name,value FROM province_tax) pt ON users.manager_location_assign = pt.province_name WHERE users.role = ? LIMIT 1 ',[
 
+               
                 Auth::user()->role
+                
             ]);
 
 
@@ -3539,6 +3564,56 @@ class AdminController extends Controller
         DB::delete('DELETE FROM wish_list_menu_belong_condiments WHERE wish_menu_id = ?',[$order_item_id]);
 
         return response()->json('Successfully Deleted');
+
+    }
+
+
+    public function insert_customer_order_properties(Request $request) {
+
+        $hidden_customer_id = $request->get('hidden_customer_id');
+        $hidden_customer_address = $request->get('hidden_customer_address');
+        $hidden_order_number_rand = $request->get('hidden_order_number_rand');
+        $hidden_province = $request->get('hidden_province');
+
+        $now = new DateTime();
+
+        DB::insert('INSERT INTO order_properties (customer_id,or_number,order_ship_address,order_ship_province,delivery_status,order_date) 
+            VALUES (?,?,?,?,?,?) ',[
+
+                $hidden_customer_id,
+                $hidden_order_number_rand,
+                $hidden_customer_address,
+                $hidden_province,
+                'Processing',
+                $now
+
+
+            ]);
+
+
+
+
+    }
+
+
+    public function insert_customer_order_details_properties(Request $request) {
+
+        $last_id_insert = DB::select('SELECT max(order_id) as id FROM order_properties');
+
+        foreach($last_id_insert as $result)
+        {
+          $id_last_inserted = $result->id;
+
+        }
+
+        $data_attribute_wish_order_id = $request->get('data_attribute_wish_order_id');
+
+        DB::insert('INSERT INTO order_details_properties (order_properties_id,product_id) VALUES (?,?) ',[
+            $id_last_inserted,
+            $data_attribute_wish_order_id
+        ]);
+
+        DB::update('UPDATE wish_list_menu_order SET wish_status = ? WHERE wish_menu_id = ? ',['Processing',$data_attribute_wish_order_id]);
 
     }
 

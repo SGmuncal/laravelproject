@@ -3,105 +3,144 @@
 @section('admin_content')
 @foreach($customer_details as $details)
 @endforeach
+
 <div class="container">
 	<h3>Manage Account</h3>
 	<br>
 	<div class="row">
-		<div class="col-md-4">s
+		<div class="col-md-4">
 			<div class="card">
-			  <div class="card-header" style="background: linear-gradient(-25deg, #00e4d0, #5983e8); color:white;">
+			  <div class="card-header">
 			    <i class="fas fa-users"></i> Personal Profile
 			  </div>
-			  <div class="card-body">
+			  <div class="card-body" style="background: linear-gradient(-25deg, #00e4d0, #5983e8); color:white; font-weight:300;">
 			    <label>{{$details->customer_name}}</label><br>
 			    <label>{{$details->customer_email}}</label>
-			    {{-- <p class="card-text">With supporting text below as a natural lead-in to additional content.</p> --}}
-			    {{-- <a href="#" class="btn btn-primary">Go somewhere</a> --}}
 			  </div>
 			</div>
 		</div>
 
 		<div class="col-md-4">
 			<div class="card">
-			  <div class="card-header" style="background: linear-gradient(-25deg, #00e4d0, #5983e8); color:white;">
+			  <div class="card-header">
 			     <i class="fas fa-address-card"></i> Default Shipping Address
 			  </div>
-			  <div class="card-body">
+			  <div class="card-body" style="background: linear-gradient(-25deg, #00e4d0, #5983e8); color:white; font-weight: 300;">
 			    <label>{{$details->customer_name}}</label>
 			    <div style="font-size:14px; line-height: 9px;">
 			    	<label>{{$details->customer_address}}</label><br>
 			    	<label>{{$details->customer_number}}</label>
 			    </div>
-			   {{--  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p> --}}
-			    {{-- <a href="#" class="btn btn-primary">Go somewhere</a> --}}
 			  </div>
 			</div>
 		</div>
 	</div>
 </div>
 
-<br><br>
 
 <div class="container">
 	<div class="jumbotron" style="background-color:white;">
 		<div class="row">
 			<div class="col-md-6">
 				<h5>Recent Orders Transaction</h5>
-			
 			</div>
 			<div class="col-md-6">
-				<a href="/customer_all_orders/{{$details->customer_id}}" class="btn btn-primary float-right" href="" style="background: linear-gradient(-25deg, #00e4d0, #5983e8); border-color:transparent;">All Orders</a>
+				<a href="/customer_all_orders/{{$details->customer_id}}" class="btn btn-primary float-right" href="">All Orders</a>
 			</div>
-			
 		</div>
         <br>
-	 	@foreach($order_properties as $order1)
+        	
+        	@foreach($order_properties as $order_propertie)
+        		<hr><br><br>
+        		<div class="row">
 
-	 			<hr>
-	 			
-		 		<div class="order_details">
-		 			<!-- Logic to get single value of order number -->
-			 		<div style="line-height:14px;">
-			 			<label style="font-weight: 600;">Order #:{{$order1->or_number}} </label><a href="/order_detail/{{$order1->customer_id}}/{{$order1->order_id}}" class="float-right" >Manage</a><br>
-			 			<label style="font-size:14px;">Place on: {{$order1->order_date}}</label>
-			 		</div>
-			 		<br><br>
+        			<div class="col-md-9">
+						<div style="line-height: 8px;">
+							<p style="font-weight: bold;">#{{$order_propertie->or_number}} <br></p>
+							<p>{{$order_propertie->order_ship_address}}</p>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<label style="font-size:14px; font-weight: bold;">{{$order_propertie->order_date}}</label>	
+						<div class="progress">
+						  <div class="progress-bar bg-danger" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"> 100% {{$order_propertie->delivery_status}}</div>
+						</div>	
+					</div>
 
-			 		<table class="table table-hover">
-					  <thead style="background: linear-gradient(-25deg, #00e4d0, #5983e8); color:white; color:white; font-size:14px;">
-					    <tr>
-					      <th scope="col">Menu Image</th>
-					      <th scope="col">Menu Name</th>
-					      <th scope="col">Quantity</th>
-					      <th scope="col">Subtotal</th>
-					    </tr>
-					  </thead>
+        		</div>
+        		<br>
+        		<h4>Your Ordered</h4>
 
-			 		@foreach($customer_order as $order2)
+        		
+        		<!--ITEM HERE -->
 
-			 			<!-- compare two table value if same id -->
-		 				@if($order2->order_properties_id == $order1->order_id)
+				@foreach($order_details_properties as $order_detail)
 
-		 					
-							  <tbody style="font-size:14px;">
-							    <tr>
-							     	<td><img src="{{url('/storage/'.$order2->menu_cat_image.'')}}" class="responsive-img" style="width:100px;"></td>
+	    			@if($order_detail->order_properties_id == $order_propertie->order_id)
 
-							     	<td><br>{{$order2->menu_cat_name}}</td>
-							     	<td><br>{{$order2->Quantity}}</td>
-							     	<td><br>${{$order2->Subtotal}}</td>
-							    </tr>
-							  </tbody>
+	    				@foreach($wish_list_menu_order as $wish_list_menu)
+		
+							@if($wish_list_menu->wish_menu_id == $order_detail->product_id)
+
+								<hr>
+								
+								<div id="hover_row_order">
+									
+									<img src="{{url('/storage/'.$wish_list_menu->menu_cat_image.'')}}" class="responsive-img" style="width:200px;">
+
+									<p style="font-weight: bold;">{{$wish_list_menu->wish_list_menu_name}}</p>
+									<!-- <label>{!!$wish_list_menu->menu_cat_desc!!}</label>
+									<br><br> -->
+									@foreach($wish_list_menu_belong_condiments as $condiments)
+	    						
+										@if($condiments->wish_menu_id == $wish_list_menu->wish_menu_id)
+											&nbsp;&nbsp;&nbsp;&nbsp;<label style="font-weight: 300; font-size:15px;">x{{$condiments->belong_condi_qty}} {{$condiments->belong_condi_name}}</label><br>
+										@endif
+
+									@endforeach
+								</div>
+
+							@endif
+
+						@endforeach
+
+	    			@endif
+	    			
+	    		@endforeach
+
+        	
+        		
+
+        	@endforeach
+
+<!-- 		@foreach($wish_list_menu_order as $wish_list_order)
+
+		
+			<div class="row">
+
+				<div class="col-md-11">
+
+					<p style="font-weight: bold;" class="total_wish_order get_wish_order_id" data-attribute-wish-order-id='{{$wish_list_order->wish_menu_id}}'>{{$wish_list_order->wish_list_menu_name}} <br></p>
+
+					@foreach($wish_list_menu_belong_condiments as $wish_menu_condiments)
+
+						@if($wish_menu_condiments->wish_menu_id == $wish_list_order->wish_menu_id)
+							&nbsp;&nbsp;&nbsp;<label>{{$wish_menu_condiments->belong_condi_qty}}x {{$wish_menu_condiments->belong_condi_name}}</label><br>
+						@endif
+
+					@endforeach
 					
-		 				  	
-		 				@endif
-		 					
-			 		@endforeach
-			 		</table>
-		 		</div>
+				</div>
 
-	 	@endforeach
-        
+				<div class="col-md-1">
+					<i class="far fa-trash-alt remove_wish_order" data-attribute-delete-wish-order='{{$wish_list_order->wish_menu_id}}' style="cursor: pointer; color:#007BFF;"></i><br><br>
+					<label style="font-weight: bold;" class="compute_order_prices">${{$wish_list_order->wish_list_total_price}}</label>
+				</div>
+
+			</div>
+
+			<hr>
+		@endforeach -->
 	</div>
 </div>
 

@@ -168,10 +168,10 @@
 
 									                <input type="hidden" name="" class="or_number" value="{{$transac_details->or_number}}">
 
-									                @if($transac_details->driver_name != "")
+									               <!--  @if($transac_details->driver_name != "")
 									                @else
 									                    <button href="#" data-order-id='{{$transac_details->order_id}}' data-customer-id='{{$transac_details->customer_id}}' style="" data-toggle="modal" data-target="#driver_assign" type="button" class="card-link btn btn-outline-primary assign_btn">Assign</button>
-									                @endif
+									                @endif -->
 
 									                <button href="#" id="gather_customer_order" class="card-link btn btn-primary gather_customer_order" data-order-id='{{$transac_details->order_id}}' data-customer-id='{{$transac_details->customer_id}}' style="border-color:#800000; color:white; background-color:#800000;" data-toggle="modal" data-target="#customer_detail_delivery">Details</button>
 
@@ -225,8 +225,6 @@
 									    	<label class="monitor_customer_address"></label><br>
 									    	<label class="monitor_customer_number"></label>
 									    </div>
-									   {{--  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p> --}}
-									    {{-- <a href="#" class="btn btn-primary">Go somewhere</a> --}}
 									  </div>
 									</div>
 								</div>
@@ -238,10 +236,6 @@
 									  <div class="card-body" style="font-size:14px; line-height: 9px;">
 									    <label class="monitor_customer_name"></label><br>
 									    <label class="monitor_customer_email"></label><br><br><br><br>
-
-
-									    {{-- <p class="card-text">With supporting text below as a natural lead-in to additional content.</p> --}}
-									    {{-- <a href="#" class="btn btn-primary">Go somewhere</a> --}}
 									  </div>
 									</div>
 								</div>
@@ -254,64 +248,51 @@
 									  <div class="card-header" style="background: linear-gradient(-25deg, #00e4d0, #5983e8); color:white;">
 									    <i class="fas fa-cart-arrow-down"></i> Customer Orders
 									  </div>
-									    <div class="table-responsive">
-									    	   <table class="table table-hover">
-												  <thead style="background: linear-gradient(25deg, #00e4d0, #5983e8); color:white; font-size:14px;">
-												    <tr>
-												      <th scope="col">Menu Image</th>
-												      <th scope="col">Menu Name</th>
-												      <th scope="col">Quantity</th>
-												      <th scope="col">Subtotal</th>
-												    </tr>
-												  </thead>
-
-													  <tbody style="font-size:15px;" id="result">
-												
-													  </tbody>
-
-												</table>
-									    </div>
+									   
 									</div>
 								</div>
 							</div>
 
-
-							
-								<div class="jumbotron" style="">
-									<div class="row">
-					     				<div class="col-md-3">
-					     					
-					     					<div class="cart-detail" style="font-size:14px;">
-					     						<label><b>Subtotal:</b></label><br>
-							     				<label><b>Tax GST 5%:</b></label><br>
-							     				<label><b>Delivery Charge $5</b></label>
-							     				<hr>
-							     				<label style="font-size: 20px;"><b>Total:</b></label>
-					     					</div>
-					     				</div>
-					     			
-					     				<br>
-					     				<div class="col-md-6"></div>
-					     				<div class="col-md-3">
-					     					<div class="cart-detail" style="font-size:14px; position: relative; left:20px;">
-					     						<label id="sub_total"></label><br>
-					     						
-					     						<label id="label_province_tax_rate"></label> <br>
-
-					     						
-					     						<label id="label_delivery_charge"></label>
-
-					     						<br><br>
-					     						<b><label id="total_price_label" style="font-size:20px;"></label></b>
-					     					</div>
-					     				</div>
-					     				
-					     			</div>
-								</div>
+							<!--Append here the customer order -->
 							
 
+							<div class="jumbotron" style="">
+								
+								<div class="row">
 
+				     				<div class="col-md-3">
+				     					
+				     					<div class="cart-detail" style="font-size:14px;">
+				     						<label><b>Subtotal:</b></label><br>
+						     				<label><b>Tax GST 5%:</b></label><br>
+						     				<label><b>Delivery Charge $5</b></label>
+						     				<hr>
+						     				<label style="font-size: 20px;"><b>Total:</b></label>
+				     					</div>
 
+				     				</div>
+				     			
+				     				<br>
+
+				     				<div class="col-md-6"></div>
+
+				     				<div class="col-md-3">
+				     					<div class="cart-detail" style="font-size:14px; position: relative; left:20px;">
+				     						<label id="sub_total"></label><br>
+				     						
+				     						<label id="label_province_tax_rate"></label> <br>
+
+				     						
+				     						<label id="label_delivery_charge"></label>
+
+				     						<br><br>
+				     						<b><label id="total_price_label" style="font-size:20px;"></label></b>
+				     					</div>
+				     				</div>
+				     				
+				     			</div>
+
+							</div>
 						</div>
 		     	   </div>
 			    </div>
