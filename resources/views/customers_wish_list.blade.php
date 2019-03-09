@@ -47,7 +47,7 @@
 			    <i class="fas fa-truck"></i> Delivery Charge
 			  </div>
 			  <div class="card-body" style="background: linear-gradient(-25deg, #00e4d0, #5983e8); color:white;">
-			    <p><i class="fas fa-check"></i> <b>${{$charge->charge_value}}</b></p>
+			    <p><i class="fas fa-check"></i> ${{$charge->charge_value}}</p>
 			    <br>
 			  </div>
 			</div>
@@ -80,8 +80,10 @@
 
 					<div class="col-md-11">
 
+						<img src="{{url('/storage/'.$wish_list_order->menu_cat_image.'')}}" class="responsive-img" style="width:200px;">
+						<br>
 						<p style="font-weight: bold;" class="total_wish_order get_wish_order_id" data-attribute-wish-order-id='{{$wish_list_order->wish_menu_id}}'>{{$wish_list_order->wish_list_menu_name}} <br></p>
-
+						<label>{!!$wish_list_order->menu_cat_desc!!}</label>
 						@foreach($wish_list_menu_belong_condiments as $wish_menu_condiments)
 
 							@if($wish_menu_condiments->wish_menu_id == $wish_list_order->wish_menu_id)
@@ -93,7 +95,7 @@
 					</div>
 
 					<div class="col-md-1">
-						<i class="far fa-trash-alt remove_wish_order" data-attribute-delete-wish-order='{{$wish_list_order->wish_menu_id}}' style="cursor: pointer; color:#007BFF;"></i><br><br>
+						<i class="far fa-trash-alt remove_wish_order" data-attribute-delete-wish-order='{{$wish_list_order->wish_menu_id}}' style="cursor: pointer; color:#CF304D;"></i><br><br>
 						<label style="font-weight: bold;" class="compute_order_prices">${{$wish_list_order->wish_list_total_price}}</label>
 					</div>
 
@@ -140,7 +142,7 @@
 
 		@else
 
-			<div class="jumbotron" style="background: linear-gradient(-25deg, #00e4d0, #5983e8); color:white;">
+			<div class="jumbotron">
 				<center><h2>YOUR CART IS EMPTY</h2><br><a class="btn btn-primary" href="/customer_data" role="button">Add More Food</a></center>
 			</div>
 

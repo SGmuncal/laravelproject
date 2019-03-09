@@ -10,6 +10,10 @@
 }
 
 
+.modal {
+  overflow-y:auto !important;
+}
+
 /*@font-face {
   font-family: 'FontAwesome';
   src: url('../fonts/fontawesome-webfont.eot?v=4.5.0');

@@ -37,7 +37,7 @@
 	</div>
 </div>
 
-
+<br><br>
 <div class="container">
 	<div class="jumbotron" style="background-color:white;">
 		<div class="row">
@@ -49,8 +49,13 @@
 			</div>
 		</div>
         <br>
-        	
-        	@foreach($order_properties as $order_propertie)
+        	@foreach($select_delivery_charge as $del_charge)
+        	@endforeach
+        	<div class="jumbotron">
+        		@foreach($order_properties as $order_propertie)
+
+        		
+
         		<hr><br><br>
         		<div class="row">
 
@@ -84,13 +89,13 @@
 
 								<hr>
 								
-								<div id="hover_row_order">
+								<div>
 									
 									<img src="{{url('/storage/'.$wish_list_menu->menu_cat_image.'')}}" class="responsive-img" style="width:200px;">
 
 									<p style="font-weight: bold;">{{$wish_list_menu->wish_list_menu_name}}</p>
-									<!-- <label>{!!$wish_list_menu->menu_cat_desc!!}</label>
-									<br><br> -->
+									<label>{!!$wish_list_menu->menu_cat_desc!!}</label>
+									<br><br>
 									@foreach($wish_list_menu_belong_condiments as $condiments)
 	    						
 										@if($condiments->wish_menu_id == $wish_list_menu->wish_menu_id)
@@ -105,13 +110,34 @@
 						@endforeach
 
 	    			@endif
-	    			
+
+
 	    		@endforeach
 
-        	
+	    		@foreach($payment as $pay)
+					@if( $order_propertie->order_id == $pay->order_id )
+						<div class="jumbotron">
+							<div class="row">
+								<div class="col-md-11">
+									<p>Sub-Total</p>
+									<p>Tax</p>
+									<p>Delivery Charge</p>
+									<p>TOTAL</p>
+								</div>
+								<div class="col-md-1" style="font-weight: bold;">
+									<label>${{$pay->subtotal}}</label>
+									<label>${{$pay->total_tax}}</label>
+									<label>${{$del_charge->charge_value}}</label>
+									<label>${{$pay->amount}}</label>
+								</div>
+							</div>
+						</div>
+					@endif
+				@endforeach
         		
 
         	@endforeach
+        	</div>
 
 <!-- 		@foreach($wish_list_menu_order as $wish_list_order)
 

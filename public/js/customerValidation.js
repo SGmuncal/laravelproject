@@ -758,68 +758,152 @@ $('#dismiss_monitoring_detail').click(function () {
 
 
 
-$('button#gather_customer_order').on('click', function () {
+$('button.gather_customer_order').on('click', function () {
 
-  var order_id = $(this).attr('data-order-id');
-  var customer_id = $(this).attr('data-customer-id');
-
-
+  var response_order_id = $(this).attr('data-order-id');
+  var response_customer_id = $(this).attr('data-customer-id');
 
   $.ajax({
-    url: '/customer_detail_ordering_logic',
-    type: 'GET',
-    data: { order_id: order_id, customer_id: customer_id },
-    success: function (response) {
+  url: '/fetch_detail_order_monitor',
+  type: 'GET',
+  dataType: 'json',
+  data: { response_order_id: response_order_id, response_customer_id: response_customer_id},
 
-      var response_customer_id = response[0].customer_details_id[0].customer_id;
-      var response_order_id = response[0].customer_details_id[0].order_id;
-      var response_order_number = response[0].customer_details_id[0].or_number;
+  success: function (res) {
 
-      $.ajax({
-        url: '/fetch_detail_order_monitor',
-        type: 'GET',
-        dataType: 'json',
-        data: { response_order_id: response_order_id, response_customer_id: response_customer_id },
+      
+      //this is for customer detail
+      var customers_details_id = jQuery.parseJSON(JSON.stringify(res[0].customers_details_id));
 
-        success: function (res) {
+      var customer_number_monitor = customers_details_id[0].customer_number;
+      var customer_name_monitor = customers_details_id[0].customer_name;
+      var customer_address_monitor = customers_details_id[0].customer_address;
+      var customer_address_email = customers_details_id[0].customer_email;
 
-          var customers_details_id = jQuery.parseJSON(JSON.stringify(res[0].customers_details_id));
-
-          var customer_number_monitor = customers_details_id[0].customer_number;
-          var customer_name_monitor = customers_details_id[0].customer_name;
-          var customer_address_monitor = customers_details_id[0].customer_address;
-          var customer_address_email = customers_details_id[0].customer_email;
-
-          $('.monitor_customer_address').append(customer_address_monitor);
-          $('.monitor_customer_number').append(customer_number_monitor);
-          $('.monitor_customer_name').append(customer_name_monitor);
-          $('.monitor_customer_email').append(customer_address_email);
+      $('.monitor_customer_address').append(customer_address_monitor);
+      $('.monitor_customer_number').append(customer_number_monitor);
+      $('.monitor_customer_name').append(customer_name_monitor);
+      $('.monitor_customer_email').append(customer_address_email);
 
 
-          $('.order_number_monitoring').append(response_order_number)
+      //order number here
+      var get_order_number = jQuery.parseJSON(JSON.stringify(res[0].get_order_number));
 
+      var order_number = get_order_number[0].or_number;
+      $('.order_number_monitoring').append(order_number);
+
+      //select_order_properties
+      var select_order_properties = jQuery.parseJSON(JSON.stringify(res[0].select_order_properties));
+
+      $.each(select_order_properties, function (index, el) {
+
+          var stringify_select_order_properties = jQuery.parseJSON(JSON.stringify(el));
+
+          var sop_order_id = stringify_select_order_properties['order_id'];
+          
+          var order_details_properties = jQuery.parseJSON(JSON.stringify(res[0].order_details_properties));
+
+          $.each(order_details_properties, function (index, el)
+          {
+            var stringify_order_details_properties = jQuery.parseJSON(JSON.stringify(el));
+
+            var odp_product_id = stringify_order_details_properties['product_id'];
+            var odp_order_properties_id = stringify_order_details_properties['order_properties_id'];
+
+            if(sop_order_id == odp_order_properties_id)
+            {
+               var wish_list_menu_order = jQuery.parseJSON(JSON.stringify(res[0].wish_list_menu_order));
+
+               //list all noun
+               $.each(wish_list_menu_order,function (index, el) {
+
+                  var stringify_wish_list_menu_order = jQuery.parseJSON(JSON.stringify(el));
+
+                  var wlmo_wmid = stringify_wish_list_menu_order['wish_menu_id'];
+                  var wlmo_wish_list_menu_name = stringify_wish_list_menu_order['wish_list_menu_name'];
+                  var wlmo_wish_list_menu_desc = stringify_wish_list_menu_order['menu_cat_desc'];
+                  var wlmo_wish_list_menu_image = stringify_wish_list_menu_order['menu_cat_image'];
+                  var wlmo_wish_list_total_price = stringify_wish_list_menu_order['wish_list_total_price'];
+
+                  if(odp_product_id == wlmo_wmid)
+                  { 
+                    //we have noun already
+
+                    var html_customer_noun_order_append;
+
+                    html_customer_noun_order_append = 
+
+                    "<hr>\
+                    <div class='row'>\
+                      <div class='col-md-9'><img src=/storage/"+wlmo_wish_list_menu_image+" class='responsive-img' style='width:200px;'>\ </div>\
+                      <div class='col-md-3'><label style='font-weight:bold;'>$"+wlmo_wish_list_total_price+"</label></div>\
+                    </div> \
+                    <br> \
+                    <p style='font-weight: bold;' class='after_wlmn'>\
+                      "+wlmo_wish_list_menu_name+" \
+                    </p>\
+                    <label class='wlmo_list_menu_desc'>"+wlmo_wish_list_menu_desc+"</label>";
+
+                    $('.append_customer_noun_order')
+                    .append(html_customer_noun_order_append);
+
+                    //call the condiments here
+                    var wish_list_menu_belong_condiments = jQuery.parseJSON(JSON.stringify(res[0].wish_list_menu_belong_condiments));
+                    
+                    $.each(wish_list_menu_belong_condiments, function (index,el){
+
+                        var stringify_wish_list_menu_belong_condiments = jQuery.parseJSON(JSON.stringify(el));
+                        
+
+
+                        var wlmbc_wish_menu_id = stringify_wish_list_menu_belong_condiments['wish_menu_id'];
+                        var wlmbc_wish_belong_condi_name = stringify_wish_list_menu_belong_condiments['belong_condi_name'];
+                        var wlmbc_wish_belong_condi_qty = stringify_wish_list_menu_belong_condiments['belong_condi_qty'];
+                        var wlmbc_wish_belong_condi_price = stringify_wish_list_menu_belong_condiments['belong_condi_price'];
+
+                        if(wlmo_wmid == wlmbc_wish_menu_id) {
+
+
+                          $('<label style="font-weight: 300; font-size:15px; margin-left:10px;">x'+wlmbc_wish_belong_condi_qty+' '+wlmbc_wish_belong_condi_name+'</label><br>')
+                          .insertBefore('.wlmo_list_menu_desc');
+                       
+
+                        }
+
+                    });
+                  }
+
+                  
+
+               });
+            }
+
+          });
+
+          
           var select_delivery_charge = jQuery.parseJSON(JSON.stringify(res[0].select_delivery_charge));
-          $('#label_delivery_charge').append(select_delivery_charge[0].charge_value);
+          $.each(select_delivery_charge, function (index, el) {
+             var stringify_select_delivery_charge = jQuery.parseJSON(JSON.stringify(el));
+             var tax_rate  = stringify_select_delivery_charge['charge_value'];
 
+             $('#label_delivery_charge').append(tax_rate);
+          });
 
-          var select_order_details = jQuery.parseJSON(JSON.stringify(res[0].select_order_details));
+          var payment = jQuery.parseJSON(JSON.stringify(res[0].payment));
+          $.each(payment, function (index, el) {
+             var stringify_payment = jQuery.parseJSON(JSON.stringify(el));
 
-          var select_order_properties = jQuery.parseJSON(JSON.stringify(res[0].select_order_properties));
+             var sub_total  = stringify_payment['subtotal'];
+             var tax  = stringify_payment['total_tax'];
+             var amount = stringify_payment['amount'];
 
-          $.each(select_order_properties, function (index, el) {
-
-              var stringify = jQuery.parseJSON(JSON.stringify(el));
-              console.log(stringify);
+             $('#sub_total').append(sub_total);
+             $('#label_province_tax_rate').append(tax);
+             $('#total_price_label').append(amount);
 
           });
 
-          $.each(select_order_details, function (index, el) {
-              console.log(el);
-          });
-
-
-        }
-      })
+      });
 
     }
   })
@@ -1068,9 +1152,6 @@ $('#save_customer_details').click(function () {
             });
           }
           else {
-
-
-
             swal({
               title: "Sucessfully Registered",
               icon: "success",  
@@ -1081,13 +1162,19 @@ $('#save_customer_details').click(function () {
                url:'/get_imaginary_customer_details',
                type:'get',
                success:function(response) {
+
                   $('#add_customer').modal('hide');
+
                   console.log(response);
+
                   $('#add_cart').modal('show');
+
                   var address_customer = response[0]['customer_address'];
                   var id_customer = response[0]['customer_id'];
                   var province_customer = response[0]['customer_location'];
-                
+                  var name_customer = response[0]['customer_name'];
+                  
+                  $('#append_customer_name').text(name_customer);
                   $('#place_customer').text(address_customer);
                   $('#hidden_customer_id').val(id_customer);
                   $('#hidden_province').val(province_customer);
@@ -1384,6 +1471,11 @@ $("body").on("click", "#show_cart_button",function () {
           var hidden_order_number_rand = $('.hidden_order_number_rand').val();
           var hidden_province = $('.hidden_province').val();
 
+          //payment 
+          var total_amount = $('.total_price_label').text();
+          var customer_sub_total = $('.total_wish_sub_total').text();
+          var tax_rate = $('.total_tax_rate_computation').text();
+
           swal({
           title: "Do you want to procceed this order?",
           icon: "warning",
@@ -1404,6 +1496,8 @@ $("body").on("click", "#show_cart_button",function () {
                     },
 
                     success: function (response) {
+
+
                       $('.get_wish_order_id').each(function () {
 
                            var data_attribute_wish_order_id= $(this).attr('data-attribute-wish-order-id');
@@ -1416,16 +1510,38 @@ $("body").on("click", "#show_cart_button",function () {
                               },
                               success:function(response){
                                 console.log(response);
-                                location.reload();
+                                
                               },
                               error:function(response){
                                 console.log(response);
                               }
                            });
-
-
-                          
                        });
+
+
+                       
+
+                       $.ajax({
+                          
+                          url: '/insert_customer_payment_details',
+                          type: 'post',
+                          data: {
+
+                            hidden_customer_id: hidden_customer_id,
+                            total_amount: total_amount,
+                            customer_sub_total: customer_sub_total,
+                            hidden_order_number_rand: hidden_order_number_rand,
+                            tax_rate: tax_rate
+
+                          },
+                          success:function(response){
+                            console.log(response);
+                            location.reload();
+                          },
+                          error:function(response){
+                            console.log(response);
+                          }
+                       })
 
 
                       swal("Order Success", {
@@ -1451,3 +1567,8 @@ $("body").on("click", "#show_cart_button",function () {
           
     });
  })
+
+
+function printOrderDetail() {
+  window.print();
+}

@@ -41,7 +41,7 @@
 							                    <button href="#" data-order-id='{{$transac_details->order_id}}' data-customer-id='{{$transac_details->customer_id}}' style="" data-toggle="modal" data-target="#driver_assign" type="button" class="card-link btn btn-outline-primary" id="assign_btn">Assign</button>
 							                @endif
 
-							                <button href="#" id="gather_customer_order" class="card-link btn btn-primary gather_customer_order" data-order-id='{{$transac_details->order_id}}' data-customer-id='{{$transac_details->customer_id}}' style="border-color:#800000; color:white; background-color:#800000;" data-toggle="modal" data-target="#customer_detail_delivery">Details</button>
+							                <button href="#" class="card-link btn btn-primary gather_customer_order" data-order-id='{{$transac_details->order_id}}' data-customer-id='{{$transac_details->customer_id}}' style="border-color:#800000; color:white; background-color:#800000;" data-toggle="modal" data-target="#customer_detail_delivery">Details</button>
 
 							            </h5>
 							        </div>
@@ -83,7 +83,7 @@
 									                    <button href="#" data-order-id='{{$transac_details->order_id}}' data-customer-id='{{$transac_details->customer_id}}' style="" data-toggle="modal" data-target="#driver_assign" type="button" class="card-link btn btn-outline-primary assign_btn">Assign</button>
 									                @endif
 
-									                <button href="#" id="gather_customer_order" class="card-link btn btn-primary gather_customer_order" data-order-id='{{$transac_details->order_id}}' data-customer-id='{{$transac_details->customer_id}}' style="border-color:#800000; color:white; background-color:#800000;" data-toggle="modal" data-target="#customer_detail_delivery">Details</button>
+									                <button href="#" class="card-link btn btn-primary gather_customer_order" data-order-id='{{$transac_details->order_id}}' data-customer-id='{{$transac_details->customer_id}}' style="border-color:#800000; color:white; background-color:#800000;" data-toggle="modal" data-target="#customer_detail_delivery">Details</button>
 
 									            </h5>
 										        </div>
@@ -128,7 +128,7 @@
 									                    <button href="#" data-order-id='{{$transac_details->order_id}}' data-customer-id='{{$transac_details->customer_id}}' style="" data-toggle="modal" data-target="#driver_assign" type="button" class="card-link btn btn-outline-primary assign_btn">Assign</button>
 									                @endif
 
-									                <button href="#" id="gather_customer_order" class="card-link btn btn-primary gather_customer_order" data-order-id='{{$transac_details->order_id}}' data-customer-id='{{$transac_details->customer_id}}' style="border-color:#800000; color:white; background-color:#800000;" data-toggle="modal" data-target="#customer_detail_delivery">Details</button>
+									                <button href="#"  class="card-link btn btn-primary gather_customer_order" data-order-id='{{$transac_details->order_id}}' data-customer-id='{{$transac_details->customer_id}}' style="border-color:#800000; color:white; background-color:#800000;" data-toggle="modal" data-target="#customer_detail_delivery">Details</button>
 
 									            </h5>
 										        </div>
@@ -173,7 +173,7 @@
 									                    <button href="#" data-order-id='{{$transac_details->order_id}}' data-customer-id='{{$transac_details->customer_id}}' style="" data-toggle="modal" data-target="#driver_assign" type="button" class="card-link btn btn-outline-primary assign_btn">Assign</button>
 									                @endif -->
 
-									                <button href="#" id="gather_customer_order" class="card-link btn btn-primary gather_customer_order" data-order-id='{{$transac_details->order_id}}' data-customer-id='{{$transac_details->customer_id}}' style="border-color:#800000; color:white; background-color:#800000;" data-toggle="modal" data-target="#customer_detail_delivery">Details</button>
+									                <button href="#"  class="card-link btn btn-primary gather_customer_order" data-order-id='{{$transac_details->order_id}}' data-customer-id='{{$transac_details->customer_id}}' style="border-color:#800000; color:white; background-color:#800000;" data-toggle="modal" data-target="#customer_detail_delivery">Details</button>
 
 									            </h5>
 										        </div>
@@ -248,7 +248,13 @@
 									  <div class="card-header" style="background: linear-gradient(-25deg, #00e4d0, #5983e8); color:white;">
 									    <i class="fas fa-cart-arrow-down"></i> Customer Orders
 									  </div>
-									   
+									  
+									  <div class="jumbotron">
+									  	
+									  	<div class="append_customer_noun_order">
+									  	</div> 
+									  </div>
+
 									</div>
 								</div>
 							</div>

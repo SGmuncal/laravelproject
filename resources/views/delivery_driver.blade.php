@@ -8,7 +8,7 @@
             <h3>Driver Account List</h3>
         </div>
         <div class="col-md-2">
-            <button class="form-control" style="background: linear-gradient(-25deg, #00e4d0, #5983e8); border-color:transparent; color:white;" data-toggle="modal" data-target="#driverModal">Add Driver</button>
+            <button class="form-control btn btn-primary" data-toggle="modal" data-target="#driverModal">Add Driver</button>
         </div>
     </div>
     <br>

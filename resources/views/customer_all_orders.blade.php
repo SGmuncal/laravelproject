@@ -9,31 +9,27 @@
 	<div class="row">
 		<div class="col-md-4">
 			<div class="card">
-			  <div class="card-header" style="background: linear-gradient(-25deg, #00e4d0, #5983e8); color:white;">
+			  <div class="card-header">
 			    <i class="fas fa-users"></i> Personal Profile
 			  </div>
-			  <div class="card-body">
+			  <div class="card-body"  style="background: linear-gradient(-25deg, #00e4d0, #5983e8); color:white;">
 			    <label>{{$details->customer_name}}</label><br>
 			    <label>{{$details->customer_email}}</label>
-			    {{-- <p class="card-text">With supporting text below as a natural lead-in to additional content.</p> --}}
-			    {{-- <a href="#" class="btn btn-primary">Go somewhere</a> --}}
 			  </div>
 			</div>
 		</div>
 
 		<div class="col-md-4">
 			<div class="card">
-			  <div class="card-header" style="background: linear-gradient(-25deg, #00e4d0, #5983e8); color:white;">
+			  <div class="card-header">
 			     <i class="fas fa-address-card"></i> Default Shipping Address
 			  </div>
-			  <div class="card-body">
+			  <div class="card-body"  style="background: linear-gradient(-25deg, #00e4d0, #5983e8); color:white;">
 			    <label>{{$details->customer_name}}</label>
 			    <div style="font-size:14px; line-height: 9px;">
 			    	<label>{{$details->customer_address}}</label><br>
 			    	<label>{{$details->customer_number}}</label>
 			    </div>
-			   {{--  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p> --}}
-			    {{-- <a href="#" class="btn btn-primary">Go somewhere</a> --}}
 			  </div>
 			</div>
 		</div>
@@ -46,75 +42,49 @@
 	<div class="jumbotron" style="background-color:white;">
 		<div class="row">
 			<div class="col-md-3">
-				<h2>All Orders</h2>
-				{{-- <label>Show</label>
-				<select class="form-control" id="filter_orders" data-user-id='{{$details->customer_id}}'>
-					<option value="" selected="">Select Filter Orders</option>
-					<option value="3" data-user-id='{{$details->customer_id}}'>Last 3 Orders</option>
-					<option value="15" data-user-id='{{$details->customer_id}}'>Last 15 Orders</option>
-					<option value="*" data-user-id='{{$details->customer_id}}'>Show all Orders</option>
-				</select> --}}
+				<h3>Search Order #</h3>
 			</div>
 		</div>
-		
-		<div class="row">
-			{{-- <div class="col-md-6">
-				<h5>Recent Orders Transaction</h5>
-			
-			</div>
-			<div class="col-md-6">
-				<a class="btn btn-primary float-right" href="" style="background: linear-gradient(-25deg, #00e4d0, #5983e8); border-color:transparent;">All Orders</a>
-			</div> --}}
-			
-		</div>
+		<br><br>	
+		<div class="table-responsive" style="">
+		    
+		    <table id="tables_customer_details" class="table table-striped table-bordered" style="width:100%;">
+		        <thead>
+		            <tr style="background-color:none !important; border-style:hidden !important; font-size: 14px; ">
+		            	<th>Order Number</th>
+		                <th scope="col">Customer Name</th>
+		                <th scope="col">Customer Number</th>	
+		                <th scope="col">Customer Address</th>
+		                <th scope="col">Customer Store Location</th>
+		                <th>Order Status</th>
+		                <th scope="col">Action</th>
+		            </tr>
+		        </thead>
+		        <tbody style=" font-size:14px;">
+		        	
+		        	
+	        		@if(Auth::user())
+	        			@foreach($get_customer_details as $detail)
+			        		<tr>
+			        			<td>{{$detail->order_number}}</td>
+				                <td>{{$detail->customer_name}}</td>
+				                <td>{{$detail->customer_number}}</td>
+				                <td>{{$detail->customer_address}}</td>
+				                <td>{{$detail->customer_location}}</td>
+				                <td>{{$detail->delivery_status}}</td>
+				              
+				                 <td><a class="btn btn-primary" href="/order_detail/{{$detail->customer_id}}/{{$detail->order_id}}" style="color:white;"><i class="fas fa-eye"></i></a></td>
+
+
+				            </tr>
+			        	@endforeach
+	        		@endif
+			        	
+
+		        </tbody>
+		    </table>
+	    </div>
         <br>
-	 	@foreach($order_properties as $order1)
-
-	 			<hr>
-	 			<br>
-		 		<div class="order_details">
-		 			<!-- Logic to get single value of order number -->
-			 		<div style="line-height:14px;">
-			 			<label style="font-weight: 600;">Order #:{{$order1->or_number}} </label><a href="/order_detail/{{$order1->customer_id}}/{{$order1->order_id}}" class="float-right" >Manage</a><br>
-			 			<label style="font-size:14px;">Place on: {{$order1->order_date}}</label>
-			 		</div>
-			 		<br><br>
-
-			 		<table  class="table table-hover">
-					  <thead style="background: linear-gradient(-25deg, #00e4d0, #5983e8); color:white; color:white; font-size:14px;">
-					    <tr>
-					      <th scope="col">Menu Image</th>
-					      <th scope="col">Menu Name</th>
-					      <th scope="col">Quantity</th>
-					      <th scope="col">Subtotal</th>
-					    </tr>
-					  </thead>
-
-			 		@foreach($customer_order as $order2)
-
-			 			<!-- compare two table value if same id -->
-		 				@if($order2->order_properties_id == $order1->order_id)
-
-		 					
-							  <tbody style="font-size:14px;">
-							    <tr>
-							     	<td><img src="{{url('/storage/'.$order2->menu_cat_image.'')}}" class="responsive-img" style="width:100px;"></td>
-
-							     	<td><br>{{$order2->menu_cat_name}}</td>
-							     	<td><br>{{$order2->Quantity}}</td>
-							     	<td><br>${{$order2->Subtotal}}</td>
-							    </tr>
-							  </tbody>
-					
-		 				  	
-		 				@endif
-		 					
-			 		@endforeach
-			 		</table>
-		 		</div>
-
-	 	@endforeach
-        
 	</div>
 </div>
 

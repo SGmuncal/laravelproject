@@ -155,9 +155,136 @@
 
 
 
+<div class="modal fade" id="add_cart" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+  <div class="modal-dialog modal-lg float-left" role="document">
+    <div class="modal-content" style="width:1300px;">
+      <div class="modal-header"  style="background: linear-gradient(-20deg, #00e4d0, #5983e8);">
+        <h4 class="modal-title" id="exampleModalLongTitle" style="color:white;">Shopping Cart <i class="fas fa-cart-arrow-down"></i></h4>	
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="refresh_order">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
 
 
+ 	    <div class="modal-body" style="width:1300px;">
 
+	     	<div class="row">
+	     		 <div class="col-md-8">
+	     		 	<div class="jumbotron">
+
+	     		 		<div class="table-responsive conditional_table_hidden_noun">
+						   	 <table id="tables_orders" class="table table-striped table-bordered" style="width:100%">
+						        <thead>
+						            <tr style="background: linear-gradient(-20deg, #00e4d0, #5983e8); color:white;" >
+						                <th>Menu</th>
+						                <th>Menu Desc</th>
+						                <th>Menu Price</th>
+						                <th>Menu Image</th>
+						                <th style="display:none;"></th>
+						            </tr>
+						        </thead>
+						        <tbody>
+						        	@foreach($category as $menu)
+						        		<tr id="productClicked" style="font-size:16px;">
+						        			<td class="menu_name">{{$menu->menu_cat_name}}</td>
+						        			<td>
+						        			{!!
+						                        str_limit($menu->menu_cat_desc, $limit = 25, $end = '...')
+						                    !!}
+						                    </td>
+						        			<td class="menu_price">{{$menu->menu_cat_price}}</td>
+						        			<td>
+						        				<center>
+						        					<img src="{{url('/storage/'.$menu->menu_cat_image.'')}}" class="img-fluid" style="width:170px;">
+						        				</center>
+						        			</td>
+						        			<td class="chain_id" style="display:none;">{{$menu->chain_id}}</td>
+						        		</tr>
+						        	@endforeach
+						        </tbody>
+						    </table>
+					   </div>
+
+					   <div class="conditional_table_hidden_condiments">
+						   	<div class="container">
+
+								<table  class="table table-striped table-bordered " id="customer_table_update_chain_order" style="width:100%">
+									<div class="content-noun" style="text-align: center;">
+									<thead>
+							            <tr style="background: linear-gradient(-20deg, #00e4d0, #5983e8); color:white;" >
+							             	<th>Condiment Screen Name</th>
+								             <th>Condiment Price</th>
+								             <th>Condiment Image</th>
+							            </tr>
+						            </thead>
+						            	</div>
+						            <tbody>
+							         	
+						            </tbody>
+								</table>
+			    	  
+				    		</div>
+				    		<center>
+				    			<button class="back_to_noun btn btn-primary">Back to Noun</button>
+				    		</center>
+					   </div>
+
+	     		 	</div>
+                   	
+	     		 </div>
+	     	 	<div class="col-md-4">
+	     	 		<div class="container">
+	     	 			<div class="jumbotron" style="background: linear-gradient(-20deg, #00e4d0, #5983e8);">
+	     	 				<div class="header" style="text-align: center;">
+	     	 					<i class="fas fa-cart-arrow-down" style="font-size:50px; color:white;"></i>
+	     	 					<br><br>
+	     	 					
+				    			<h3 style="font-weight: bold; color:white;">Build customer meal.</h3>
+				    			<label style="color:white;  font-size:15px;">This button will be served as customers menu.</label><br>
+				    			<div style="line-height:15px;">
+
+							    	<b style="font-size:17px; font-weight: 300; color:white;"><label>Customer: </label> <label id="append_customer_name" style="font-weight: 300;"> </label></b>
+							    	<label style="font-size:17px; font-weight: 300; color:white;">Deliver to: <label id="place_customer" style="font-weight: 300;"></label> </label>
+
+					     	 	</div>	
+				    			
+
+					     	 	<br>
+								<h4 style="color:white; font-weight:bold;" class="append_customer_noun_order"></h4>
+								<h5 style="color:white;" class="append_customer_price_order"></h5>
+								<br>
+				    			<input type="hidden" value="" class="hidden_noun_id" name="">
+					    			<table class="table table-hover upsize_check" id="noun_chaining_order" style="border:none;">
+					    				<thead>
+								            <tr style="font-size: 15px;  color:white;">
+								                <th scope="col">Qty</th>
+								                <th scope="col">Condiments</th>
+								                <th scope="col">Price</th>
+								            </tr>
+								        </thead>
+								        <tbody style="font-size:14px; color:white;" class="tbody_noun_chaining_order">	        		
+							        		
+								        </tbody>
+					    			</table>
+					    			<hr>
+					    			<div class="row">
+					    				<input type="hidden" name="" value="" id="hidden_customer_id">
+					    				<input type="hidden" value="" id="customer_details">
+					    				<div class="col-md-7"  style="color:white; font-size: 30px; font-weight: bold;">Total:</div>
+					    				<div class="col-md-3" style="color:white; font-weight: bold; font-size: 30px;"><p class="append_customer_noun_order_price">0.00</p></div>
+					    			</div>
+					    			<hr>
+				    			 <br>
+				    			 <button type="button" class="btn btn-primary" style="background-color:#3D0081; border-color:#3D0081;" id="add_to_cart">Add To Customer Cart</button>
+				    		</div>
+	     	 			</div>
+	     	 		</div>
+	     	 	</div>
+	     	</div>
+     	</div>
+    </div>
+  </div>
+</div>
 
 <form action=""  method="post" enctype="multipart/form-data">
 	<div class="modal fade" id="add_customer" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -220,7 +347,7 @@
 					<br>
 					<div class="row">
 						<div class="col-md-6">
-							<label>Register to store: </label>
+							<label>Registered to store: </label>
 							@if(Auth::user())
 							<input placeholder="{{Auth::user()->store_name}}" readonly="" name="customer_location" value="{{Auth::user()->store_name}}" class="form-control" id="customer_location" type="text" class="validate">
 							@endif
@@ -238,7 +365,7 @@
 		      </div>
 
 		      <div class="modal-footer">
-		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal" class="closeModal1">Close</button>
 		        <button type="button" class="btn btn-primary" id="save_customer_details" style="background: linear-gradient(-25deg, #00e4d0, #5983e8); border-color:transparent;">Save changes</button>
 		      </div>
 		    
@@ -246,160 +373,6 @@
 	  </div>
 	</div>
 </form>
-
-
-
-<div class="modal fade" id="add_cart" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-keyboard="false" data-backdrop="static">
-  <div class="modal-dialog modal-lg float-left" role="document">
-    <div class="modal-content" style="width:1360px;">
-      <div class="modal-header"  style="background: linear-gradient(-20deg, #00e4d0, #5983e8);">
-        <h4 class="modal-title" id="exampleModalLongTitle" style="color:white;">Shopping Cart <i class="fas fa-cart-arrow-down"></i></h4>	
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="refresh_order">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-
-
- 	    <div class="modal-body" style="width:1360px;">
-
-	     	<div class="row">
-	     		 <div class="col-md-8">
-	     		 	<div class="jumbotron">
-
-	     		 		<div class="table-responsive conditional_table_hidden_noun">
-						   	 <table id="tables_orders" class="table table-striped table-bordered" style="width:100%">
-						        <thead>
-						            <tr style="background: linear-gradient(-20deg, #00e4d0, #5983e8); color:white;" >
-						                <th>Menu</th>
-						                <th>Menu Desc</th>
-						                <th>Menu Price</th>
-						                <th>Menu Image</th>
-						                <th style="display:none;"></th>
-						            </tr>
-						        </thead>
-						        <tbody>
-						        	@foreach($category as $menu)
-						        		<tr id="productClicked" style="font-size:16px;">
-						        			<td class="menu_name">{{$menu->menu_cat_name}}</td>
-						        			<td>
-						        			{!!
-						                        str_limit($menu->menu_cat_desc, $limit = 25, $end = '...')
-						                    !!}
-						                    </td>
-						        			<td class="menu_price">{{$menu->menu_cat_price}}</td>
-						        			<td>
-						        				<center>
-						        					<img src="{{url('/storage/'.$menu->menu_cat_image.'')}}" class="img-fluid" style="width:170px;">
-						        				</center>
-						        			</td>
-						        			<td class="chain_id" style="display:none;">{{$menu->chain_id}}</td>
-						        		</tr>
-						        	@endforeach
-						        </tbody>
-						    </table>
-					   </div>
-
-					   <div class="conditional_table_hidden_condiments">
-						   	<div class="container">
-
-	<!-- 							<div class="row">
-									<div class="col-md-8"></div>
-									<div class="col-md-4">
-										<div class="input-group">
-										  <span class="input-group-prepend">
-										    <div class="input-group-text bg-transparent border-right-0">
-										      <i class="fa fa-search" style="color:#007BFF;"></i>
-										    </div>
-										  </span>
-										  <input class="form-control py-2 border-left-0 border" type="search" value="Search Condiments" id="search_attach_append_condiments" />
-										  <span class="input-group-append">
-
-										  </span>
-										</div>
-									</div>
-								</div>
-								<br> -->
-
-								<table  class="table table-striped table-bordered " id="customer_table_update_chain_order" style="width:100%">
-									<div class="content-noun" style="text-align: center;">
-									<thead>
-							            <tr style="background: linear-gradient(-20deg, #00e4d0, #5983e8); color:white;" >
-							             	<th>Condiment Screen Name</th>
-								             <th>Condiment Price</th>
-								             <th>Condiment Image</th>
-							            </tr>
-						            </thead>
-						            	</div>
-						            <tbody>
-							         	
-						            </tbody>
-								</table>
-			    	  
-				    		</div>
-				    		<center>
-				    			<button class="back_to_noun btn btn-primary">Back to Noun</button>
-				    		</center>
-					   </div>
-
-	     		 	</div>
-                   	
-	     		 </div>
-	     	 	<div class="col-md-4">
-	     	 		<div class="container">
-	     	 			<div class="jumbotron" style="background: linear-gradient(-20deg, #00e4d0, #5983e8);">
-	     	 				<div class="header" style="text-align: center;">
-	     	 					<i class="fas fa-cart-arrow-down" style="font-size:50px; color:white;"></i>
-	     	 					<br><br>
-	     	 					
-				    			<h3 style="font-weight: bold; color:white;">Build customer meal.</h3>
-				    			<label style="color:white;  font-size:15px;">This button will be served as customers menu.</label><br>
-				    			<div style="line-height:15px;">
-
-							    	<b style="font-size:17px; font-weight: 300; color:white;"><label>Customer: </label> <label id="append_customer_name" style="font-weight: 300;"> </label></b>
-							    	<label style="font-size:17px; font-weight: 300; color:white;">Deliver to: <label id="place_customer" style="font-weight: 300;"></label> </label>
-
-					     	 	</div>	
-				    			
-
-					     	 	<br>
-								<h4 style="color:white; font-weight:bold;" class="append_customer_noun_order"></h4>
-								<h5 style="color:white;" class="append_customer_price_order"></h5>
-								<br>
-				    			<input type="hidden" value="" class="hidden_noun_id" name="">
-					    			<table class="table table-hover upsize_check" id="noun_chaining_order" style="border:none;">
-					    				<thead>
-								            <tr style="font-size: 15px;  color:white;">
-								                <th scope="col">Qty</th>
-								                <th scope="col">Condiments</th>
-								                <th scope="col">Price</th>
-								            </tr>
-								        </thead>
-								        <tbody style="font-size:14px; color:white;" class="tbody_noun_chaining_order">	        		
-							        		
-								        </tbody>
-					    			</table>
-					    			<!-- <button type="button" style="" class="form-control btn-primary"></button> -->
-					    			<hr>
-					    			<div class="row">
-					    				<input type="hidden" name="" value="" id="hidden_customer_id">
-					    				<input type="hidden" value="" id="customer_details">
-					    				<div class="col-md-7"  style="color:white; font-size: 30px; font-weight: bold;">Total:</div>
-					    				<div class="col-md-3" style="color:white; font-weight: bold; font-size: 30px;"><p class="append_customer_noun_order_price">0.00</p></div>
-					    			</div>
-					    			<hr>
-				    			 <br>
-				    			 <button type="button" class="btn btn-primary" style="background-color:#3D0081; border-color:#3D0081;" id="add_to_cart">Add To Customer Cart</button>
-				    		</div>
-	     	 			</div>
-	     	 		</div>
-	     	 	</div>
-	     	</div>
-     	</div>
-    </div>
-  </div>
-</div>
-
-
 
    					
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWCz4V5r29GxcGZKNtFzE9v4gOSnKVMYA&libraries=places&callback=initMap"
