@@ -2094,15 +2094,15 @@ class AdminController extends Controller
 
             $total_users_already_delivered = DB::select('SELECT COUNT(delivery_status) as "total_users_already_delivered" FROM order_properties WHERE order_ship_province = ? AND delivery_status =? ',[
 
-                Auth::user()->store_name,
-                'Delivered'
+                Auth::user()->manager_location_assign,
+                'Completed'
 
             ])[0]->total_users_already_delivered;
 
 
             $total_users_cancelled_deliver = DB::select('SELECT COUNT(delivery_status) as "total_users_cancelled_deliver" FROM order_properties WHERE order_ship_province = ? AND delivery_status =? ',[
 
-                Auth::user()->store_name,
+                Auth::user()->manager_location_assign,
                 'Cancelled'
 
             ])[0]->total_users_cancelled_deliver;

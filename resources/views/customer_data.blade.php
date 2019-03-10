@@ -95,12 +95,12 @@
 	<div class="col-md-4">
 		<div class="card">
 		  <div class="card-header" >
-		    <i class="fas fa-truck"></i> Canceled Order
+		    <i class="fas fa-truck"></i> Cancelled Order
 		  </div>
 		  <div class="card-body" style="background: linear-gradient(-25deg, #00e4d0, #5983e8); color:white;">
 		     <i class="fas fa-bell-slash" style="font-size:40px; color:white !important;"></i>   <label style="font-weight: 300; font-size:40px; color:white">{{ $total_users_cancelled_deliver }}</label>
 				 <br>
-				 <label style="font-weight: bold; color:white">Total Customers Canceled Order</label>
+				 <label style="font-weight: bold; color:white">Total Customers Cancelled Order</label>
 		  </div>
 		</div>
 	</div>
