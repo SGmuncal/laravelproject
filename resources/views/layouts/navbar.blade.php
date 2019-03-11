@@ -129,19 +129,38 @@
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
 
-                                    <a class="dropdown-item" href="{{ url('hiflyerdashboard') }}">Dashboard</a>
                                     
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
+                                    @if(Auth::user())
+                                        @if(Auth::user()->role == '3')
+                                            <a class="dropdown-item" href="{{ url('customer_data') }}">POS</a>
+                                            <a class="dropdown-item" href="{{ route('logout') }}"
+                                               onclick="event.preventDefault();
+                                                             document.getElementById('logout-form').submit();">
+                                                {{ __('Logout') }}
+                                            </a>
 
 
 
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
+                                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                                @csrf
+                                            </form>
+                                        @else
+                                           <a class="dropdown-item" href="{{ url('hiflyerdashboard') }}">Dashboard</a>
+                                            <a class="dropdown-item" href="{{ route('logout') }}"
+                                               onclick="event.preventDefault();
+                                                             document.getElementById('logout-form').submit();">
+                                                {{ __('Logout') }}
+                                            </a>
+
+
+
+                                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                                @csrf
+                                            </form>
+                                        @endif
+                                    @endif
+                                    
+                                    
                                 </div>
                             </li>
                         @endguest
